@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 16:01:37 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 16:43:44 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,17 @@
 # define KEYS_S		0b00000010
 # define KEYS_D		0b00000100
 
-# define WIN_WIDTH		1920
+# define WIN_WIDTH		720
 # define WIN_HEIGHT		540
-# define WIN_FWIDTH		1920.0f
+# define WIN_FWIDTH		720.0f
 # define WIN_FHEIGHT	540.0f
 
 # define ACCEL		1.0f
 # define DECEL		0.5f
 # define MAX_VEL	10.0f
+
+# define PLY_HITBX_SIZ	25
+# define PLY_HITBX_RAD	12
 
 typedef struct s_cub_data
 {
@@ -131,5 +134,7 @@ int		c_keypress_handler(int key, void *handle);
 int		c_keyrelease_handler(int key, void *handle);
 
 void	my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
+void	draw_square(struct s_mlx_img *img, int x, int y, int color);
+void	draw_player(struct s_mlx_img *img, int x, int y, int color);
 
 #endif

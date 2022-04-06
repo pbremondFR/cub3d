@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/06 15:44:55 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/06 16:45:16 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,15 +48,17 @@ SRC_DIR = src
 OUTS = objs
 
 # Source Files
-SRC =	$(MAP_SRC)\
+SRC =	$(MAP_SRC) $(RENDER_SRC)\
 		main.c\
-		render/something.c\
-		render/keyboard.c
+		keyboard.c
 
 MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c
 
-MAP_SRC =	$(addprefix map/,	$(MAP_SRC_FILES))
+RENDER_SRC_FILES =		something.c		utils.c
+
+MAP_SRC =		$(addprefix map/,		$(MAP_SRC_FILES))
+RENDER_SRC =	$(addprefix render/,	$(RENDER_SRC_FILES))
 		
 SRC_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC))
 
