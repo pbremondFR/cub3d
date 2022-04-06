@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 20:05:58 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 20:35:06 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color)
 	}
 }
 
-void	c_draw_vision(t_game *g, t_uint len, int color)
+void	c_draw_vision(t_game *g, t_uint len, int color1, int color2)
 {
 	t_pnt	a;
 	t_pnt	b;
 
 	a.x = g->x;
 	a.y = g->y;
-	b.x = g->x + g->dx * len;
-	b.y = g->y + g->dy * len;
+	b.x = a.x + g->dx * len;
+	b.y = a.y + g->dy * len;
 	if (b.x < 0.0f)
 		b.x = 0.0f;
 	else if (b.x > WIN_FWIDTH)
@@ -79,5 +79,16 @@ void	c_draw_vision(t_game *g, t_uint len, int color)
 		b.y = 0.0f;
 	else if (b.y > WIN_FHEIGHT)
 		b.y = WIN_FHEIGHT;
-	c_draw_line(&g->i, a, b, color);
+	c_draw_line(&g->i, a, b, color1);
+	a.x = b.x + g->px * len;
+	a.y = b.y + g->py * len;
+	if (a.x < 0.0f)
+		a.x = 0.0f;
+	else if (a.x > WIN_FWIDTH)
+		a.x = WIN_FWIDTH;
+	if (a.y < 0.0f)
+		a.y = 0.0f;
+	else if (a.y > WIN_FHEIGHT)
+		a.y = WIN_FHEIGHT;
+	c_draw_line(&g->i, a, b, color2);
 }

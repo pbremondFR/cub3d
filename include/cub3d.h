@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 19:52:55 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 20:26:20 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void	draw_player(struct s_mlx_img *img, int x, int y, int color);
 
 float	c_math_get_dist(float x1, float x2, float y1, float y2);
 void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
-void	c_draw_vision(t_game *g, t_uint len, int color);
+void	c_draw_vision(t_game *g, t_uint len, int color1, int color2);
 void	c_math_rotate_vector(float *x, float *y, float angle);
 
 #endif

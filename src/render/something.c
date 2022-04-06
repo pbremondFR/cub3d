@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 20:07:31 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 20:26:28 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,12 @@ int	c_render(void *handle)
 	// printf("Player: %f\t%f\n", g->x, g->y);
 	// printf("Accel:  %f\t%f\n", g->vx, g->vy);
 	// printf("Player dx: %f\tdy: %f\n", g->dx, g->dy);
-	c_draw_vision(g, 50, 0x00);
+	printf("Player px: %f\tpy: %f\n", g->px, g->py);
+	c_draw_vision(g, 50, 0x00, 0x00);
 	draw_player(&g->i, g->x, g->y, 0x00);
 	c_move_player(g);
 	draw_player(&g->i, g->x, g->y, 0x7f7fff);
-	c_draw_vision(g, 50, 0xff0000);
+	c_draw_vision(g, 50, 0xff0000, 0x00ff00);
 	if (g->vx > 0.0f)
 		g->vx -= fminf(DECEL, g->vx);
 	else if (g->vx < 0.0f)
