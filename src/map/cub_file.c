@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/05 21:07:57 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 18:23:04 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_cub	*c_init_t_cub(t_cub *p_cub)
 	else
 		cub = (t_cub *)malloc(sizeof(t_cub));
 	cub->map = NULL;
+	cub->sx = 0;
+	cub->sy = 0;
 	cub->n = NULL;
 	cub->s = NULL;
 	cub->e = NULL;

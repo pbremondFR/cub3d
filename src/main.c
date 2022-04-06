@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 15:39:31 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 19:55:42 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ t_game	*c_init_t_game(t_game *g)
 		return (NULL);
 	game->x = 50.0f;
 	game->y = 50.0f;
-	game->dx = 0.0f;
+	game->dx = 1.0f;
 	game->dy = 0.0f;
+	game->px = -game->dy;
+	game->py = 0.66f;
 	game->vx = 0.0f;
 	game->vy = 0.0f;
 	game->k = 0;
@@ -49,6 +51,7 @@ static void	_c_tests(t_cub const *c, t_game const *g)
 	ft_printf("F: %x-%x-%x\nC: %x-%x-%x\n",
 		c->f >> 16 & 0xff, c->f >> 8 & 0xff, c->f & 0xff,
 		c->c >> 16 & 0xff, c->c >> 8 & 0xff, c->c & 0xff);
+	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
 }
 
 int	main(int argc, const char *argv[])

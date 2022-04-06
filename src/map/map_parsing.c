@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/04 16:17:06 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 18:22:45 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ void	c_parse_map(const char *first_line, int fd, t_cub *c)
 	c->map = ft_split(map, '\n');
 	i = 0;
 	while (c->map[i])
-		remove_trailing_spaces(c->map[i++]);
+	{
+		remove_trailing_spaces(c->map[i]);
+		if (c->sx < ft_strlen(c->map[i++]))
+			c->sx = ft_strlen(c->map[i - 1]);
+	}
+	c->sy = i;
 }
 
 static int	check_map_is_last(const char **map)

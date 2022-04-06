@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 16:43:44 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 19:52:55 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,22 @@
 # define E_XP		EVENT_EXPOSE
 # define E_DSTR		EVENT_DESTROY
 
-# define MLX_SYNC_IMAGE_WRITABLE	1
-# define MLX_SYNC_WIN_FLUSH_CMD		2
-# define MLX_SYNC_WIN_CMD_COMPLETED	3
-
 # define KEYC_ESC	53
 # define KEYC_W		13
 # define KEYC_A		0
 # define KEYC_S		1
 # define KEYC_D		2
+# define KEYC_LEFT	123
+# define KEYC_RIGHT	124
+# define KEYC_SPA	49
 
-# define KEYS_ESC	0b10000000
-# define KEYS_W		0b00001000
 # define KEYS_A		0b00000001
 # define KEYS_S		0b00000010
 # define KEYS_D		0b00000100
+# define KEYS_W		0b00001000
+# define KEYS_LEFT	0b00010000
+# define KEYS_RIGHT	0b00100000
+# define KEYS_SPA	0b01000000
 
 # define WIN_WIDTH		720
 # define WIN_HEIGHT		540
@@ -71,12 +72,23 @@
 # define DECEL		0.5f
 # define MAX_VEL	10.0f
 
-# define PLY_HITBX_SIZ	25
-# define PLY_HITBX_RAD	12
+# define PLY_HITBX_SIZ	8
+# define PLY_HITBX_RAD	4
+# define MAP_TILE_SIZE	50
+
+typedef unsigned int	t_uint;
+
+typedef struct s_point
+{
+	float	x;
+	float	y;
+}				t_pnt;
 
 typedef struct s_cub_data
 {
 	char	**map;
+	t_uint	sx; // Map x max size
+	t_uint	sy; // Map y size
 	char	**n; // North xpm
 	char	**s; // South xpm
 	char	**e; // East xpm
@@ -100,10 +112,12 @@ typedef struct s_game_data
 {
 	float	x; // Player x position
 	float	y; // Player y position
-	float	dx; // Player direction vector's x
-	float	dy; // Player direction vector's y
 	float	vx; // Player x velocity
 	float	vy; // Player y velocity
+	float	dx; // Player direction vector's x
+	float	dy; // Player direction vector's y
+	float	px; // Player camera plane's x
+	float	py; // Player camera plane's y
 
 	char	k; // Keystate
 
@@ -136,5 +150,10 @@ int		c_keyrelease_handler(int key, void *handle);
 void	my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
 void	draw_square(struct s_mlx_img *img, int x, int y, int color);
 void	draw_player(struct s_mlx_img *img, int x, int y, int color);
+
+float	c_math_get_dist(float x1, float x2, float y1, float y2);
+void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
+void	c_draw_vision(t_game *g, t_uint len, int color);
+void	c_math_rotate_vector(float *x, float *y, float angle);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 16:43:19 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/06 20:05:58 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,50 @@ void	draw_square(struct s_mlx_img *img, int x, int y, int color)
 		while (++j < PLY_HITBX_SIZ)
 			my_mlx_pixel_put(img, x + j, y + i, color);
 	}
+}
+
+void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color)
+{
+	float	dx;
+	float	dy;
+	t_pnt	p;
+	float	step;
+	t_uint	i;
+
+	dx = b.x - a.x;
+	dy = b.y - a.y;
+	step = fabsf(dy);
+	if (fabsf(dx) >= fabsf(dy))
+		step = fabsf(dx);
+	dx = dx / step;
+	dy = dy / step;
+	i = 0;
+	p.x = a.x;
+	p.y = a.y;
+	while (i++ <= step)
+	{
+		my_mlx_pixel_put(img, nearbyintf(p.x), nearbyintf(p.y), color);
+		p.x += dx;
+		p.y += dy;
+	}
+}
+
+void	c_draw_vision(t_game *g, t_uint len, int color)
+{
+	t_pnt	a;
+	t_pnt	b;
+
+	a.x = g->x;
+	a.y = g->y;
+	b.x = g->x + g->dx * len;
+	b.y = g->y + g->dy * len;
+	if (b.x < 0.0f)
+		b.x = 0.0f;
+	else if (b.x > WIN_FWIDTH)
+		b.x = WIN_FWIDTH;
+	if (b.y < 0.0f)
+		b.y = 0.0f;
+	else if (b.y > WIN_FHEIGHT)
+		b.y = WIN_FHEIGHT;
+	c_draw_line(&g->i, a, b, color);
 }

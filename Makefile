@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/06 16:45:16 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/06 19:25:52 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ OUTS = objs
 # Source Files
 SRC =	$(MAP_SRC) $(RENDER_SRC)\
 		main.c\
-		keyboard.c
+		keyboard.c\
+		maths/math_funcs.c
 
 MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c
