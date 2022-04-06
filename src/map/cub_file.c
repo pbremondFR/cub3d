@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/05 20:21:14 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/05 21:07:57 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,8 @@ static int	_process_line(const char *line, t_cub *c)
 
 // Could also use autovar from main's stack ?
 // NOTE: Don't get confused by first use of *line. It's just to save space.
-t_cub	*c_parse_cub_file(const char *path)
+t_cub	*c_parse_cub_file(const char *path, t_cub *c)
 {
-	t_cub		*c;
 	const char	*line;
 	int			fd;
 
@@ -71,7 +70,7 @@ t_cub	*c_parse_cub_file(const char *path)
 		ft_dprintf(2, "Error\nExpected `.cub' file, got `%s'\n", path);
 		return (NULL);
 	}
-	c = c_init_t_cub(NULL);
+	c_init_t_cub(c);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{

@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/05 17:20:00 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/06 15:44:55 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,9 @@ OUTS = objs
 
 # Source Files
 SRC =	$(MAP_SRC)\
-		main.c
+		main.c\
+		render/something.c\
+		render/keyboard.c
 
 MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c
@@ -67,18 +69,19 @@ OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(SRC_PLUS_PATH)))
 # via homebrew, or include your own custom install down below.
 LIBFT = libft.a
 LIBFT_PATH = libft
-LIBS = -lft -lmlx -framework OpenGL -framework AppKit
+LIBMLX_PATH = mlx_beta
+LIBS = -framework OpenGL -framework AppKit
 
 NAME = cub3d
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 all : $(NAME)
 
 $(NAME): $(LIBFT_PATH)/$(LIBFT) $(OUT)
 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
-	@$(CC) $(CFLAGS) $(OUT) -o $(NAME) -L./$(LIBFT_PATH) $(LIBS)
+	@$(CC) $(CFLAGS) $(OUT) -o $(NAME) -L./libft -lft -L./mlx_beta -lmlx $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
 $(LIBFT_PATH)/$(LIBFT):
@@ -88,7 +91,7 @@ $(LIBFT_PATH)/$(LIBFT):
 $(OUT): $(OUTS)/%.o : $(SRC_DIR)/%.c
 	@echo "$(_BLUE)Compiling $(basename $(notdir $*.o)) $(_COLOR_RESET)"
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -c $< -o $@ -I./$(INCLUDES) $(READLINE_INC)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I./$(INCLUDES)
 
 re: fclean $(NAME)
 
