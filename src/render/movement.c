@@ -6,14 +6,14 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 15:20:41 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:51:13 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 #include <libft.h>
 
-void	c_player_decel(float *vx, float *vy, int keystate)
+void	c_player_decel(float *vx, float *vy, float *va, int keystate)
 {
 	if (!(keystate & (KEYS_W | KEYS_S)))
 	{
@@ -29,28 +29,28 @@ void	c_player_decel(float *vx, float *vy, int keystate)
 		else if (*vx < 0.0f)
 			*vx -= fmaxf(-DECEL, *vx);
 	}
+	if (!(keystate & (KEYS_LEFT | KEYS_RIGHT)))
+	{
+		if (*va > 0.0f)
+			*va -= fminf(ANG_VEL_DEC, *va);
+		else if (*va < 0.0f)
+			*va -= fmaxf(-ANG_VEL_DEC, *va);
+	}
 }
+
 // TODO: Optimize me !!!
 static void	_player_rotation(t_game *g)
 {
-	if (g->k & KEYS_LEFT)
+	if (g->k & KEYS_LEFT && g->va > -ANG_VEL_MAX)
+		g->va -= ANG_VEL_ACC;
+	if (g->k & KEYS_RIGHT && g->va < ANG_VEL_MAX)
+		g->va += ANG_VEL_ACC;
+	if (g->va != 0.0f)
 	{
-		c_math_rotate_vector(&g->dx, &g->dy, -ANG_VEL);
-		c_math_rotate_vector(&g->px, &g->py, -ANG_VEL);
-	}
-	if (g->k & KEYS_RIGHT)
-	{
-		c_math_rotate_vector(&g->dx, &g->dy, ANG_VEL);
-		c_math_rotate_vector(&g->px, &g->py, ANG_VEL);
+		c_math_rotate_vector(&g->dx, &g->dy, g->va);
+		c_math_rotate_vector(&g->cx, &g->cy, g->va);
 	}
 }
-
-// static void	_collision_check(t_game *g)
-// {
-// 	char	**map;
-
-// 	map = g->c->map;
-// }
 
 // TODO: Make a proper exit function
 void	c_move_player(t_game *g)
@@ -63,16 +63,21 @@ void	c_move_player(t_game *g)
 		g->vx += ACCEL;
 	if (g->k & KEYS_A && g->vx > -MAX_VEL)
 		g->vx -= ACCEL;
-	if (g->k & (KEYS_LEFT | KEYS_RIGHT))
-		_player_rotation(g);
+	if (g->k == (KEYS_ESC | KEYS_SPA))
+		exit(0);
+	// if (g->k & (KEYS_LEFT | KEYS_RIGHT))
+	_player_rotation(g);
+	// _collision_handling(g,
+	// 	(g->vy * g->dx) + (g->vx * -g->dy),
+	// 	(g->vy * g->dy) + (g->vx * g->dx));
 	g->x += (g->vy * g->dx) + (g->vx * -g->dy);
 	g->y += (g->vy * g->dy) + (g->vx * g->dx);
-	// if (g->x * MAP_TILE_SIZE + PLY_HITBX_RAD > WIN_FWIDTH)
-	// 	g->x = (WIN_FWIDTH - PLY_HITBX_RAD) / MAP_TILE_SIZE;
-	// else if (g->x * MAP_TILE_SIZE - PLY_HITBX_RAD < 0.0f)
-	// 	g->x = (0.0f + PLY_HITBX_RAD) / MAP_TILE_SIZE;
-	// if (g->y * MAP_TILE_SIZE + PLY_HITBX_RAD > WIN_FHEIGHT)
-	// 	g->y = (WIN_FHEIGHT - PLY_HITBX_RAD) / MAP_TILE_SIZE;
-	// else if (g->y * MAP_TILE_SIZE - PLY_HITBX_RAD < 0.0f)
-	// 	g->y = (0.0f + PLY_HITBX_RAD) / MAP_TILE_SIZE;
+	if (g->x > g->c->sx)
+		g->x = (float)g->c->sx - 0.01f;
+	else if (g->x < 0.0f)
+		g->x = 0.01f;
+	if (g->y > g->c->sy)
+		g->y = (float)g->c->sy - 0.01f;
+	else if (g->y < 0.0f)
+		g->y = 0.01f;
 }

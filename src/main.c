@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 15:17:39 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:40:53 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ t_game	*c_init_t_game(t_game *g)
 	game->y = 0.5f;
 	game->dx = 0.0f;
 	game->dy = -1.0f;
-	game->px = 0.66f;
-	game->py = 0.0f;
+	game->cx = 0.66f;
+	game->cy = 0.0f;
 	game->vx = 0.0f;
 	game->vy = 0.0f;
+	game->va = 0.0f;
 	game->k = 0;
 	game->mlx = NULL;
 	game->mw = NULL;
@@ -96,7 +97,7 @@ int	main(int argc, const char *argv[])
 	g.c = &c;
 	c_init_player_pos(&g, &c);
 	g.mlx = mlx_init();
-	g.mw = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Test");
+	g.mw = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	g.i.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
 	g.i.addr = mlx_get_data_addr(g.i.i, &g.i.bpp, &g.i.ls, &g.i.e);
 	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);

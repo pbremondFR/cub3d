@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 15:39:10 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:52:40 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,32 @@
 # define KEYC_RIGHT	124
 # define KEYC_SPA	49
 
-# define KEYS_A		0b00000001
-# define KEYS_S		0b00000010
-# define KEYS_D		0b00000100
-# define KEYS_W		0b00001000
-# define KEYS_LEFT	0b00010000
-# define KEYS_RIGHT	0b00100000
-# define KEYS_SPA	0b01000000
+# define KEYS_A		0x0001
+# define KEYS_S		0x0002
+# define KEYS_D		0x0004
+# define KEYS_W		0x0008
+# define KEYS_LEFT	0x0010
+# define KEYS_RIGHT	0x0020
+# define KEYS_SPA	0x0040
+# define KEYS_ESC	0x0080
+
+# define KEYS_M1	0x0100
+# define KEYS_M2	0x0200
+# define KEYS_M3	0x0400
+# define KEYS_MUP	0x0800
+# define KEYS_MDNW	0x1000
 
 # define WIN_WIDTH		720
 # define WIN_HEIGHT		540
-# define WIN_FWIDTH		720.0f
-# define WIN_FHEIGHT	540.0f
+# define WIN_FWIDTH		(float)WIN_WIDTH
+# define WIN_FHEIGHT	(float)WIN_HEIGHT
 
-# define ACCEL		0.005f
-# define DECEL		0.005f
-# define MAX_VEL	0.05f
-# define ANG_VEL	0.04f
+# define ACCEL			0.003f
+# define DECEL			0.003f
+# define MAX_VEL		0.05f
+# define ANG_VEL_ACC	0.005f
+# define ANG_VEL_DEC	0.008f
+# define ANG_VEL_MAX	0.05f
 
 # define PLY_HITBX_SIZ	8
 # define PLY_HITBX_RAD	4
@@ -131,22 +140,23 @@ typedef struct s_mlx_img
 
 typedef struct s_game_data
 {
-	float	x; // Player x position
-	float	y; // Player y position
-	float	vx; // Player x velocity
-	float	vy; // Player y velocity
-	float	dx; // Player direction vector's x
-	float	dy; // Player direction vector's y
-	float	px; // Player camera plane's x
-	float	py; // Player camera plane's y
+	float		x; // Player x position
+	float		y; // Player y position
+	float		vx; // Player x velocity
+	float		vy; // Player y velocity
+	float		va; // Player head's angular velocity
+	float		dx; // Player direction vector's x
+	float		dy; // Player direction vector's y
+	float		cx; // Player camera plane's x
+	float		cy; // Player camera plane's y
 
-	char	k; // Keystate
+	uint16_t	k; // Keystate
 
-	void	*mlx; // MLX handle
-	void	*mw; // MLX window
-	t_img	i; // MLX image
+	void		*mlx; // MLX handle
+	void		*mw; // MLX window
+	t_img		i; // MLX image
 
-	t_cub	*c; // .cub file data
+	t_cub		*c; // .cub file data
 }				t_game;
 
 t_cub	*c_init_t_cub(t_cub *p_cub);
@@ -164,7 +174,7 @@ int		c_parse_color(const char *line);
 size_t	ft_stmin(size_t a, size_t b);
 
 void	c_move_player(t_game *g);
-void	c_player_decel(float *vx, float *vy, int keystate);
+void	c_player_decel(float *vx, float *vy, float *va, int keystate);
 int		c_render(void *handle);
 int		c_keypress_handler(int key, void *handle);
 int		c_keyrelease_handler(int key, void *handle);
