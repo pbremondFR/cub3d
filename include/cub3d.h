@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 20:26:20 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/07 15:39:10 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@
 # define WIN_FWIDTH		720.0f
 # define WIN_FHEIGHT	540.0f
 
-# define ACCEL		1.0f
-# define DECEL		0.5f
-# define MAX_VEL	10.0f
+# define ACCEL		0.005f
+# define DECEL		0.005f
+# define MAX_VEL	0.05f
+# define ANG_VEL	0.04f
 
 # define PLY_HITBX_SIZ	8
 # define PLY_HITBX_RAD	4
@@ -84,18 +85,38 @@ typedef struct s_point
 	float	y;
 }				t_pnt;
 
+typedef struct s_raycast
+{
+	float	dir_x;
+	float	dir_y;
+	float	delta_dist_x;
+	float	delta_dist_y;
+	float	side_dist_x;
+	float	side_dist_y;
+	float	len;
+	int		map_x;
+	int		map_y;
+	int8_t	step_x;
+	int8_t	step_y;
+	// int8_t	hit;
+	int8_t	side;	
+}				t_ray;
+
 typedef struct s_cub_data
 {
 	char	**map;
 	t_uint	sx; // Map x max size
 	t_uint	sy; // Map y size
+
 	char	**n; // North xpm
 	char	**s; // South xpm
 	char	**e; // East xpm
 	char	**w; // West xpm
-
 	int		f; // Floor
 	int		c; // Ceiling
+
+	// int		pl_x; // Player start position
+	// int		pl_y;
 }				t_cub;
 
 typedef struct s_mlx_img
@@ -143,6 +164,7 @@ int		c_parse_color(const char *line);
 size_t	ft_stmin(size_t a, size_t b);
 
 void	c_move_player(t_game *g);
+void	c_player_decel(float *vx, float *vy, int keystate);
 int		c_render(void *handle);
 int		c_keypress_handler(int key, void *handle);
 int		c_keyrelease_handler(int key, void *handle);

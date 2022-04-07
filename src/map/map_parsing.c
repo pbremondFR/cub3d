@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 18:22:45 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/07 13:58:53 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // Finds trailing whitespaces in each map line, and simply replaces them with
 // '\0'. Does not reallocate anything!
-static void	remove_trailing_spaces(char *line)
+static void	_remove_trailing_spaces(char *line)
 {
 	size_t	i;
 
@@ -43,7 +43,7 @@ void	c_parse_map(const char *first_line, int fd, t_cub *c)
 	i = 0;
 	while (c->map[i])
 	{
-		remove_trailing_spaces(c->map[i]);
+		_remove_trailing_spaces(c->map[i]);
 		if (c->sx < ft_strlen(c->map[i++]))
 			c->sx = ft_strlen(c->map[i - 1]);
 	}

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 19:55:42 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/07 15:17:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ t_game	*c_init_t_game(t_game *g)
 		game = (t_game *)malloc(sizeof(t_game));
 	if (game == NULL)
 		return (NULL);
-	game->x = 50.0f;
-	game->y = 50.0f;
-	game->dx = 1.0f;
-	game->dy = 0.0f;
-	game->px = -game->dy;
-	game->py = 0.66f;
+	game->x = 0.5f;
+	game->y = 0.5f;
+	game->dx = 0.0f;
+	game->dy = -1.0f;
+	game->px = 0.66f;
+	game->py = 0.0f;
 	game->vx = 0.0f;
 	game->vy = 0.0f;
 	game->k = 0;
@@ -54,6 +54,31 @@ static void	_c_tests(t_cub const *c, t_game const *g)
 	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
 }
 
+void	c_init_player_pos(t_game *g, t_cub *c)
+{
+	int	i;
+	int	j;
+	int	done;
+
+	done = 0;
+	i = 0;
+	while (c->map[i] && !done)
+	{
+		j = 0;
+		while (c->map[i][j] && !done)
+		{
+			if (ft_strchr("NESW", c->map[i][j]))
+			{
+				g->x = j + 0.5f;
+				g->y = i + 0.5f;
+				done = 1;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 int	main(int argc, const char *argv[])
 {
 	t_cub	c;
@@ -68,6 +93,8 @@ int	main(int argc, const char *argv[])
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
 		return (1);
 	_c_tests(&c, &g);
+	g.c = &c;
+	c_init_player_pos(&g, &c);
 	g.mlx = mlx_init();
 	g.mw = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Test");
 	g.i.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);

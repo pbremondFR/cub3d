@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 20:35:06 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/07 14:09:22 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color)
 	dx = b.x - a.x;
 	dy = b.y - a.y;
 	step = fabsf(dy);
-	if (fabsf(dx) >= fabsf(dy))
+	if (fabsf(dx) > fabsf(dy))
 		step = fabsf(dx);
 	dx = dx / step;
 	dy = dy / step;
@@ -56,7 +56,7 @@ void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color)
 	p.y = a.y;
 	while (i++ <= step)
 	{
-		my_mlx_pixel_put(img, nearbyintf(p.x), nearbyintf(p.y), color);
+		my_mlx_pixel_put(img, (int)p.x, (int)p.y, color);
 		p.x += dx;
 		p.y += dy;
 	}
@@ -67,8 +67,8 @@ void	c_draw_vision(t_game *g, t_uint len, int color1, int color2)
 	t_pnt	a;
 	t_pnt	b;
 
-	a.x = g->x;
-	a.y = g->y;
+	a.x = g->x * MAP_TILE_SIZE;
+	a.y = g->y * MAP_TILE_SIZE;
 	b.x = a.x + g->dx * len;
 	b.y = a.y + g->dy * len;
 	if (b.x < 0.0f)
