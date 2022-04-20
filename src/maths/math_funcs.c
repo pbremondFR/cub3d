@@ -6,16 +6,23 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 18:39:54 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/06 19:33:15 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:27:35 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
+// Returns distance between two points
 float	c_math_get_dist(float x1, float x2, float y1, float y2)
 {
 	return (sqrtf(powf(x2 - x1, 2) + powf(y2 - y1, 2)));
+}
+
+// Returns squared distance between two points
+float	c_math_get_sq_dist(float x1, float x2, float y1, float y2)
+{
+	return (powf(x2 - x1, 2) + powf(y2 - y1, 2));
 }
 
 // int Fast_Distance_2D(int x, int y) {

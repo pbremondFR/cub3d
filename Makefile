@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/07 14:30:57 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/20 10:52:54 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ SRC_DIR = src
 OUTS = objs
 
 # Source Files
-SRC =	$(MAP_SRC) $(RENDER_SRC)\
+SRC =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
 		main.c\
 		keyboard.c\
 		maths/math_funcs.c
@@ -56,10 +56,13 @@ SRC =	$(MAP_SRC) $(RENDER_SRC)\
 MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c
 
-RENDER_SRC_FILES =		something.c		utils.c				movement.c
+RENDER_SRC_FILES =		rendering.c		utils.c				movement.c
+
+RAYCAST_SRC_FILES =		raycast.c
 
 MAP_SRC =		$(addprefix map/,		$(MAP_SRC_FILES))
 RENDER_SRC =	$(addprefix render/,	$(RENDER_SRC_FILES))
+RAYCAST_SRC =	$(addprefix raycast/,	$(RAYCAST_SRC_FILES))
 		
 SRC_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC))
 
@@ -73,12 +76,12 @@ OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(SRC_PLUS_PATH)))
 LIBFT = libft.a
 LIBFT_PATH = libft
 LIBMLX_PATH = mlx_beta
-LIBS = -framework OpenGL -framework AppKit
+LIBS = -framework OpenGL -framework AppKit -fsanitize=address
 
 NAME = cub3d
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 all : $(NAME)
 

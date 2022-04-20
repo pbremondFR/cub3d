@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   something.c                                        :+:      :+:    :+:   */
+/*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 20:46:51 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:48:33 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,51 +17,6 @@
 // {
 // 	draw_square(img, x - PLY_HITBX_RAD, y - PLY_HITBX_RAD, color);
 // }
-
-static void	_calc_step_sidedist(t_ray *ray, float pos_x, float pos_y)
-{
-	if (ray->dir_x < 0.0f)
-	{
-		ray->step_x = -1;
-		ray->side_dist_x = (pos_x - ray->map_x) * ray->delta_dist_x;
-	}
-	else
-	{
-		ray->step_x = 1;
-		ray->side_dist_x = (ray->map_x + 1.0f - pos_x) * ray->delta_dist_x;
-	}
-	if (ray->dir_y < 0.0f)
-	{
-		ray->step_y = -1;
-		ray->side_dist_y = (pos_y - ray->map_y) * ray->delta_dist_y;
-	}
-	else
-	{
-		ray->step_y = 1;
-		ray->side_dist_y = (ray->map_y + 1.0f - pos_y) * ray->delta_dist_y;
-	}
-}
-
-static void	_raycast_stepping_loop(t_game *g, t_ray *ray)
-{
-	while (1)
-	{
-		if (ray->side_dist_x < ray->side_dist_y)
-		{
-			ray->side_dist_x += ray->delta_dist_x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
-		}
-		else
-		{
-			ray->side_dist_y += ray->delta_dist_y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
-		}
-		if (g->c->map[ray->map_y][ray->map_x] == '1')
-			break ;
-	}
-}
 
 static void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
 {
@@ -89,7 +44,7 @@ void	c_raycast_loop(t_game *g)
 {
 	t_uint	i;
 	t_ray	ray;
-	float	cam_x;
+	float	ray_vec_adj;
 	int		line_height;
 	int		color;
 
@@ -98,23 +53,22 @@ void	c_raycast_loop(t_game *g)
 	{
 		ray.map_x = (int)g->x;
 		ray.map_y = (int)g->y;
-		cam_x = 2 * i / (float)WIN_WIDTH - 1;
-		ray.dir_x = g->dx + (g->cx * cam_x);
-		ray.dir_y = g->dy + (g->cy * cam_x);
+		ray_vec_adj = ((2 * i) / WIN_FWIDTH) - 1;
+		ray.dir_x = g->dx + (g->cx * ray_vec_adj);
+		ray.dir_y = g->dy + (g->cy * ray_vec_adj);
 		ray.delta_dist_x = fabsf(1 / ray.dir_x);
 		ray.delta_dist_y = fabsf(1 / ray.dir_y);
-		_calc_step_sidedist(&ray, g->x, g->y);
-		_raycast_stepping_loop(g, &ray);
+		c_ray_calc_step_and_len(&ray, g->x, g->y);
+		c_ray_raycasting_loop(g, &ray);
 		if (ray.side == 0)
-			ray.len = (ray.side_dist_x - ray.delta_dist_x);
+			ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
 		else
-			ray.len = (ray.side_dist_y - ray.delta_dist_y);
-		line_height = (int)(WIN_HEIGHT / ray.len);
-		color = 0x800080;
+			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
+		line_height = (int)(WIN_HEIGHT / ray.c_plane_len);
+		color = 0xff0000;
 		if (ray.side == 1)
 			color = color >> 16;
-		_draw_wall_from_ray(g, line_height, i, color);
-		++i;
+		_draw_wall_from_ray(g, line_height, i++, color);
 	}
 }
 
@@ -123,10 +77,10 @@ int	c_render(void *handle)
 	t_game	*g;
 
 	g = (t_game *)handle;
-	printf("Player: %d\t%d\n", (int)g->x, (int)g->y);
-	printf("Accel:  %f\t%f\n", g->vx, g->vy);
-	printf("Player dx: %.3f\tdy: %.3f\n", g->dx, g->dy);
-	printf("Player cx: %.3f\tcy: %.3f\n", g->cx, g->cy);
+	printf("Player: %.3f\t%.3f\n", g->x, g->y);
+	// printf("Accel:  %f\t%f\n", g->vx, g->vy);
+	// printf("Player dx: %.3f\tdy: %.3f\n", g->dx, g->dy);
+	// printf("Player cx: %.3f\tcy: %.3f\n", g->cx, g->cy);
 	// draw_player(&g->i, g->x * MAP_TILE_SIZE, g->y * MAP_TILE_SIZE, 0x00);
 	// c_draw_vision(g, MAP_TILE_SIZE, 0x00, 0x00);
 	mlx_destroy_image(g->mlx, g->i.i);

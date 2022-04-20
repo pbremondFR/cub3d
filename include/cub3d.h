@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 20:52:40 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:47:53 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@
 # define ANG_VEL_DEC	0.008f
 # define ANG_VEL_MAX	0.05f
 
+# define RAY_HIT_X	0
+# define RAY_HIT_Y	1
+
 # define PLY_HITBX_SIZ	8
 # define PLY_HITBX_RAD	4
 # define MAP_TILE_SIZE	50
@@ -96,19 +99,19 @@ typedef struct s_point
 
 typedef struct s_raycast
 {
-	float	dir_x;
+	float	dir_x; // Ray's direction vector
 	float	dir_y;
-	float	delta_dist_x;
+	float	delta_dist_x; // Ray stepping distance
 	float	delta_dist_y;
-	float	side_dist_x;
-	float	side_dist_y;
-	float	len;
-	int		map_x;
+	float	len_x; // Length of ray until next vertical wall
+	float	len_y; // Length of ray until next horizontal wall
+	float	c_plane_len; // Final length of ray, adjusted for fisheye
+	int		map_x; // Initial ray position in map
 	int		map_y;
-	int8_t	step_x;
+	int8_t	step_x; // Raycasting direction (pos/neg)
 	int8_t	step_y;
 	// int8_t	hit;
-	int8_t	side;	
+	int8_t	side; // What wall side did ray hit (x/y)
 }				t_ray;
 
 typedef struct s_cub_data
@@ -184,8 +187,12 @@ void	draw_square(struct s_mlx_img *img, int x, int y, int color);
 void	draw_player(struct s_mlx_img *img, int x, int y, int color);
 
 float	c_math_get_dist(float x1, float x2, float y1, float y2);
+float	c_math_get_sq_dist(float x1, float x2, float y1, float y2);
 void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
 void	c_draw_vision(t_game *g, t_uint len, int color1, int color2);
 void	c_math_rotate_vector(float *x, float *y, float angle);
+
+void	c_ray_calc_step_and_len(t_ray *ray, float pos_x, float pos_y);
+void	c_ray_raycasting_loop(t_game *g, t_ray *ray);
 
 #endif
