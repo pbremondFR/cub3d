@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/20 15:10:15 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:59:40 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,22 @@ static void	_player_rotation(t_game *g)
 // 2: If ray is shorter than next position then adjust player pos to be against
 // the wall, and kill x or y velocity
 // Else just add velocity to pos like normal
+
+// TODO: Fix the velocity bump problem
 void	c_collision_handling(t_game *g, float next_x, float next_y)
 {
 	t_ray	ray;
 	// float	len_x;
 	// float	len_y;
 	float	dist_to_next;
-	float	dist_to_next_mag;
+	float	dist_to_next_abs;
 
 	ray.map_x = (int)g->x;
 	ray.map_y = (int)g->y;
 	dist_to_next = c_math_get_dist(g->x, next_x, g->y, next_y);
-	dist_to_next_mag = fabsf(dist_to_next);
-	ray.dir_x = (next_x - g->x) / dist_to_next_mag;
-	if (isnan(ray.dir_x))
-		ray.dir_x = 0.0f;
-	ray.dir_y = (next_y - g->y) / dist_to_next_mag;
-	if (isnan(ray.dir_y))
-		ray.dir_y = 0.0f;
+	dist_to_next_abs = fabsf(dist_to_next);
+	ray.dir_x = (next_x - g->x) / dist_to_next_abs;
+	ray.dir_y = (next_y - g->y) / dist_to_next_abs;
 	ray.delta_dist_x = fabsf(1 / ray.dir_x);
 	ray.delta_dist_y = fabsf(1 / ray.dir_y);
 	c_ray_calc_step_and_len(&ray, g->x, g->y);
@@ -82,20 +80,22 @@ void	c_collision_handling(t_game *g, float next_x, float next_y)
 		ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
 	else
 		ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
-	if (ray.c_plane_len < dist_to_next_mag)
+	if (ray.c_plane_len - 0.1f < dist_to_next_abs)
 	{
-		// if (ray.side == RAY_HIT_X)
-		// {
-		// 	g->x += ray.c_plane_len * ray.dir_x;
-		// 	g->y = (float)ray.map_y;
-		// 	printf("%sXXXXXXXXXXXXX%s\n", RED, RESET);
-		// }
-		// else
-		// {
-		// 	g->x = (float)ray.map_x;
-		// 	g->y += ray.c_plane_len * ray.dir_y;
-		// 	printf("%sYYYYYYYYYYYYY%s\n", RED, RESET);
-		// }
+		if (ray.side == RAY_HIT_X)
+		{
+			// g->x += (ray.c_plane_len + 0.1f) * ray.dir_x;
+			// g->y = (float)ray.map_y;
+			g->y = next_y;
+			printf("%sXXXXXXXXXXXXX%s\n", RED, RESET);
+		}
+		else
+		{
+			// g->x = (float)ray.map_x;
+			// g->y += (ray.c_plane_len + 0.1f) * ray.dir_y;
+			g->x = next_x;
+			printf("%sYYYYYYYYYYYYY%s\n", RED, RESET);
+		}
 		// g->x += ((ray.c_plane_len - 0.1f) * ray.dir_x);
 		// g->y += ((ray.c_plane_len - 0.1f) * ray.dir_y);
 	}
@@ -106,20 +106,6 @@ void	c_collision_handling(t_game *g, float next_x, float next_y)
 	}
 	// printf("Collision dir: %.3f \t%.3f\n", ray.dir_x, ray.dir_y);
 	// printf("Ray plane len: %.2f\n", ray.c_plane_len);
-}
-
-void	c_test_collision_handling(t_game *g, float next_x, float next_y)
-{
-	int	next_map_x;
-	int	next_map_y;
-
-	next_map_x = (int)next_x;
-	next_map_y = (int)next_y;
-	if (g->c->map[next_map_y][next_map_x] != '1')
-	{
-		g->x = next_x;
-		g->y = next_y;
-	}
 }
 
 // TODO: Make a proper exit function

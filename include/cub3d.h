@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/20 11:47:53 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:50:43 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,16 @@
 # define RAY_HIT_X	0
 # define RAY_HIT_Y	1
 
+// # define WALL_SPRITE_SIZE	64
+// # define W_SPRT_SIZ			WALL_SPRITE_SIZE
+
 # define PLY_HITBX_SIZ	8
 # define PLY_HITBX_RAD	4
 # define MAP_TILE_SIZE	50
+
+// ========================================================================== //
+//                                  STRUCTS                                   //
+// ========================================================================== //
 
 typedef unsigned int	t_uint;
 
@@ -114,23 +121,6 @@ typedef struct s_raycast
 	int8_t	side; // What wall side did ray hit (x/y)
 }				t_ray;
 
-typedef struct s_cub_data
-{
-	char	**map;
-	t_uint	sx; // Map x max size
-	t_uint	sy; // Map y size
-
-	char	**n; // North xpm
-	char	**s; // South xpm
-	char	**e; // East xpm
-	char	**w; // West xpm
-	int		f; // Floor
-	int		c; // Ceiling
-
-	// int		pl_x; // Player start position
-	// int		pl_y;
-}				t_cub;
-
 typedef struct s_mlx_img
 {
 	void	*i; // Image handle
@@ -139,7 +129,28 @@ typedef struct s_mlx_img
 	int		bpp; // Bits per pixel
 	int		ls; // Line size
 	int		e; // Endian
+	
+	int		w; // Image width
+	int		h; // Image height
 }				t_img;
+
+typedef struct s_cub_data
+{
+	char	**map;
+	t_uint	sx; // Map x max size
+	t_uint	sy; // Map y max size
+
+	t_img	*n; // North texture
+	t_img	*s; // South texture
+	t_img	*e; // East texture
+	t_img	*w; // West texture
+	int		f; // Floor
+	int		c; // Ceiling
+
+	// int		pl_x; // Player start position
+	// int		pl_y;
+}				t_cub;
+t_cub	*c_init_t_cub(t_cub *p_cub);
 
 typedef struct s_game_data
 {
@@ -157,42 +168,75 @@ typedef struct s_game_data
 
 	void		*mlx; // MLX handle
 	void		*mw; // MLX window
-	t_img		i; // MLX image
+	t_img		i; // MLX image for frame
 
 	t_cub		*c; // .cub file data
 }				t_game;
+t_game	*c_init_t_game(t_game *g);
 
-t_cub	*c_init_t_cub(t_cub *p_cub);
+// ========================================================================== //
+//                                  MAIN/MISC                                 //
+// ========================================================================== //
 
-int		str_isspace(const char *line);
-t_cub	*c_parse_cub_file(const char *path, t_cub *c);
-void	c_parse_map(const char *first_line, int fd, t_cub *c);
-int		c_map_error_check(const char **map);
-int		c_is_flooradj_legal(const char c);
-void	c_map_print_error(const char **map, unsigned int x, unsigned int y);
-
-char	**c_import_xpm(const char *line);
-int		c_parse_color(const char *line);
-
-size_t	ft_stmin(size_t a, size_t b);
-
-void	c_move_player(t_game *g);
-void	c_player_decel(float *vx, float *vy, float *va, int keystate);
-int		c_render(void *handle);
 int		c_keypress_handler(int key, void *handle);
 int		c_keyrelease_handler(int key, void *handle);
 
+// ========================================================================== //
+//                                  CUB FILE                                  //
+// ========================================================================== //
+
+// checking_funcs.c
+int		str_isspace(const char *line);
+int		c_is_flooradj_legal(const char c);
+size_t	ft_stmin(size_t a, size_t b);
+
+// cub_graphics.c
+char	**c_xpm_to_char(const char *path);
+t_img	*c_import_xpm(const char *line, t_game *g);
+int		c_parse_color(const char *line);
+
+// cub_file.c
+t_cub	*c_parse_cub_file(const char *path, t_cub *c, t_game *g);
+
+// map_parsing.c
+void	c_parse_map(const char *first_line, int fd, t_cub *c);
+int		c_map_error_check(const char **map);
+
+// map_print.c
+void	c_map_print_error(const char **map, unsigned int x, unsigned int y);
+
+// ========================================================================== //
+//                                   RENDER                                   //
+// ========================================================================== //
+
+// movement.c
+void	c_move_player(t_game *g);
+void	c_collision_handling(t_game *g, float next_x, float next_y);
+void	c_player_decel(float *vx, float *vy, float *va, int keystate);
+
+// rendering.c
+int		c_render(void *handle);
+void	c_render_raycast_loop(t_game *g);
+
+// utils.c
 void	my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
 void	draw_square(struct s_mlx_img *img, int x, int y, int color);
-void	draw_player(struct s_mlx_img *img, int x, int y, int color);
-
-float	c_math_get_dist(float x1, float x2, float y1, float y2);
-float	c_math_get_sq_dist(float x1, float x2, float y1, float y2);
 void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
 void	c_draw_vision(t_game *g, t_uint len, int color1, int color2);
-void	c_math_rotate_vector(float *x, float *y, float angle);
+
+// ========================================================================== //
+//                                 RAYCASTING                                 //
+// ========================================================================== //
 
 void	c_ray_calc_step_and_len(t_ray *ray, float pos_x, float pos_y);
 void	c_ray_raycasting_loop(t_game *g, t_ray *ray);
+
+// ========================================================================== //
+//                                    MATHS                                   //
+// ========================================================================== //
+
+float	c_math_get_dist(float x1, float x2, float y1, float y2);
+float	c_math_get_sq_dist(float x1, float x2, float y1, float y2);
+void	c_math_rotate_vector(float *x, float *y, float angle);
 
 #endif

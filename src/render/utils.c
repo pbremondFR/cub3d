@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 17:03:50 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:49:52 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <cub3d.h>
 
 // Imma steal that for now
+// Yes, it just assumes that img->bpp == 32 and thus isn't always portable.
+// Too bad !
 void	my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color)
 {
 	char	*dst;

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 20:40:53 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:53:09 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_game	*c_init_t_game(t_game *g)
 	return (game);
 }
 
-static void	_c_tests(t_cub const *c, t_game const *g)
+static void	_debug_tests(t_cub const *c, t_game const *g)
 {
 	(void)g;
 	c_map_print_error((const char **)c->map, UINT_MAX, UINT_MAX);
@@ -90,16 +90,20 @@ int	main(int argc, const char *argv[])
 		ft_dprintf(2, "usage: %s map.cub\n", argv[0]);
 		return (1);
 	}
-	if (c_parse_cub_file(argv[1], &c) == NULL || c_init_t_game(&g) == NULL
+	if (c_init_t_game(&g) == NULL)
+		return (1);
+	g.mlx = mlx_init();
+	if (c_parse_cub_file(argv[1], &c, &g) == NULL
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
 		return (1);
-	_c_tests(&c, &g);
+	_debug_tests(&c, &g);
 	g.c = &c;
 	c_init_player_pos(&g, &c);
-	g.mlx = mlx_init();
 	g.mw = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	g.i.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
 	g.i.addr = mlx_get_data_addr(g.i.i, &g.i.bpp, &g.i.ls, &g.i.e);
+	g.i.w = WIN_WIDTH;
+	g.i.h = WIN_HEIGHT;
 	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);
 	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);
 	mlx_loop_hook(g.mlx, &c_render, &g);

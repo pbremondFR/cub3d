@@ -6,17 +6,12 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/20 14:48:33 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:02:27 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
-
-// void	draw_player(struct s_mlx_img *img, int x, int y, int color)
-// {
-// 	draw_square(img, x - PLY_HITBX_RAD, y - PLY_HITBX_RAD, color);
-// }
 
 static void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
 {
@@ -40,7 +35,7 @@ static void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
 	}
 }
 
-void	c_raycast_loop(t_game *g)
+void	c_render_raycast_loop(t_game *g)
 {
 	t_uint	i;
 	t_ray	ray;
@@ -87,7 +82,7 @@ int	c_render(void *handle)
 	g->i.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->i.addr = mlx_get_data_addr(g->i.i, &g->i.bpp, &g->i.ls, &g->i.e);
 	c_move_player(g);
-	c_raycast_loop(g);
+	c_render_raycast_loop(g);
 	// draw_player(&g->i, g->x * MAP_TILE_SIZE, g->y * MAP_TILE_SIZE, 0x7f7fff);
 	// c_draw_vision(g, MAP_TILE_SIZE, 0xff0000, 0x00ff00);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);

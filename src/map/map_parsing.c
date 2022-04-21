@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/07 13:58:53 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:54:49 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	c_parse_map(const char *first_line, int fd, t_cub *c)
 	c->sy = i;
 }
 
-static int	check_map_is_last(const char **map)
+static int	_check_map_is_last(const char **map)
 {
 	int	y;
 
@@ -88,7 +88,7 @@ int	c_map_error_check(const char **map)
 	int	y;
 	int	x;
 
-	if (check_map_is_last(map) != EXIT_SUCCESS)
+	if (_check_map_is_last(map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	y = -1;
 	while (map[++y])
