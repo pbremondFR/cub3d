@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 13:53:09 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:36:12 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ int	main(int argc, const char *argv[])
 	if (c_init_t_game(&g) == NULL)
 		return (1);
 	g.mlx = mlx_init();
+	g.mw = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	if (c_parse_cub_file(argv[1], &c, &g) == NULL
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
 		return (1);
 	_debug_tests(&c, &g);
 	g.c = &c;
 	c_init_player_pos(&g, &c);
-	g.mw = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	g.i.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
 	g.i.addr = mlx_get_data_addr(g.i.i, &g.i.bpp, &g.i.ls, &g.i.e);
 	g.i.w = WIN_WIDTH;
