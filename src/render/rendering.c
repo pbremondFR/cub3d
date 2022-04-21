@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 16:56:56 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:57:37 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,26 @@ void	c_render_raycast_loop(t_game *g)
 	}
 }
 
+static void	_test_display_cache(t_game *g, t_img *img, int x, int y)
+{
+	int	i;
+	int	j;
+	int	color;
+
+	i = 0;
+	while (i < img->w)
+	{
+		j = 0;
+		while (j < img->h)
+		{
+			color = *(int *)(img->addr + (i * img->ls + j * (img->bpp / 8)));
+			my_mlx_pixel_put(&g->i, x + i, y + j, color);
+			j++;
+		}
+		i++;
+	}
+}
+
 int	c_render(void *handle)
 {
 	t_game	*g;
@@ -86,6 +106,7 @@ int	c_render(void *handle)
 	// draw_player(&g->i, g->x * MAP_TILE_SIZE, g->y * MAP_TILE_SIZE, 0x7f7fff);
 	// c_draw_vision(g, MAP_TILE_SIZE, 0xff0000, 0x00ff00);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
+	_test_display_cache(g, g->c->n, 50, 50);
 	mlx_put_image_to_window(g->mlx, g->mw, g->i.i, 0, 0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->c->n->i, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, g->mw);

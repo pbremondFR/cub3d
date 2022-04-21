@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:15:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 18:15:37 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:16:56 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,34 +79,18 @@ char	**c_xpm_to_char(const char *path)
 	return (dump_tab);
 }
 
-// static int	_get_2darr_size(const char **arr)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (arr[i])
-// 		++i;
-// 	return (i);
-// }
-
 // Returns a char 2D array which is a dump of given XPM file.
 t_img	*c_import_xpm(const char *path, t_game *g)
 {
 	char	*trimmed;
-	// char	**xpm_dump;
 	t_img	*img;
 
 	trimmed = ft_strtrim(path, " \t\n\v\f\r");
-	// xpm_dump = c_xpm_to_char(trimmed);
-	// if (xpm_dump == NULL)
-	// 	return (NULL);
 	img = (t_img *)malloc(sizeof(t_img));
 	if (img == NULL)
 		return (NULL);
-	// img->i = mlx_xpm_to_image(g->mlx, xpm_dump, &img->w, &img->h);
 	img->i = mlx_xpm_file_to_image(g->mlx, trimmed, &img->w, &img->h);
 	free(trimmed);
-	// ft_split_free(xpm_dump, _get_2darr_size((const char **)xpm_dump));
 	if (img->i == NULL)
 		return (NULL);
 	img->addr = mlx_get_data_addr(img->i, &img->bpp, &img->ls, &img->e);
