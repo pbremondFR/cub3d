@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/21 15:49:12 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/22 11:13:03 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ RAYCAST_SRC_FILES =		raycast.c
 MAP_SRC =		$(addprefix map/,		$(MAP_SRC_FILES))
 RENDER_SRC =	$(addprefix render/,	$(RENDER_SRC_FILES))
 RAYCAST_SRC =	$(addprefix raycast/,	$(RAYCAST_SRC_FILES))
-		
+
 SRC_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC))
 
 # Output Files

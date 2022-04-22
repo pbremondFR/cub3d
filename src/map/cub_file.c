@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 13:46:29 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/22 11:32:25 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 		c->e = c_import_xpm(line + i + 2, g);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
 		c->w = c_import_xpm(line + i + 2, g);
-	else if (ft_strncmp(line + i, "F", 1) == 0)
+	// else if (ft_strncmp(line + i, "F", 1) == 0)
+	else if (*(line + i) == 'F')
 		c->f = c_parse_color(line + i + 1);
-	else if (ft_strncmp(line + i, "C", 1) == 0)
+	// else if (ft_strncmp(line + i, "C", 1) == 0)
+	else if (*(line + i) == 'C')
 		c->c = c_parse_color(line + i + 1);
-	else if (ft_strchr("01NESW", line[i]))
+	else if (line[i] != '\0' && ft_strchr("01NESW", line[i]))
 		return (1);
 	return (0);
 }

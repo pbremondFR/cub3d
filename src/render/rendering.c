@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 18:57:37 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/22 14:41:12 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
 	if (a.y < 0)
 		a.y = 0;
 	b.y = (height / 2) + (WIN_HEIGHT / 2);
-	if (b.y > WIN_HEIGHT)
+	if (b.y > WIN_HEIGHT - 1)
 		b.y = WIN_HEIGHT - 1;
 	i = a.y;
 	while (i < b.y)
 	{
-		my_mlx_pixel_put(&g->i, x, i, color);
+		my_mlx_pixel_put(&g->f, x, i, color);
 		++i;
 	}
 }
@@ -67,7 +67,7 @@ void	c_render_raycast_loop(t_game *g)
 	}
 }
 
-static void	_test_display_cache(t_game *g, t_img *img, int x, int y)
+void	_test_display_cache(t_game *g, t_img *img, int x, int y)
 {
 	int	i;
 	int	j;
@@ -80,11 +80,19 @@ static void	_test_display_cache(t_game *g, t_img *img, int x, int y)
 		while (j < img->h)
 		{
 			color = *(int *)(img->addr + (i * img->ls + j * (img->bpp / 8)));
-			my_mlx_pixel_put(&g->i, x + i, y + j, color);
+			my_mlx_pixel_put(&g->f, x + i, y + j, color);
 			j++;
 		}
 		i++;
 	}
+}
+
+void	c_print_coords(t_game *g)
+{
+	char	buffer[16];
+
+	snprintf(buffer, 16, "%.3f %.3f", g->x, g->y);
+	mlx_string_put(g->mlx, g->mw, 10, 20, 0xffffff, buffer);
 }
 
 int	c_render(void *handle)
@@ -92,23 +100,16 @@ int	c_render(void *handle)
 	t_game	*g;
 
 	g = (t_game *)handle;
-	printf("Player: %.3f\t%.3f\n", g->x, g->y);
-	// printf("Accel:  %f\t%f\n", g->vx, g->vy);
-	// printf("Player dx: %.3f\tdy: %.3f\n", g->dx, g->dy);
-	// printf("Player cx: %.3f\tcy: %.3f\n", g->cx, g->cy);
-	// draw_player(&g->i, g->x * MAP_TILE_SIZE, g->y * MAP_TILE_SIZE, 0x00);
-	// c_draw_vision(g, MAP_TILE_SIZE, 0x00, 0x00);
-	mlx_destroy_image(g->mlx, g->i.i);
-	g->i.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
-	g->i.addr = mlx_get_data_addr(g->i.i, &g->i.bpp, &g->i.ls, &g->i.e);
+	mlx_destroy_image(g->mlx, g->f.i);
+	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
+	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
 	c_move_player(g);
 	c_render_raycast_loop(g);
-	// draw_player(&g->i, g->x * MAP_TILE_SIZE, g->y * MAP_TILE_SIZE, 0x7f7fff);
-	// c_draw_vision(g, MAP_TILE_SIZE, 0xff0000, 0x00ff00);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
-	_test_display_cache(g, g->c->n, 50, 50);
-	mlx_put_image_to_window(g->mlx, g->mw, g->i.i, 0, 0);
-	mlx_put_image_to_window(g->mlx, g->mw, g->c->n->i, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	// _test_display_cache(g, g->c->n, 50, 50);
+	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
+	// mlx_put_image_to_window(g->mlx, g->mw, g->c->n->i, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	c_print_coords(g);
 	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, g->mw);
 	return (0);
 }

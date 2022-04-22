@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 11:59:40 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:56:25 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	c_collision_handling(t_game *g, float next_x, float next_y)
 			// g->x = (float)ray.map_x;
 			// g->y += (ray.c_plane_len + 0.1f) * ray.dir_y;
 			g->x = next_x;
-			printf("%sYYYYYYYYYYYYY%s\n", RED, RESET);
+			printf("%sYYYYYYYYYYYYY%s\n", BLU, RESET);
 		}
 		// g->x += ((ray.c_plane_len - 0.1f) * ray.dir_x);
 		// g->y += ((ray.c_plane_len - 0.1f) * ray.dir_y);

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 17:53:16 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/22 12:59:02 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ typedef struct s_game_data
 
 	void		*mlx; // MLX handle
 	void		*mw; // MLX window
-	t_img		i; // MLX image for frame
+	t_img		f; // MLX image for frame
 
 	t_cub		*c; // .cub file data
 }				t_game;

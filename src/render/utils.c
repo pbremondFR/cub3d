@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 13:49:52 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:59:42 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	c_draw_vision(t_game *g, t_uint len, int color1, int color2)
 		b.y = 0.0f;
 	else if (b.y > WIN_FHEIGHT)
 		b.y = WIN_FHEIGHT;
-	c_draw_line(&g->i, a, b, color1);
+	c_draw_line(&g->f, a, b, color1);
 	a.x = b.x + g->cx * len;
 	a.y = b.y + g->cy * len;
 	if (a.x < 0.0f)
@@ -92,5 +92,5 @@ void	c_draw_vision(t_game *g, t_uint len, int color1, int color2)
 		a.y = 0.0f;
 	else if (a.y > WIN_FHEIGHT)
 		a.y = WIN_FHEIGHT;
-	c_draw_line(&g->i, a, b, color2);
+	c_draw_line(&g->f, a, b, color2);
 }
