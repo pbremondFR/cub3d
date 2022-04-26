@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/22 13:56:25 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:37:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,6 @@ void	c_move_player(t_game *g)
 		g->vx += ACCEL;
 	if (g->k & KEYS_A && g->vx > -MAX_VEL)
 		g->vx -= ACCEL;
-	if (g->k == (KEYS_ESC | KEYS_SPA))
-		exit(0);
 	// if (g->k & (KEYS_LEFT | KEYS_RIGHT))
 	_player_rotation(g);
 	c_collision_handling(g,

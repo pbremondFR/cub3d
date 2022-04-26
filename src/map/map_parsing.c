@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/21 11:54:49 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:44:53 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	c_parse_map(const char *first_line, int fd, t_cub *c)
 		line = get_next_line(fd);
 	}
 	c->map = ft_split(map, '\n');
+	free(map);
 	i = 0;
 	while (c->map[i])
 	{

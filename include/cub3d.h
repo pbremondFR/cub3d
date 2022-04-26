@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 21:50:55 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:37:58 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,9 @@ t_game	*c_init_t_game(t_game *g);
 
 int		c_keypress_handler(int key, void *handle);
 int		c_keyrelease_handler(int key, void *handle);
+
+// utils.c
+int	c_exit_program(void *g_handle);
 
 // ========================================================================== //
 //                                  CUB FILE                                  //

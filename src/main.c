@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/22 14:04:32 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:36:27 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, const char *argv[])
 	g.f.h = WIN_HEIGHT;
 	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);
 	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);
+	mlx_hook(g.mw, E_DSTR, 0, &c_exit_program, &g);
 	mlx_loop_hook(g.mlx, &c_render, &g);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, g.f.i);
 	mlx_loop(g.mlx);

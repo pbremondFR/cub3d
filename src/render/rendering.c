@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 23:04:49 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:37:36 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int	c_render(void *handle)
 	t_game	*g;
 
 	g = (t_game *)handle;
+	if (g->k == (KEYS_ESC | KEYS_SPA))
+		c_exit_program(handle);
 	mlx_destroy_image(g->mlx, g->f.i);
 	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
