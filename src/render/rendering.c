@@ -6,14 +6,14 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/22 14:41:12 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:04:49 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-static void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
+void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
 {
 	t_pnt	a;
 	t_pnt	b;
@@ -63,7 +63,8 @@ void	c_render_raycast_loop(t_game *g)
 		color = 0xff0000;
 		if (ray.side == 1)
 			color = color >> 16;
-		_draw_wall_from_ray(g, line_height, i++, color);
+		// _draw_wall_from_ray(g, line_height, i++, color);
+		c_start_draw_wall(g, &ray, i++);
 	}
 }
 
@@ -107,6 +108,9 @@ int	c_render(void *handle)
 	c_render_raycast_loop(g);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	// _test_display_cache(g, g->c->n, 50, 50);
+	// _test_display_cache(g, g->c->s, 100, 100);
+	// _test_display_cache(g, g->c->e, 150, 150);
+	// _test_display_cache(g, g->c->w, 200, 200);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
 	// mlx_put_image_to_window(g->mlx, g->mw, g->c->n->i, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	c_print_coords(g);

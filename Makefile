@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/22 11:13:03 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/26 21:45:54 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,8 @@ SRC =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
 MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c		cub_graphics_2.c
 
-RENDER_SRC_FILES =		rendering.c		utils.c				movement.c
+RENDER_SRC_FILES =		rendering.c		utils.c				movement.c\
+	textures.c
 
 RAYCAST_SRC_FILES =		raycast.c
 

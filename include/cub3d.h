@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/22 12:59:02 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/26 21:50:55 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,9 @@ void	c_player_decel(float *vx, float *vy, float *va, int keystate);
 // rendering.c
 int		c_render(void *handle);
 void	c_render_raycast_loop(t_game *g);
+
+// textures.c
+void	c_start_draw_wall(t_game *g, t_ray *ray, int x);
 
 // utils.c
 void	my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
