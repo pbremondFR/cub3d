@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:15:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 18:24:59 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 23:54:20 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ char	**c_xpm_to_char(const char *path)
 	return (dump_tab);
 }
 
-// Returns a char 2D array which is a dump of given XPM file.
+// TODO: Check if file exists and can be opened
+// TODO: Check if image is a square
 t_img	*c_import_xpm(const char *path, t_game *g)
 {
 	char	*trimmed;
@@ -90,9 +91,15 @@ t_img	*c_import_xpm(const char *path, t_game *g)
 	if (img == NULL)
 		return (NULL);
 	img->i = mlx_xpm_file_to_image(g->mlx, trimmed, &img->w, &img->h);
-	free(trimmed);
 	if (img->i == NULL)
 		return (NULL);
+	if (img->w != img->h)
+	{
+		ft_dprintf(2, "Error\nTexture in `%s' is not squared.\n", trimmed);
+		mlx_destroy_image(g->mlx, img->i);
+		return (NULL);
+	}
+	free(trimmed);
 	img->addr = mlx_get_data_addr(img->i, &img->bpp, &img->ls, &img->e);
 	if (c_opt_texture_for_cache(img) != EXIT_SUCCESS)
 		return (NULL);

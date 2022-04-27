@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/27 22:17:51 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/28 00:00:45 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,7 @@ OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(SRC_PLUS_PATH)))
 LIBFT = libft.a
 LIBFT_PATH = libft
 LIBMLX_PATH = mlx_beta
-LIBS = -framework OpenGL -framework AppKit -fsanitize=address
+LIBS = -framework OpenGL -framework AppKit #-fsanitize=address
 
 NAME = cub3d
 

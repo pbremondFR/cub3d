@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 15:53:24 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 23:55:30 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g)
 	}
 	else
 		*dest_ptr = c_import_xpm(line, g);
+	if (*dest_ptr == NULL)
+		c_exit_program(g);
 }
 
 static int	_process_line(const char *line, t_cub *c, t_game *g)
@@ -76,6 +78,24 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	else if (line[i] != '\0' && ft_strchr("01NESW", line[i]))
 		return (1);
 	return (0);
+}
+
+static int	_cub_error_check(const t_cub *c)
+{
+	const t_img	*textures[] = {c->n, c->s, c->w, c->e};
+	const char	*names[] = {"North", "Sounth", "West", "East"};
+	int			i;
+
+	i = -1;
+	while (++i < 4)
+	{
+		if (textures[i] == NULL)
+		{
+			ft_dprintf(2, "Error\nMissing %s texture\n", names[i]);
+			return (EXIT_FAILURE);
+		}
+	}
+	return (EXIT_SUCCESS);
 }
 
 // Could also use autovar from main's stack ?
@@ -105,5 +125,7 @@ t_cub	*c_parse_cub_file(const char *path, t_cub *c, t_game *g)
 			c_parse_map(line, fd, c);
 		ft_strrep((char **)&line, get_next_line(fd));
 	}
+	if (_cub_error_check(c) != EXIT_SUCCESS)
+		return (NULL);
 	return (c);
 }
