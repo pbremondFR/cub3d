@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:38:39 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 22:20:17 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void		c_render_raycast_loop(t_game *g);
 
 // textures.c
 void		c_start_draw_wall(t_game *g, t_ray *ray, int x);
-const char	*c_fetch_texture_line(const t_img *texture, float texture_x);
+const char	*c_fetch_texture_col(const t_img *texture, float texture_x);
 
 // textures_2.c
 void		draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,

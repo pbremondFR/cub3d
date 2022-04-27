@@ -6,28 +6,34 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 21:29:28 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:36:22 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 22:28:23 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-static int	_get_pos_in_texture(t_ipair line_coords, int i, int ls, int print)
+static int	_get_pos_in_texture(t_ipair line_coords, int i, int width,
+	int print)
 {
 	float	pos;
 
 	if (print)
 		printf("i: %d\nline: %d\t%d\n", i, line_coords.a, line_coords.b);
-	pos = ((float)(i - line_coords.a) / (float)(line_coords.b - line_coords.a));
+	pos = (float)(i - line_coords.a) / (line_coords.b - line_coords.a);
 	if (print)
 		printf("posf: %.5f\n", pos);
-	pos = pos * ls;
+	pos = pos * width;
 	if (print)
 		printf("posd: %d\n", (int)pos);
-	return ((int)pos);
+	// return (c_min((int)pos, width));
+	// if ((int)pos > width - 1)
+	// 	ft_printf("oH SHIT\n");
+	return (c_min((int)pos, width - 1));
 }
 
+// FIXME: Segfaults when dereferencing tex_addr in loop
+// TESTME: Is hopefully fixed
 void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 	int height)
 {
@@ -50,7 +56,9 @@ void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 	while (i < end) // i - line_coords.a -> position within texture
 	{
 		pos_in_texture = _get_pos_in_texture(line_coords, i, texture->w, 0);
-		my_mlx_pixel_put(&g->f, frame_x, i, tex_addr[pos_in_texture]);
+		int	test = tex_addr[pos_in_texture];
+		my_mlx_pixel_put(&g->f, frame_x, i, test);
+		// my_mlx_pixel_put(&g->f, frame_x, i, tex_addr[pos_in_texture]);
 		++i;
 	}
 }

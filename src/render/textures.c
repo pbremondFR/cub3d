@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 14:04:49 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:34:26 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 22:24:00 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include <cub3d.h>
 
 // TODO: Optimize me, dipshit
-const char	*c_fetch_texture_line(const t_img *texture, float texture_x)
+const char	*c_fetch_texture_col(const t_img *texture, float texture_x)
 {
 	float	offset_f;
 	int		offset_i;
 
 	offset_f = texture_x * (float)texture->h;
 	offset_i = (int)offset_f;
+	offset_i = c_min(offset_i, texture->h - 1);
 	return (texture->addr + (offset_i * texture->ls));
 }
 
@@ -67,7 +68,7 @@ void	c_start_draw_wall(t_game *g, t_ray *ray, int x)
 	line_height = (int)(WIN_HEIGHT / ray->c_plane_len);
 	texture_ptr = _get_texture_ptr(ray, g);
 	texture_x = _get_texture_x_offset(ray, g);
-	tex_line.addr = c_fetch_texture_line(texture_ptr, texture_x);
+	tex_line.addr = c_fetch_texture_col(texture_ptr, texture_x);
 	tex_line.ls = texture_ptr->ls;
 	tex_line.w = texture_ptr->w;
 	draw_textures_wall_line(g, &tex_line, x, line_height);
