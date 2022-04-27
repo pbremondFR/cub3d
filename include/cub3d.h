@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:34:27 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 21:38:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,13 +239,11 @@ const char	*c_fetch_texture_line(const t_img *texture, float texture_x);
 
 // textures_2.c
 void		draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
-	int height);
+				int height);
 
 // utils.c
 void		my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
-void		draw_square(struct s_mlx_img *img, int x, int y, int color);
 void		c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
-void		c_draw_vision(t_game *g, t_uint len, int color1, int color2);
 
 // ========================================================================== //
 //                                 RAYCASTING                                 //

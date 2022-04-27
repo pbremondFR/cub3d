@@ -6,17 +6,16 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 15:26:52 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 20:53:29 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 21:40:50 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-// FIXME: SEGFAULT ??? AGAIN ???!!!
-// TESTME: Most probably fixed.
+// TESTME: Most probably fixed that segfault.
 // NOTE: Does NOT work with textures that aren't squares.
- void	_reorder_buffers(t_uint *img_buf, t_uint *buffer, int side_len,
+static void	_reorder_buffers(t_uint *img_buf, t_uint *buffer, int side_len,
 	int line_size)
 {
 	int		i;
@@ -44,8 +43,10 @@ void	_remove_transparency(t_uint *dest, int height, int ls)
 		dest[i++] &= 0xffffff;
 }
 
-// TESTME: I'm like 90% sure this will spectacularily fuck up for non-square
-// textures :)
+// TODO: Safety against non-square textures
+// Optimizes a texture in memory, such that it benefits as much as possible from
+// the CPU cache when drawing a wall. It's thus stored column by column, instead
+// of line by line. Origin is still top-left.
 int	c_opt_texture_for_cache(t_img *img)
 {
 	t_uint		*buffer;

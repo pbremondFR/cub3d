@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 21:29:28 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:34:25 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 21:36:22 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 	int height)
 {
 	const int	*tex_addr = (const int *)texture->addr;
-	// const int	oct_line_size = texture->ls / 4;
 	t_ipair		line_coords;
 	int			i;
 	int			end;

@@ -6,13 +6,14 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 23:37:39 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 21:42:29 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 #include <libft.h>
 
+// Applies deceleration to player.
 void	c_player_decel(float *vx, float *vy, float *va, int keystate)
 {
 	if (!(keystate & (KEYS_W | KEYS_S)))
@@ -57,7 +58,7 @@ static void	_player_rotation(t_game *g)
 // the wall, and kill x or y velocity
 // Else just add velocity to pos like normal
 
-// TODO: Fix the velocity bump problem
+// FIXME: God damnit just fix this abhorrent mess
 void	c_collision_handling(t_game *g, float next_x, float next_y)
 {
 	t_ray	ray;
@@ -119,11 +120,8 @@ void	c_move_player(t_game *g)
 		g->vx += ACCEL;
 	if (g->k & KEYS_A && g->vx > -MAX_VEL)
 		g->vx -= ACCEL;
-	// if (g->k & (KEYS_LEFT | KEYS_RIGHT))
 	_player_rotation(g);
 	c_collision_handling(g,
 		g->x + (g->vy * g->dx) + (g->vx * -g->dy),
 		g->y + (g->vy * g->dy) + (g->vx * g->dx));
-	// g->x += (g->vy * g->dx) + (g->vx * -g->dy);
-	// g->y += (g->vy * g->dy) + (g->vx * g->dx);
 }

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 20:50:52 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 21:44:30 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	c_render_raycast_loop(t_game *g)
 	t_ray	ray;
 	float	ray_vec_adj;
 	int		line_height;
-	int		color;
 
 	i = 0;
 	while (i < WIN_WIDTH)
@@ -60,33 +59,7 @@ void	c_render_raycast_loop(t_game *g)
 		else
 			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
 		line_height = (int)(WIN_HEIGHT / ray.c_plane_len);
-		color = 0xff0000;
-		if (ray.side == 1)
-			color = color >> 16;
-		// if (i % 2)
-		// 	_draw_wall_from_ray(g, line_height, i++, color);
-		// else
-			c_start_draw_wall(g, &ray, i++);
-	}
-}
-
-void	_test_display_cache(t_game *g, t_img *img, int x, int y)
-{
-	int	i;
-	int	j;
-	int	color;
-
-	i = 0;
-	while (i < img->w)
-	{
-		j = 0;
-		while (j < img->h)
-		{
-			color = *(int *)(img->addr + (i * img->ls + j * (img->bpp / 8)));
-			my_mlx_pixel_put(&g->f, x + i, y + j, color);
-			j++;
-		}
-		i++;
+		c_start_draw_wall(g, &ray, i++);
 	}
 }
 
