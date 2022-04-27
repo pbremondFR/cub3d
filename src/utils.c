@@ -6,28 +6,39 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:28:42 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 23:46:11 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 15:37:23 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
+void	c_delete_t_img_ptr(t_img **img_ptr, t_game *g)
+{
+	t_img	*img;
+
+	img = *img_ptr;
+	if (img)
+	{
+		mlx_destroy_image(g->mlx, img->i);
+		free(img);
+	}
+	img_ptr = NULL;
+}
+
 int	c_exit_program(void *g_handle)
 {
 	t_game	*g;
 
 	g = (t_game *)g_handle;
-	ft_split_free(g->c->map, g->c->sy);
-	mlx_destroy_image(g->mlx, g->c->n->i);
-	free(g->c->n);
-	mlx_destroy_image(g->mlx, g->c->s->i);
-	free(g->c->s);
-	mlx_destroy_image(g->mlx, g->c->e->i);
-	free(g->c->e);
-	mlx_destroy_image(g->mlx, g->c->w->i);
-	free(g->c->w);
-	mlx_destroy_image(g->mlx, g->f.i);
+	if (g->c->map)
+		ft_split_free(g->c->map, g->c->sy);
+	c_delete_t_img_ptr(&g->c->n, g);
+	c_delete_t_img_ptr(&g->c->s, g);
+	c_delete_t_img_ptr(&g->c->e, g);
+	c_delete_t_img_ptr(&g->c->w, g);
+	if (g->f.i)
+		mlx_destroy_image(g->mlx, g->f.i);
 	mlx_destroy_window(g->mlx, g->mw);
 	// while (1)
 	// 	;

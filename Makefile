@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/26 23:43:00 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/27 21:34:35 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c		cub_graphics_2.c
 
 RENDER_SRC_FILES =		rendering.c		utils.c				movement.c\
-	textures.c
+	textures.c			textures_2.c
 
 RAYCAST_SRC_FILES =		raycast.c
 
@@ -78,7 +78,7 @@ OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(SRC_PLUS_PATH)))
 LIBFT = libft.a
 LIBFT_PATH = libft
 LIBMLX_PATH = mlx_beta
-LIBS = -framework OpenGL -framework AppKit
+LIBS = -framework OpenGL -framework AppKit -fsanitize=address
 
 NAME = cub3d
 

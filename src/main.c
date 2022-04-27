@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 23:36:27 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 20:22:44 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,33 @@ static void	_debug_tests(t_cub const *c, t_game const *g)
 	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
 }
 
+// TESTME: What to do when changing FOV, or aspect ratio of window ?
+static void	_set_player_direction(const char c, t_game *g)
+{
+	const float	fov = PLAYER_FOV;
+
+	if (c == 'N' || c == 'S')
+	{
+		g->dx = 0.0f;
+		if (c == 'N')
+			g->dy = -1.0f;
+		else
+			g->dy = 1.0f;
+		g->cx = -g->dy * fov;
+		g->cy = g->dx;
+	}
+	else if (c == 'E' || c == 'W')
+	{
+		if (c == 'E')
+			g->dx = 1.0f;
+		else
+			g->dx = -1.0f;
+		g->dy = 0.0f;
+		g->cx = -g->dy;
+		g->cy = g->dx * fov;
+	}
+}
+
 void	c_init_player_pos(t_game *g, t_cub *c)
 {
 	int	i;
@@ -62,21 +89,20 @@ void	c_init_player_pos(t_game *g, t_cub *c)
 	int	done;
 
 	done = 0;
-	i = 0;
-	while (c->map[i] && !done)
+	i = -1;
+	while (c->map[++i] && !done)
 	{
-		j = 0;
-		while (c->map[i][j] && !done)
+		j = -1;
+		while (c->map[i][++j] && !done)
 		{
 			if (ft_strchr("NESW", c->map[i][j]))
 			{
 				g->x = j + 0.5f;
 				g->y = i + 0.5f;
+				_set_player_direction(c->map[i][j], g);
 				done = 1;
 			}
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -94,11 +120,11 @@ int	main(int argc, const char *argv[])
 		return (1);
 	g.mlx = mlx_init();
 	g.mw = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
+	g.c = &c;
 	if (c_parse_cub_file(argv[1], &c, &g) == NULL
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
 		return (1);
 	_debug_tests(&c, &g);
-	g.c = &c;
 	c_init_player_pos(&g, &c);
 	g.f.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
 	g.f.addr = mlx_get_data_addr(g.f.i, &g.f.bpp, &g.f.ls, &g.f.e);
@@ -108,7 +134,7 @@ int	main(int argc, const char *argv[])
 	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);
 	mlx_hook(g.mw, E_DSTR, 0, &c_exit_program, &g);
 	mlx_loop_hook(g.mlx, &c_render, &g);
-	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, g.f.i);
+	// mlx_sync(MLX_SYNC_IMAGE_WRITABLE, g.f.i);
 	mlx_loop(g.mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 23:37:58 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 21:34:27 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,7 @@
 # define RAY_HIT_X	0
 # define RAY_HIT_Y	1
 
-// # define WALL_SPRITE_SIZE	64
-// # define W_SPRT_SIZ			WALL_SPRITE_SIZE
-
-# define PLY_HITBX_SIZ	8
-# define PLY_HITBX_RAD	4
-# define MAP_TILE_SIZE	50
+# define PLAYER_FOV	0.66f
 
 // ========================================================================== //
 //                                  STRUCTS                                   //
@@ -150,7 +145,7 @@ typedef struct s_cub_data
 	// int		pl_x; // Player start position
 	// int		pl_y;
 }				t_cub;
-t_cub	*c_init_t_cub(t_cub *p_cub);
+t_cub		*c_init_t_cub(t_cub *p_cub);
 
 typedef struct s_game_data
 {
@@ -172,80 +167,100 @@ typedef struct s_game_data
 
 	t_cub		*c; // .cub file data
 }				t_game;
-t_game	*c_init_t_game(t_game *g);
+t_game		*c_init_t_game(t_game *g);
 
 // ========================================================================== //
 //                                  MAIN/MISC                                 //
 // ========================================================================== //
 
-int		c_keypress_handler(int key, void *handle);
-int		c_keyrelease_handler(int key, void *handle);
+int			c_keypress_handler(int key, void *handle);
+int			c_keyrelease_handler(int key, void *handle);
 
 // utils.c
-int	c_exit_program(void *g_handle);
+int			c_exit_program(void *g_handle);
 
 // ========================================================================== //
 //                                  CUB FILE                                  //
 // ========================================================================== //
 
 // checking_funcs.c
-int		str_isspace(const char *line);
-int		c_is_flooradj_legal(const char c);
-size_t	ft_stmin(size_t a, size_t b);
+int			str_isspace(const char *line);
+int			c_is_flooradj_legal(const char c);
+size_t		ft_stmin(size_t a, size_t b);
 
 // cub_graphics.c
-char	**c_xpm_to_char(const char *path);
-t_img	*c_import_xpm(const char *line, t_game *g);
-int		c_parse_color(const char *line);
+char		**c_xpm_to_char(const char *path);
+t_img		*c_import_xpm(const char *line, t_game *g);
+int			c_parse_color(const char *line);
 
 // cub_graphics_2.c
-int		c_opt_texture_for_cache(t_img *img);
+int			c_opt_texture_for_cache(t_img *img);
+int			c_opt_texture_for_cache_2(t_img *img, t_game *g);
 
 // cub_file.c
-t_cub	*c_parse_cub_file(const char *path, t_cub *c, t_game *g);
+t_cub		*c_parse_cub_file(const char *path, t_cub *c, t_game *g);
 
 // map_parsing.c
-void	c_parse_map(const char *first_line, int fd, t_cub *c);
-int		c_map_error_check(const char **map);
+void		c_parse_map(const char *first_line, int fd, t_cub *c);
+int			c_map_error_check(const char **map);
 
 // map_print.c
-void	c_map_print_error(const char **map, unsigned int x, unsigned int y);
+void		c_map_print_error(const char **map, unsigned int x, unsigned int y);
 
 // ========================================================================== //
 //                                   RENDER                                   //
 // ========================================================================== //
 
+typedef struct s_int_pair
+{
+	int	a;
+	int	b;
+}				t_ipair;
+
+typedef struct s_texture_line
+{
+	const char	*addr;
+	int			ls;
+	int			w;
+}				t_tex_line;
+
 // movement.c
-void	c_move_player(t_game *g);
-void	c_collision_handling(t_game *g, float next_x, float next_y);
-void	c_player_decel(float *vx, float *vy, float *va, int keystate);
+void		c_move_player(t_game *g);
+void		c_collision_handling(t_game *g, float next_x, float next_y);
+void		c_player_decel(float *vx, float *vy, float *va, int keystate);
 
 // rendering.c
-int		c_render(void *handle);
-void	c_render_raycast_loop(t_game *g);
+int			c_render(void *handle);
+void		c_render_raycast_loop(t_game *g);
 
 // textures.c
-void	c_start_draw_wall(t_game *g, t_ray *ray, int x);
+void		c_start_draw_wall(t_game *g, t_ray *ray, int x);
+const char	*c_fetch_texture_line(const t_img *texture, float texture_x);
+
+// textures_2.c
+void		draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
+	int height);
 
 // utils.c
-void	my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
-void	draw_square(struct s_mlx_img *img, int x, int y, int color);
-void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
-void	c_draw_vision(t_game *g, t_uint len, int color1, int color2);
+void		my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
+void		draw_square(struct s_mlx_img *img, int x, int y, int color);
+void		c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
+void		c_draw_vision(t_game *g, t_uint len, int color1, int color2);
 
 // ========================================================================== //
 //                                 RAYCASTING                                 //
 // ========================================================================== //
 
-void	c_ray_calc_step_and_len(t_ray *ray, float pos_x, float pos_y);
-void	c_ray_raycasting_loop(t_game *g, t_ray *ray);
+void		c_ray_calc_step_and_len(t_ray *ray, float pos_x, float pos_y);
+void		c_ray_raycasting_loop(t_game *g, t_ray *ray);
 
 // ========================================================================== //
 //                                    MATHS                                   //
 // ========================================================================== //
 
-float	c_math_get_dist(float x1, float x2, float y1, float y2);
-float	c_math_get_sq_dist(float x1, float x2, float y1, float y2);
-void	c_math_rotate_vector(float *x, float *y, float angle);
+float		c_math_get_dist(float x1, float x2, float y1, float y2);
+float		c_math_get_sq_dist(float x1, float x2, float y1, float y2);
+void		c_math_rotate_vector(float *x, float *y, float angle);
+int			c_min(int a, int b);
 
 #endif

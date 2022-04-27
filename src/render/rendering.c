@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 23:37:36 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 20:50:52 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ void	c_render_raycast_loop(t_game *g)
 		color = 0xff0000;
 		if (ray.side == 1)
 			color = color >> 16;
-		// _draw_wall_from_ray(g, line_height, i++, color);
-		c_start_draw_wall(g, &ray, i++);
+		// if (i % 2)
+		// 	_draw_wall_from_ray(g, line_height, i++, color);
+		// else
+			c_start_draw_wall(g, &ray, i++);
 	}
 }
 
@@ -88,6 +90,20 @@ void	_test_display_cache(t_game *g, t_img *img, int x, int y)
 	}
 }
 
+void	c_print_background(t_game *g)
+{
+	const int	buf_siz = g->f.h * (g->f.ls / 4);
+	int			*frame_buf;
+	int			i;
+
+	frame_buf = (int *)g->f.addr;
+	i = 0;
+	while (i < buf_siz / 2)
+		frame_buf[i++] = g->c->c;
+	while (i < buf_siz)
+		frame_buf[i++] = g->c->f;
+}
+
 void	c_print_coords(t_game *g)
 {
 	char	buffer[16];
@@ -106,16 +122,13 @@ int	c_render(void *handle)
 	mlx_destroy_image(g->mlx, g->f.i);
 	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
+	c_print_background(g);
 	c_move_player(g);
 	c_render_raycast_loop(g);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
-	// _test_display_cache(g, g->c->n, 50, 50);
-	// _test_display_cache(g, g->c->s, 100, 100);
-	// _test_display_cache(g, g->c->e, 150, 150);
-	// _test_display_cache(g, g->c->w, 200, 200);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
-	// mlx_put_image_to_window(g->mlx, g->mw, g->c->n->i, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	// mlx_put_image_to_window(g->mlx, g->mw, g->c->n->i, 0, 0);
 	c_print_coords(g);
-	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, g->mw);
+	// mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, g->mw);
 	return (0);
 }

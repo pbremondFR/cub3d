@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/22 11:32:25 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/27 15:53:24 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,23 @@ t_cub	*c_init_t_cub(t_cub *p_cub)
 	return (cub);
 }
 
-// FIXME: Will leak if a texture is redefined in file
+// Using a double pointer here in case I want to overwrite previous texture
+// instead of quitting program.
+static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g)
+{
+	t_img	*dest;
+
+	dest = *dest_ptr;
+	if (dest != NULL)
+	{
+		ft_dprintf(2, "Error\nRedefined `%c%c' texture.\n", *(line - 2),
+			*(line - 1));
+		c_exit_program(g);
+	}
+	else
+		*dest_ptr = c_import_xpm(line, g);
+}
+
 static int	_process_line(const char *line, t_cub *c, t_game *g)
 {
 	size_t	i;
@@ -43,18 +59,18 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	i = 0;
 	while (ft_isspace(line[i]))
 		++i;
-	if (ft_strncmp(line + i, "NO", 2) == 0)
-		c->n = c_import_xpm(line + i + 2, g);
+	if (line[i] == '#')
+		return (0);
+	else if (ft_strncmp(line + i, "NO", 2) == 0)
+		_import_texture(&c->n, line + i + 2, g);
 	else if (ft_strncmp(line + i, "SO", 2) == 0)
-		c->s = c_import_xpm(line + i + 2, g);
+		_import_texture(&c->s, line + i + 2, g);
 	else if (ft_strncmp(line + i, "EA", 2) == 0)
-		c->e = c_import_xpm(line + i + 2, g);
+		_import_texture(&c->e, line + i + 2, g);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
-		c->w = c_import_xpm(line + i + 2, g);
-	// else if (ft_strncmp(line + i, "F", 1) == 0)
+		_import_texture(&c->w, line + i + 2, g);
 	else if (*(line + i) == 'F')
 		c->f = c_parse_color(line + i + 1);
-	// else if (ft_strncmp(line + i, "C", 1) == 0)
 	else if (*(line + i) == 'C')
 		c->c = c_parse_color(line + i + 1);
 	else if (line[i] != '\0' && ft_strchr("01NESW", line[i]))
