@@ -6,34 +6,34 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:44:30 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/28 23:08:51 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
-{
-	t_pnt	a;
-	t_pnt	b;
-	int		i;
+// void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
+// {
+// 	t_pnt	a;
+// 	t_pnt	b;
+// 	int		i;
 
-	a.x = x;
-	b.x = x;
-	a.y = (-height / 2) + (WIN_HEIGHT / 2);
-	if (a.y < 0)
-		a.y = 0;
-	b.y = (height / 2) + (WIN_HEIGHT / 2);
-	if (b.y > WIN_HEIGHT - 1)
-		b.y = WIN_HEIGHT - 1;
-	i = a.y;
-	while (i < b.y)
-	{
-		my_mlx_pixel_put(&g->f, x, i, color);
-		++i;
-	}
-}
+// 	a.x = x;
+// 	b.x = x;
+// 	a.y = (-height / 2) + (WIN_HEIGHT / 2);
+// 	if (a.y < 0)
+// 		a.y = 0;
+// 	b.y = (height / 2) + (WIN_HEIGHT / 2);
+// 	if (b.y > WIN_HEIGHT - 1)
+// 		b.y = WIN_HEIGHT - 1;
+// 	i = a.y;
+// 	while (i < b.y)
+// 	{
+// 		my_mlx_pixel_put(&g->f, x, i, color);
+// 		++i;
+// 	}
+// }
 
 void	c_render_raycast_loop(t_game *g)
 {
@@ -77,7 +77,7 @@ void	c_print_background(t_game *g)
 		frame_buf[i++] = g->c->f;
 }
 
-void	c_print_coords(t_game *g)
+void	c_debug_print_coords(t_game *g)
 {
 	char	buffer[16];
 
@@ -90,18 +90,15 @@ int	c_render(void *handle)
 	t_game	*g;
 
 	g = (t_game *)handle;
-	if (g->k == (KEYS_ESC | KEYS_SPA))
+	if (g->k == KEYS_ESC)
 		c_exit_program(handle);
-	mlx_destroy_image(g->mlx, g->f.i);
-	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
-	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
 	c_print_background(g);
 	c_move_player(g);
+	if (g->m_cap)
+		c_mouse_look(g);
 	c_render_raycast_loop(g);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
-	// mlx_put_image_to_window(g->mlx, g->mw, g->c->n->i, 0, 0);
-	c_print_coords(g);
-	// mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, g->mw);
+	c_debug_print_coords(g);
 	return (0);
 }

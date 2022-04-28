@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 20:22:44 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/28 22:17:07 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_game	*c_init_t_game(t_game *g)
 	game->f.i = NULL;
 	game->f.addr = NULL;
 	game->c = NULL;
+	game->m_cap = 0;
 	return (game);
 }
 
@@ -130,11 +131,11 @@ int	main(int argc, const char *argv[])
 	g.f.addr = mlx_get_data_addr(g.f.i, &g.f.bpp, &g.f.ls, &g.f.e);
 	g.f.w = WIN_WIDTH;
 	g.f.h = WIN_HEIGHT;
+	// mlx_put_image_to_window(g.mlx, g.mw, g.f.i, 0, 0);
 	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);
 	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);
 	mlx_hook(g.mw, E_DSTR, 0, &c_exit_program, &g);
 	mlx_loop_hook(g.mlx, &c_render, &g);
-	// mlx_sync(MLX_SYNC_IMAGE_WRITABLE, g.f.i);
 	mlx_loop(g.mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 22:20:17 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/28 23:10:43 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define MAP_LEGAL_CHARS	"01NESW \t\n\v\f\r"
 # define M_CHRS				MAP_LEGAL_CHARS
 
-# define MLX_BETA
+// # define MLX_BETA
 
 # define EVENT_KEY_DOWN			2
 # define EVENT_KEY_UP			3
@@ -160,6 +160,7 @@ typedef struct s_game_data
 	float		cy; // Player camera plane's y
 
 	uint16_t	k; // Keystate
+	char		m_cap; // Mouse capture
 
 	void		*mlx; // MLX handle
 	void		*mw; // MLX window
@@ -173,8 +174,12 @@ t_game		*c_init_t_game(t_game *g);
 //                                  MAIN/MISC                                 //
 // ========================================================================== //
 
+// keyboard.c
 int			c_keypress_handler(int key, void *handle);
 int			c_keyrelease_handler(int key, void *handle);
+// mouse.c
+void		c_toggle_mouselook(t_game *g);
+void		c_mouse_look(t_game *g);
 
 // utils.c
 int			c_exit_program(void *g_handle);

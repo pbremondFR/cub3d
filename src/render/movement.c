@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:48:16 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/28 22:20:03 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	c_collision_handling(t_game *g, float next_x, float next_y)
 	dist_to_next_abs = fabsf(dist_to_next);
 	ray.dir_x = (next_x - g->x) / dist_to_next_abs;
 	ray.dir_y = (next_y - g->y) / dist_to_next_abs;
-	ray.delta_dist_x = fabsf(1 / ray.dir_x);
-	ray.delta_dist_y = fabsf(1 / ray.dir_y);
+	ray.delta_dist_x = fabsf(c_math_get_dist(0, ray.dir_x, 0, ray.dir_y) / ray.dir_x);
+	ray.delta_dist_y = fabsf(c_math_get_dist(0, ray.dir_x, 0, ray.dir_y) / ray.dir_y);
 	c_ray_calc_step_and_len(&ray, g->x, g->y);
 	c_ray_raycasting_loop(g, &ray);
 	if (ray.side == RAY_HIT_X)
@@ -85,20 +85,20 @@ void	c_collision_handling(t_game *g, float next_x, float next_y)
 	{
 		if (ray.side == RAY_HIT_X)
 		{
-			// g->x += (ray.c_plane_len + 0.1f) * ray.dir_x;
+			// g->x += (ray.c_plane_len - 0.1f) * ray.dir_x;
 			// g->y = (float)ray.map_y;
-			g->y = next_y;
+			// g->y = next_y;
 			printf("%sXXXXXXXXXXXXX%s\n", RED, RESET);
 		}
 		else
 		{
 			// g->x = (float)ray.map_x;
-			// g->y += (ray.c_plane_len + 0.1f) * ray.dir_y;
-			g->x = next_x;
+			// g->y += (ray.c_plane_len - 0.1f) * ray.dir_y;
+			// g->x = next_x;
 			printf("%sYYYYYYYYYYYYY%s\n", BLU, RESET);
 		}
-		// g->x += ((ray.c_plane_len - 0.1f) * ray.dir_x);
-		// g->y += ((ray.c_plane_len - 0.1f) * ray.dir_y);
+		g->x += ((ray.c_plane_len - 0.1f) * ray.dir_x);
+		g->y += ((ray.c_plane_len - 0.1f) * ray.dir_y);
 	}
 	else
 	{
@@ -109,7 +109,6 @@ void	c_collision_handling(t_game *g, float next_x, float next_y)
 	// printf("Ray plane len: %.2f\n", ray.c_plane_len);
 }
 
-// TODO: Make a proper exit function
 void	c_move_player(t_game *g)
 {
 	if (g->k & KEYS_W && g->vy < MAX_VEL)

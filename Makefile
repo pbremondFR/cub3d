@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/28 00:00:45 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/28 23:04:22 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ OUTS = objs
 # Source Files
 SRC =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
 		main.c\
-		keyboard.c\
+		input/keyboard.c input/mouse.c\
 		utils.c\
 		maths/math_funcs.c
 
@@ -67,20 +67,23 @@ RENDER_SRC =	$(addprefix render/,	$(RENDER_SRC_FILES))
 RAYCAST_SRC =	$(addprefix raycast/,	$(RAYCAST_SRC_FILES))
 
 SRC_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC))
-
 # Output Files
 OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(SRC_PLUS_PATH)))
 
-# BONUS_SRCS = main_bonus.c
+# Bonus source files
+BONUS_SRC =	$(SRC)
+
+BONUS_SRC_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(BONUS_SRC))
+BONUS_OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(BONUS_SRC_PLUS_PATH)))
 
 # This project requires the libreadline library to be installed! Either get it
 # via homebrew, or include your own custom install down below.
 LIBFT = libft.a
 LIBFT_PATH = libft
-LIBMLX_PATH = mlx_beta
-LIBS = -framework OpenGL -framework AppKit #-fsanitize=address
+LIBS = -L./libft -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
 
 NAME = cub3d
+NAME_BONUS = cub3d_bonus
 
 CC = clang
 CFLAGS = -Wall -Wextra -Werror -g
@@ -89,19 +92,27 @@ all : $(NAME)
 
 $(NAME): $(LIBFT_PATH)/$(LIBFT) $(OUT)
 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
-	@$(CC) $(CFLAGS) $(OUT) -o $(NAME) -L./libft -lft -L./mlx_beta -lmlx $(LIBS)
+	@$(CC) $(CFLAGS) $(OUT) -o $(NAME) $(LIBS)
+	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
+
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(BONUS_OUT)
+	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
+	@$(CC) $(CFLAGS) $(BONUS_OUT) -o $(NAME_BONUS) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
 $(LIBFT_PATH)/$(LIBFT):
 	@echo "$(_PURPLE)Making $(basename $(LIBFT))$(_COLOR_RESET)"
 	@make -C $(LIBFT_PATH)/
 
-$(OUT): $(OUTS)/%.o : $(SRC_DIR)/%.c
+$(OUTS)/%.o : $(SRC_DIR)/%.c
 	@echo "$(_BLUE)Compiling $(basename $(notdir $*.o)) $(_COLOR_RESET)"
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I./$(INCLUDES)
 
-re: fclean $(NAME)
+
+re: fclean all
 
 fclean: clean
 	@echo "$(_RED)Cleaning output files$(_COLOR_RESET)"
