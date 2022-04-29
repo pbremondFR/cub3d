@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/04/28 23:04:22 by pbremond         ###   ########.fr        #
+#    Updated: 2022/04/29 20:52:40 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,19 +45,21 @@ _COLOR_RESET	= \033[0m
 # Folders
 INCLUDES = include
 SRC_DIR = src
-OUTS = objs
+OBJ_DIR = objs
 
-# Source Files
-SRC =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
-		main.c\
-		input/keyboard.c input/mouse.c\
-		utils.c\
-		maths/math_funcs.c
+# ============================================================================ #
+# ============================================================================ #
+
+# Common source files
+SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
+				input/keyboard.c input/mouse.c\
+				utils.c\
+				maths/math_funcs.c
 
 MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c		cub_graphics_2.c
 
-RENDER_SRC_FILES =		rendering.c		utils.c				movement.c\
+RENDER_SRC_FILES =		utils.c				movement.c\
 	textures.c			textures_2.c
 
 RAYCAST_SRC_FILES =		raycast.c
@@ -66,18 +68,31 @@ MAP_SRC =		$(addprefix map/,		$(MAP_SRC_FILES))
 RENDER_SRC =	$(addprefix render/,	$(RENDER_SRC_FILES))
 RAYCAST_SRC =	$(addprefix raycast/,	$(RAYCAST_SRC_FILES))
 
-SRC_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC))
-# Output Files
-OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(SRC_PLUS_PATH)))
+# ============================================================================ #
+# ============================================================================ #
+
+SRC_MANDATORY =	$(SRC_COMMON)\
+				main.c\
+				render/rendering.c
+
+SRC_MANDATORY_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_MANDATORY))
+OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_MANDATORY_PLUS_PATH)))
+
+# ============================================================================ #
+# ============================================================================ #
 
 # Bonus source files
-BONUS_SRC =	$(SRC)
+SRC_BONUS =	$(SRC_COMMON)\
+			main_bonus.c\
+			str_display/font_display_bonus.c\
+			render/rendering_bonus.c
 
-BONUS_SRC_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(BONUS_SRC))
-BONUS_OUT = $(subst $(SRC_DIR)/, $(OUTS)/, $(patsubst %.c, %.o, $(BONUS_SRC_PLUS_PATH)))
+SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
+BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_PLUS_PATH)))
 
-# This project requires the libreadline library to be installed! Either get it
-# via homebrew, or include your own custom install down below.
+# ============================================================================ #
+# ============================================================================ #
+
 LIBFT = libft.a
 LIBFT_PATH = libft
 LIBS = -L./libft -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
@@ -90,23 +105,23 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 all : $(NAME)
 
-$(NAME): $(LIBFT_PATH)/$(LIBFT) $(OUT)
+$(NAME): $(LIBFT_PATH)/$(LIBFT) $(OBJ)
 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
-	@$(CC) $(CFLAGS) $(OUT) -o $(NAME) $(LIBS)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
 bonus: $(NAME_BONUS)
 
-$(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(BONUS_OUT)
+$(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(BONUS_OBJ)
 	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
-	@$(CC) $(CFLAGS) $(BONUS_OUT) -o $(NAME_BONUS) $(LIBS)
+	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
 $(LIBFT_PATH)/$(LIBFT):
 	@echo "$(_PURPLE)Making $(basename $(LIBFT))$(_COLOR_RESET)"
 	@make -C $(LIBFT_PATH)/
 
-$(OUTS)/%.o : $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@echo "$(_BLUE)Compiling $(basename $(notdir $*.o)) $(_COLOR_RESET)"
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I./$(INCLUDES)
@@ -114,12 +129,16 @@ $(OUTS)/%.o : $(SRC_DIR)/%.c
 
 re: fclean all
 
+rebonus: fclean bonus
+
+b: bonus
+
 fclean: clean
-	@echo "$(_RED)Cleaning output files$(_COLOR_RESET)"
-	@rm -rf $(NAME)
+	@echo "$(_RED)Deleting $(NAME)$(_COLOR_RESET)"
+	@rm -rf $(NAME) $(NAME_BONUS)
 
 clean:
 	@echo "$(_RED)Cleaning object files$(_COLOR_RESET)"
-	@rm -rf $(OUTS)
+	@rm -rf $(OBJ_DIR)
 	
-.PHONY: clean fclean re all
+.PHONY: clean fclean re all bonus

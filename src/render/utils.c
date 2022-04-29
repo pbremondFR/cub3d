@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:38:14 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/29 21:02:17 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,11 @@ void	c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color)
 		p.x += dx;
 		p.y += dy;
 	}
+}
+
+char	*c_get_target_addr(t_img *i, int x, int y)
+{
+	x *= i->bpp / 8;
+	y *= i->ls;
+	return (i->addr + x + y);
 }

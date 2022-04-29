@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_bonus.c                                      :+:      :+:    :+:   */
+/*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 19:47:30 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/28 22:44:58 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:04:19 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	c_mouse_look(t_game *g)
 
 	mlx_mouse_get_pos(g->mw, &mouse.a, &mouse.b);
 	delta = mouse.a - old_m.a;
-	c_math_rotate_vector(&g->dx, &g->dy, (float)(delta * 0.003f));
-	c_math_rotate_vector(&g->cx, &g->cy, (float)(delta * 0.003f));
+	c_math_rotate_vector(&g->dx, &g->dy, (float)(delta * MOUSE_SENS));
+	c_math_rotate_vector(&g->cx, &g->cy, (float)(delta * MOUSE_SENS));
 	mlx_mouse_move(g->mw, old_m.a, old_m.b);
 }

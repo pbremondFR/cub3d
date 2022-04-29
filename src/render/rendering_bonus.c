@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering.c                                        :+:      :+:    :+:   */
+/*   rendering_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 22:09:55 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/29 22:06:05 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 // void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
 // {
@@ -77,9 +77,21 @@ void	c_print_background(t_game *g)
 		frame_buf[i++] = g->c->f;
 }
 
+void	c_debug_print_coords(t_game *g)
+{
+	char	buffer[16];
+	t_ipair	coord;
+
+	snprintf(buffer, 16, "%.3f %.3f", g->x, g->y);
+	coord.a = 10;
+	coord.b = 10;
+	c_putstr_to_frame(g, coord, 0xffffff, buffer);
+}
+
 int	c_render(void *handle)
 {
 	t_game	*g;
+	t_ipair	coord;
 
 	g = (t_game *)handle;
 	if (g->k == KEYS_ESC)
@@ -90,7 +102,11 @@ int	c_render(void *handle)
 		c_mouse_look(g);
 	c_render_raycast_loop(g);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
-	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
 	c_debug_print_coords(g);
+	coord.a = 10;
+	coord.b = 30;
+	c_putstr_to_frame(g, coord, 0x00ffff, "Salut les amis");
+	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
+	// mlx_put_image_to_window(g->mlx, g->mw, g->c->font->i, 0, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/28 23:10:43 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/29 22:01:41 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@
 # define WIN_FWIDTH		(float)WIN_WIDTH
 # define WIN_FHEIGHT	(float)WIN_HEIGHT
 
-# define ACCEL			0.003f
+# define ACCEL			0.005f
 # define DECEL			0.003f
-# define MAX_VEL		0.05f
+# define MAX_VEL		0.075f
 # define ANG_VEL_ACC	0.005f
 # define ANG_VEL_DEC	0.008f
 # define ANG_VEL_MAX	0.05f
+# define MOUSE_SENS		0.003f
 
 # define RAY_HIT_X	0
 # define RAY_HIT_Y	1
@@ -91,7 +92,7 @@
 //                                  STRUCTS                                   //
 // ========================================================================== //
 
-typedef unsigned int	t_uint;
+typedef unsigned int		t_uint;
 
 typedef struct s_point
 {
@@ -129,6 +130,7 @@ typedef struct s_mlx_img
 	int		h; // Image height
 }				t_img;
 
+typedef struct s_mlx_font	t_font;
 typedef struct s_cub_data
 {
 	char	**map;
@@ -139,12 +141,15 @@ typedef struct s_cub_data
 	t_img	*s; // South texture
 	t_img	*e; // East texture
 	t_img	*w; // West texture
+	t_font	*font; // Font bitmap
+	
 	int		f; // Floor
 	int		c; // Ceiling
 
 	// int		pl_x; // Player start position
 	// int		pl_y;
 }				t_cub;
+
 t_cub		*c_init_t_cub(t_cub *p_cub);
 
 typedef struct s_game_data
@@ -249,6 +254,7 @@ void		draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 // utils.c
 void		my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
 void		c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
+char		*c_get_target_addr(t_img *i, int x, int y);
 
 // ========================================================================== //
 //                                 RAYCASTING                                 //
