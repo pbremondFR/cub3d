@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 22:06:11 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:35:09 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 
 # include <cub3d.h>
 
-# define FONT_PATH		"./assets/charmap.xpm"
+# define FONT_PATH		"./assets/charmap_zoom2x.xpm"
 # define FONT_BM_W		18
 # define FONT_BM_H		7
 # define FONT_OFFSET	-32
+// # define FONT_PATH		"./assets/charmap_2.xpm"
+// # define FONT_BM_W		16
+// # define FONT_BM_H		8
+// # define FONT_OFFSET	0
 
 typedef struct s_mlx_font
 {

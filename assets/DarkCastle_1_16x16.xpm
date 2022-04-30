@@ -1,0 +1,25 @@
+/* XPM */
+static char *RGFya0Nhc3RsZV8xXzE2eDE2[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c #242234",
+". c #403353",
+"X c #793A80",
+/* pixels */
+"XXX XXXXXXX XXXX",
+"..X ......X ....",
+"..X ......X ....",
+"                ",
+"XXXXXX XXXXXXX X",
+".....X ......X .",
+".....X ......X .",
+"                ",
+"XXX XXXXXXX XXXX",
+"..X ......X ....",
+"..X ......X ....",
+"                ",
+"XXXXXXX XXXXXXX ",
+"......X ......X ",
+"......X ......X ",
+"                "
+};

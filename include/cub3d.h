@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 22:01:41 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/30 21:49:56 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@
 # define WIN_HEIGHT		540
 # define WIN_FWIDTH		(float)WIN_WIDTH
 # define WIN_FHEIGHT	(float)WIN_HEIGHT
+// # define CAM_WIDTH		720
+// # define CAM_HEIGHT		440
+// # define CAM_FWIDTH		(float)CAM_WIDTH
+// # define CAM_FHEIGHT	(float)CAM_HEIGHT
 
 # define ACCEL			0.005f
 # define DECEL			0.003f

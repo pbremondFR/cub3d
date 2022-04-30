@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 22:09:55 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/29 22:10:31 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ int	c_render(void *handle)
 	c_render_raycast_loop(g);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
-	c_debug_print_coords(g);
 	return (0);
 }

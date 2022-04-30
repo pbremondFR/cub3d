@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 22:06:05 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/04/30 21:52:59 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	c_render_raycast_loop(t_game *g)
 	t_uint	i;
 	t_ray	ray;
 	float	ray_vec_adj;
-	int		line_height;
 
 	i = 0;
 	while (i < WIN_WIDTH)
@@ -58,7 +57,6 @@ void	c_render_raycast_loop(t_game *g)
 			ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
 		else
 			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
-		line_height = (int)(WIN_HEIGHT / ray.c_plane_len);
 		c_start_draw_wall(g, &ray, i++);
 	}
 }
@@ -66,15 +64,27 @@ void	c_render_raycast_loop(t_game *g)
 void	c_print_background(t_game *g)
 {
 	const int	buf_siz = g->f.h * (g->f.ls / 4);
+	const int	halfway = buf_siz / 2;
 	int			*frame_buf;
 	int			i;
 
 	frame_buf = (int *)g->f.addr;
 	i = 0;
-	while (i < buf_siz / 2)
-		frame_buf[i++] = g->c->c;
 	while (i < buf_siz)
-		frame_buf[i++] = g->c->f;
+	{
+		if (i < halfway && frame_buf[i] != g->c->c)
+			frame_buf[i] = g->c->c;
+		else if (i >= halfway && frame_buf[i] != g->c->f)
+			frame_buf[i] = g->c->f;
+		++i;
+	}
+	// Code to add an infobar at the bottom of the screen
+	// while (i < WIN_HEIGHT * (g->f.ls / 4))
+	// {
+	// 	if (frame_buf[i] != 0x202020)
+	// 		frame_buf[i] = 0x202020;
+	// 	++i;
+	// }
 }
 
 void	c_debug_print_coords(t_game *g)
@@ -104,8 +114,8 @@ int	c_render(void *handle)
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	c_debug_print_coords(g);
 	coord.a = 10;
-	coord.b = 30;
-	c_putstr_to_frame(g, coord, 0x00ffff, "Salut les amis");
+	coord.b = 50;
+	c_putstr_to_frame(g, coord, 0xa0a0a0, "Salut les amis");
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
 	// mlx_put_image_to_window(g->mlx, g->mw, g->c->font->i, 0, 0);
 	return (0);
