@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/30 21:52:59 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:20:22 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,24 @@ void	c_debug_print_coords(t_game *g)
 	t_ipair	coord;
 
 	snprintf(buffer, 16, "%.3f %.3f", g->x, g->y);
-	coord.a = 10;
-	coord.b = 10;
-	c_putstr_to_frame(g, coord, 0xffffff, buffer);
+	coord.a = 0;
+	coord.b = WIN_HEIGHT - g->olay.h - 20 - (g->c->font->c_h * 3);
+	c_putstr_to_frame_sbox(g, coord, 0xffffff, buffer);
+}
+
+char	*_create_test_string(unsigned int n)
+{
+	char			*str;
+	unsigned int	i;
+
+	str = ft_strnew(n);
+	i = 1;
+	while (i < n)
+	{
+		str[i - 1] = i;
+		++i;
+	}
+	return (str);
 }
 
 int	c_render(void *handle)
@@ -113,10 +128,15 @@ int	c_render(void *handle)
 	c_render_raycast_loop(g);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	c_debug_print_coords(g);
-	coord.a = 10;
+	coord.a = WIN_WIDTH / 2 - (float)((9.0f / 2) * g->c->font->c_w);
+	coord.b = 0;
+	c_putstr_to_frame_dbox(g, coord, 0xa0a0a0, "Cub3D \x15");
+	coord.a = 50;
 	coord.b = 50;
-	c_putstr_to_frame(g, coord, 0xa0a0a0, "Salut les amis");
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
+	c_minimap_render(g, 0, 0);
+	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,
+		20, WIN_HEIGHT - g->olay.h - 20);
 	// mlx_put_image_to_window(g->mlx, g->mw, g->c->font->i, 0, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 15:55:04 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/04 16:26:47 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:33:51 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	c_map_print_error(const char **map, unsigned int x, unsigned int y)
 				ft_dprintf(2, "%s%c%s", WHTB, map[i][j], RESET);
 			else if (ft_strchr("NESW", map[i][j]))
 				ft_dprintf(2, "%s%c%s", BLUB, map[i][j], RESET);
+			else if (map[i][j] == ' ')
+				ft_dprintf(2, "%s%c%s", YELB, map[i][j], RESET);
 			else
 				ft_dprintf(2, "%c", map[i][j]);
 		}

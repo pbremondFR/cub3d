@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 19:29:57 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:13:50 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ int	main(int argc, const char *argv[])
 	g.f.addr = mlx_get_data_addr(g.f.i, &g.f.bpp, &g.f.ls, &g.f.e);
 	g.f.w = WIN_WIDTH;
 	g.f.h = WIN_HEIGHT;
+	g.olay.i = mlx_new_image(g.mlx, MINIMAP_WIDTH * MM_TIL_SIZ, MINIMAP_HEIGHT * MM_TIL_SIZ);
+	g.olay.addr = mlx_get_data_addr(g.olay.i, &g.olay.bpp, &g.olay.ls, &g.olay.e);
+	g.olay.w = MINIMAP_WIDTH * MM_TIL_SIZ;
+	g.olay.h = MINIMAP_HEIGHT * MM_TIL_SIZ;
 	c_load_font(&g);
 	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);
 	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 21:02:17 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:27:13 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,59 @@ char	*c_get_target_addr(t_img *i, int x, int y)
 	x *= i->bpp / 8;
 	y *= i->ls;
 	return (i->addr + x + y);
+}
+
+void	c_draw_square(t_img *img, t_ipair coord, t_ipair colors, int size)
+{
+	const int	int_line_size = img->ls >> 2;
+	int			*img_buf;
+	int			i;
+	int			j;
+
+	img_buf = (int *)(c_get_target_addr(img, coord.a, coord.b));
+	j = 0;
+	while (j < size)
+		img_buf[j++] = colors.b;
+	i = 1;
+	while (i < size - 1)
+	{
+		img_buf[i * int_line_size] = colors.b;
+		j = 1;
+		while (j < size - 1)
+			img_buf[i * int_line_size + j++] = colors.a;
+		img_buf[i * int_line_size + j] = colors.b;
+		++i;
+	}
+	j = 0;
+	while (j < size)
+		img_buf[i * int_line_size + j++] = colors.b;
+}
+
+void	c_draw_square_2(t_img *img, t_ipair coord, uint64_t col, int size)
+{
+	const int	int_line_size = img->ls >> 2;
+	int			*img_buf;
+	int			i;
+	int			j;
+	t_ipair		colors;
+
+	colors.a = col & 0xffffff;
+	colors.b = col >> 32;
+	img_buf = (int *)(c_get_target_addr(img, coord.a, coord.b));
+	j = 0;
+	while (j < size)
+		img_buf[j++] = colors.b;
+	i = 1;
+	while (i < size - 1)
+	{
+		img_buf[i * int_line_size] = colors.b;
+		j = 1;
+		while (j < size - 1)
+			img_buf[i * int_line_size + j++] = colors.a;
+		img_buf[i * int_line_size + j] = colors.b;
+		++i;
+	}
+	j = 0;
+	while (j < size)
+		img_buf[i * int_line_size + j++] = colors.b;
 }

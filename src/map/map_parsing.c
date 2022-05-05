@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/26 23:44:53 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:00:08 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,27 @@ static void	_remove_trailing_spaces(char *line)
 	while (i > 0 && ft_isspace(line[i]))
 		--i;
 	ft_memset(line + i, '\0', ft_strlen(line) - i);
+}
+
+static void	_align_map_line_lengths(t_cub *c)
+{
+	const t_uint	new_len = c->sx;
+	t_uint			marker;
+	char			*new_line;
+	t_uint			i;
+
+	i = 0;
+	while (c->map[i])
+	{
+		new_line = (char *)malloc((new_len + 1) * sizeof(char));
+		marker = ft_strlcpy(new_line, c->map[i], new_len + 1);
+		// ft_printf("marker: %u\tnew_len: %u\n", marker, new_len);
+		// ft_printf("new_line + marker: [%s]\n", new_line + marker);
+		ft_memset(new_line + marker, ' ', new_len - marker);
+		new_line[new_len] = '\0';
+		ft_strrep(&c->map[i], new_line);
+		++i;
+	}
 }
 
 void	c_parse_map(const char *first_line, int fd, t_cub *c)
@@ -49,6 +70,7 @@ void	c_parse_map(const char *first_line, int fd, t_cub *c)
 			c->sx = ft_strlen(c->map[i - 1]);
 	}
 	c->sy = i;
+	_align_map_line_lengths(c);
 }
 
 static int	_check_map_is_last(const char **map)

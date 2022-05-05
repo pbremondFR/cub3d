@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/30 21:49:56 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:08:07 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,13 +169,16 @@ typedef struct s_game_data
 	float		cy; // Player camera plane's y
 
 	uint16_t	k; // Keystate
-	char		m_cap; // Mouse capture
+	char		m_cap; // Mouse capture boolean
+	
+	t_cub		*c; // .cub file data
+
+	t_img		f; // MLX image for frame
 
 	void		*mlx; // MLX handle
 	void		*mw; // MLX window
-	t_img		f; // MLX image for frame
 
-	t_cub		*c; // .cub file data
+	t_img		olay;
 }				t_game;
 t_game		*c_init_t_game(t_game *g);
 
