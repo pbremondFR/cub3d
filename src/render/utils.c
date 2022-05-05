@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 15:27:13 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:28:44 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	c_draw_square_2(t_img *img, t_ipair coord, uint64_t col, int size)
 	int			j;
 	t_ipair		colors;
 
-	colors.a = col & 0xffffff;
+	colors.a = col & 0xffffffff;
 	colors.b = col >> 32;
 	img_buf = (int *)(c_get_target_addr(img, coord.a, coord.b));
 	j = 0;

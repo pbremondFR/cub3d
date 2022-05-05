@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 20:39:41 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 16:28:08 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 20:07:56 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	_draw_minimap_line(t_game *g, t_ipair coords, int map_y)
 		if (tgt_map.a < 0 || tgt_map.b < 0
 			|| (t_uint)tgt_map.a >= g->c->sx || (t_uint)tgt_map.b >= g->c->sy
 			|| g->c->map[tgt_map.b][tgt_map.a] == ' ')
-			c_draw_square_2(&g->olay, coords, 0x0, MM_TIL_SIZ);
+			c_draw_square_2(&g->olay, coords, 0xff000000ff000000, MM_TIL_SIZ);
 		else if (tgt_map.a == (int)g->x && tgt_map.b == (int)g->y)
 			c_draw_square_2(&g->olay, coords, 0xff0000, MM_TIL_SIZ);
 		else if (g->c->map[tgt_map.b][tgt_map.a] == '0')

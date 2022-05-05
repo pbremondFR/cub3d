@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 16:20:22 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 20:02:17 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,6 @@ int	c_render(void *handle)
 	coord.a = WIN_WIDTH / 2 - (float)((9.0f / 2) * g->c->font->c_w);
 	coord.b = 0;
 	c_putstr_to_frame_dbox(g, coord, 0xa0a0a0, "Cub3D \x15");
-	coord.a = 50;
-	coord.b = 50;
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
 	c_minimap_render(g, 0, 0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,

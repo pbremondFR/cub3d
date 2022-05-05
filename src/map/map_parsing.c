@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 16:00:08 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:37:53 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ static void	_align_map_line_lengths(t_cub *c)
 	{
 		new_line = (char *)malloc((new_len + 1) * sizeof(char));
 		marker = ft_strlcpy(new_line, c->map[i], new_len + 1);
-		// ft_printf("marker: %u\tnew_len: %u\n", marker, new_len);
-		// ft_printf("new_line + marker: [%s]\n", new_line + marker);
 		ft_memset(new_line + marker, ' ', new_len - marker);
 		new_line[new_len] = '\0';
 		ft_strrep(&c->map[i], new_line);
