@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 20:02:17 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/06 23:14:57 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	c_render_raycast_loop(t_game *g)
 			ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
 		else
 			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
+		g->len_buf[i] = ray.c_plane_len;
 		c_start_draw_wall(g, &ray, i++);
 	}
 }
@@ -113,6 +114,20 @@ char	*_create_test_string(unsigned int n)
 	return (str);
 }
 
+void	_debug_tests(t_game *g)
+{
+	t_list	*node;
+	t_sprt	*sprt;
+
+	node = g->sprts_lst;
+	while (node)
+	{
+		sprt = node->content;
+		printf("x: %.2f\ty: %.2f\n", sprt->x, sprt->y);
+		node = node->next;
+	}
+}
+
 int	c_render(void *handle)
 {
 	t_game	*g;
@@ -135,6 +150,9 @@ int	c_render(void *handle)
 	c_minimap_render(g, 0, 0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,
 		20, WIN_HEIGHT - g->olay.h - 20);
+	if (g->c->sprt_src[0])
+		mlx_put_image_to_window(g->mlx, g->mw, g->c->sprt_src[0]->i, 0, 0);
+	_debug_tests(g);
 	// mlx_put_image_to_window(g->mlx, g->mw, g->c->font->i, 0, 0);
 	return (0);
 }

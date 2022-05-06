@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 15:08:07 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/06 23:14:28 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@
 # include <limits.h>
 # include <math.h>
 
+# include <stdbool.h>
+
 # include "ansi_color.h"
 # include "mlx.h"
 
-# define MAP_LEGAL_CHARS	"01NESW \t\n\v\f\r"
+# define MAP_LEGAL_CHARS	"01NESW "
 # define M_CHRS				MAP_LEGAL_CHARS
 
 // # define MLX_BETA
@@ -134,6 +136,8 @@ typedef struct s_mlx_img
 	int		h; // Image height
 }				t_img;
 
+# define SPRITE_MAX_NUM	4
+
 typedef struct s_mlx_font	t_font;
 typedef struct s_cub_data
 {
@@ -150,11 +154,18 @@ typedef struct s_cub_data
 	int		f; // Floor
 	int		c; // Ceiling
 
+	t_img	*sprt_src[SPRITE_MAX_NUM];
+	char	sprt_src_id[SPRITE_MAX_NUM];
+
 	// int		pl_x; // Player start position
 	// int		pl_y;
 }				t_cub;
 
 t_cub		*c_init_t_cub(t_cub *p_cub);
+
+typedef struct s_list		t_list;
+
+// typedef struct s_sprite		t_sprt;
 
 typedef struct s_game_data
 {
@@ -178,7 +189,10 @@ typedef struct s_game_data
 	void		*mlx; // MLX handle
 	void		*mw; // MLX window
 
-	t_img		olay;
+	float		len_buf[WIN_WIDTH];
+	t_img		olay; // Overlay MLX image (minimap)
+	t_list		*sprts_lst; // Sprites list
+	uint8_t		n_sprt;
 }				t_game;
 t_game		*c_init_t_game(t_game *g);
 
@@ -207,7 +221,7 @@ size_t		ft_stmin(size_t a, size_t b);
 
 // cub_graphics.c
 char		**c_xpm_to_char(const char *path);
-t_img		*c_import_xpm(const char *line, t_game *g);
+t_img		*c_import_xpm(const char *line, t_game *g, bool opt);
 int			c_parse_color(const char *line);
 
 // cub_graphics_2.c
@@ -217,8 +231,14 @@ int			c_opt_texture_for_cache_2(t_img *img, t_game *g);
 // cub_file.c
 t_cub		*c_parse_cub_file(const char *path, t_cub *c, t_game *g);
 
+// cub_file_processing.c
+int			c_cub_process_line(const char *line, t_cub *c, t_game *g);
+
 // map_parsing.c
 void		c_parse_map(const char *first_line, int fd, t_cub *c);
+void		c_init_player_pos(t_game *g, t_cub *c);
+
+// map_error_check.c
 int			c_map_error_check(const char **map);
 
 // map_print.c

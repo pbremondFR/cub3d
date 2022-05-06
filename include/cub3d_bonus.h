@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 16:26:15 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/06 23:00:43 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define CUB3D_BONUS_H
 
 # include <cub3d.h>
+
+# undef MAP_LEGAL_CHARS
+# define MAP_LEGAL_CHARS	"01NESW 2345"
 
 // # define FONT_PATH		"./assets/charmap_zoom2x.xpm"
 // # define FONT_BM_W		18
@@ -58,6 +61,14 @@ typedef struct s_mlx_font
 	int		c_h; // Char height
 }				t_font;
 
+typedef struct s_sprite
+{
+	const t_img	*i;
+
+	float		x;
+	float		y;
+}				t_sprt;
+
 void	c_load_font(t_game *g);
 void	c_putstr_to_frame(t_game *g, t_ipair coord, int color, const char *str);
 void	c_putstr_to_frame_dbox(t_game *g, t_ipair coord, int color,
@@ -69,5 +80,10 @@ void	c_draw_square(t_img *img, t_ipair coord, t_ipair colors, int size);
 void	c_draw_square_2(t_img *img, t_ipair coord, uint64_t col, int size);
 
 void	c_minimap_render(t_game *g, int x, int y);
+
+t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y);
+void	c_destroy_sprite(t_sprt **sprt);
+
+void	c_init_sprites_pos(t_game *g);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 23:55:30 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/06 22:44:03 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_cub	*c_init_t_cub(t_cub *p_cub)
 	cub->w = NULL;
 	cub->f = -1;
 	cub->c = -1;
+	ft_memset(cub->sprt_src, '\0', sizeof(uintptr_t) * SPRITE_MAX_NUM);
+	ft_memset(cub->sprt_src_id, '\0', sizeof(char) * SPRITE_MAX_NUM);
 	return (cub);
 }
 
@@ -49,7 +51,7 @@ static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g)
 		c_exit_program(g);
 	}
 	else
-		*dest_ptr = c_import_xpm(line, g);
+		*dest_ptr = c_import_xpm(line, g, true);
 	if (*dest_ptr == NULL)
 		c_exit_program(g);
 }
@@ -71,9 +73,11 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 		_import_texture(&c->e, line + i + 2, g);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
 		_import_texture(&c->w, line + i + 2, g);
-	else if (*(line + i) == 'F')
+	else if (line[i] != '\0' && ft_strchr("2345", line[i]))
+		_import_texture(&c->sprt_src[line[i] - '2'], line + i + 2, g);
+	else if (line[i] == 'F')
 		c->f = c_parse_color(line + i + 1);
-	else if (*(line + i) == 'C')
+	else if (line[i] == 'C')
 		c->c = c_parse_color(line + i + 1);
 	else if (line[i] != '\0' && ft_strchr("01NESW", line[i]))
 		return (1);
@@ -83,7 +87,7 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 static int	_cub_error_check(const t_cub *c)
 {
 	const t_img	*textures[] = {c->n, c->s, c->w, c->e};
-	const char	*names[] = {"North", "Sounth", "West", "East"};
+	const char	*names[] = {"North", "South", "West", "East"};
 	int			i;
 
 	i = -1;

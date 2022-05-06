@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:15:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 19:28:57 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/06 18:40:26 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ char	**c_xpm_to_char(const char *path)
 }
 
 // TODO: Check if file exists and can be opened
-// TODO: Check if image is a square
-t_img	*c_import_xpm(const char *path, t_game *g)
+t_img	*c_import_xpm(const char *path, t_game *g, bool opt)
 {
 	char	*trimmed;
 	t_img	*img;
@@ -102,7 +101,7 @@ t_img	*c_import_xpm(const char *path, t_game *g)
 	}
 	free(trimmed);
 	img->addr = mlx_get_data_addr(img->i, &img->bpp, &img->ls, &img->e);
-	if (c_opt_texture_for_cache(img) != EXIT_SUCCESS)
+	if (opt == true && c_opt_texture_for_cache(img) != EXIT_SUCCESS)
 		return (NULL);
 	return (img);
 }

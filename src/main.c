@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 19:29:14 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/06 22:23:01 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,57 +54,6 @@ static void	_debug_tests(t_cub const *c, t_game const *g)
 		c->f >> 16 & 0xff, c->f >> 8 & 0xff, c->f & 0xff,
 		c->c >> 16 & 0xff, c->c >> 8 & 0xff, c->c & 0xff);
 	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
-}
-
-// TESTME: What to do when changing FOV, or aspect ratio of window ?
-static void	_set_player_direction(const char c, t_game *g)
-{
-	const float	fov = PLAYER_FOV;
-
-	if (c == 'N' || c == 'S')
-	{
-		g->dx = 0.0f;
-		if (c == 'N')
-			g->dy = -1.0f;
-		else
-			g->dy = 1.0f;
-		g->cx = -g->dy * fov;
-		g->cy = g->dx;
-	}
-	else if (c == 'E' || c == 'W')
-	{
-		if (c == 'E')
-			g->dx = 1.0f;
-		else
-			g->dx = -1.0f;
-		g->dy = 0.0f;
-		g->cx = -g->dy;
-		g->cy = g->dx * fov;
-	}
-}
-
-void	c_init_player_pos(t_game *g, t_cub *c)
-{
-	int	i;
-	int	j;
-	int	done;
-
-	done = 0;
-	i = -1;
-	while (c->map[++i] && !done)
-	{
-		j = -1;
-		while (c->map[i][++j] && !done)
-		{
-			if (ft_strchr("NESW", c->map[i][j]))
-			{
-				g->x = j + 0.5f;
-				g->y = i + 0.5f;
-				_set_player_direction(c->map[i][j], g);
-				done = 1;
-			}
-		}
-	}
 }
 
 int	main(int argc, const char *argv[])

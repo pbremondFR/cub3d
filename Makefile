@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/05 16:21:18 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/06 23:00:28 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,8 @@ RAYCAST_SRC =	$(addprefix raycast/,	$(RAYCAST_SRC_FILES))
 
 SRC_MANDATORY =	$(SRC_COMMON)\
 				main.c\
-				render/rendering.c
+				render/rendering.c\
+				map/map_error_check.c
 
 SRC_MANDATORY_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_MANDATORY))
 OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_MANDATORY_PLUS_PATH)))
@@ -87,7 +88,10 @@ SRC_BONUS =	$(SRC_COMMON)\
 			str_display/font_display_bonus.c\
 			str_display/font_display_bonus_2.c\
 			render/rendering_bonus.c\
-			minimap/minimap_bonus.c
+			minimap/minimap_bonus.c\
+			map/map_error_check_bonus.c\
+			render/sprites_bonus.c\
+			map/map_parsing_2_bonus.c
 
 SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
 BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_PLUS_PATH)))

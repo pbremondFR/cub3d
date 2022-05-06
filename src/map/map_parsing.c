@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/05 17:37:53 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/06 22:09:01 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	c_parse_map(const char *first_line, int fd, t_cub *c)
 	while (line)
 	{
 		map = ft_stradd2(map, line, 1 | 2);
-		map = ft_stradd2(map, "\n", 1);
 		line = get_next_line(fd);
 	}
 	c->map = ft_split(map, '\n');
@@ -71,60 +70,59 @@ void	c_parse_map(const char *first_line, int fd, t_cub *c)
 	_align_map_line_lengths(c);
 }
 
-static int	_check_map_is_last(const char **map)
+// TESTME: What to do when changing FOV, or aspect ratio of window ?
+static void	_set_player_direction(char *c, t_game *g)
 {
-	int	y;
+	const float	fov = PLAYER_FOV;
 
-	y = -1;
-	while (map[++y])
-		if (ft_strlen(map[y]) == 0 || str_isspace(map[y]))
-			break ;
-	while (map[y])
+	if (*c == 'N' || *c == 'S')
 	{
-		if (ft_strlen(map[y]) != 0 && !str_isspace(map[y]))
-		{
-			ft_dprintf(2, "Error\nFound non-whitespace characters after map\n");
-			return (EXIT_FAILURE);
-		}
-		y++;
+		g->dx = 0.0f;
+		if (*c == 'N')
+			g->dy = -1.0f;
+		else
+			g->dy = 1.0f;
+		g->cx = -g->dy * fov;
+		g->cy = g->dx;
 	}
-	return (EXIT_SUCCESS);
-}
-
-// Checks if a tile's neighbours in the 4 cardinal directions are legal.
-static int	chk_tile_adj(const char **map, unsigned int x,
-	unsigned int y)
-{
-	if (x == 0 || !c_is_flooradj_legal(map[y][x - 1])
-		|| !c_is_flooradj_legal(map[y][x + 1]))
-		return (EXIT_FAILURE);
-	if (y == 0 || !c_is_flooradj_legal(map[y - 1][x])
-		|| !c_is_flooradj_legal(map[y + 1][x]))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-int	c_map_error_check(const char **map)
-{
-	int	y;
-	int	x;
-
-	if (_check_map_is_last(map) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
-	y = -1;
-	while (map[++y])
+	else if (*c == 'E' || *c == 'W')
 	{
-		x = -1;
-		while (map[y][++x])
+		if (*c == 'E')
+			g->dx = 1.0f;
+		else
+			g->dx = -1.0f;
+		g->dy = 0.0f;
+		g->cx = -g->dy;
+		g->cy = g->dx * fov;
+	}
+	*c = '0';
+}
+
+void	c_init_player_pos(t_game *g, t_cub *c)
+{
+	int	i;
+	int	j;
+
+	g->x = 0.0f;
+	g->y = 0.0f;
+	i = -1;
+	while (c->map[++i])
+	{
+		j = -1;
+		while (c->map[i][++j])
 		{
-			if ((!ft_strchr(M_CHRS, map[y][x]))
-				|| (map[y][x] == '0' && chk_tile_adj(map, x, y) != 0))
+			if (ft_strchr("NESW", c->map[i][j]) && g->x == 0.0f && g->y == 0.0f)
 			{
-				ft_dprintf(2, "Error\nIllegal map tile around (%d, %d)\n", x, y);
-				c_map_print_error(map, x, y);
-				return (EXIT_FAILURE);
+				g->x = j + 0.5f;
+				g->y = i + 0.5f;
+				_set_player_direction(&c->map[i][j], g);
+			}
+			else if (ft_strchr("NESW", c->map[i][j]))
+			{
+				ft_dprintf(2, "Error\nPlayer position set more than once\n");
+				c_map_print_error((const char **)c->map, j, i);
+				c_exit_program(g);
 			}
 		}
 	}
-	return (EXIT_SUCCESS);
 }
