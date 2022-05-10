@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 23:00:43 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/10 23:04:15 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,43 @@ typedef struct s_sprite
 
 	float		x;
 	float		y;
+	float		dist_sq; // Squared distance to player
 }				t_sprt;
+
+/*
+ *              ┌────────SCREEN────────┐
+ *              │                      │
+ *              │                      │
+ *              │                      │
+ * coords_x.a   │                      │
+ * coords_y.a+──┼──────+coords_x.b     │
+ *           │▲ │      │               │
+ *           ││ │      │               │
+ *    height ││ └──────┼───────────────┘
+ *           │▼        │
+ * coords_y.b+─────────┘
+ *           ◄─────────►
+ *              width
+ */
+
+typedef struct s_sprite_disp_attributes
+{
+	const t_sprt	*s;
+	int				screen_x;
+	int				w;
+	int				h;
+	t_pnt			transform;
+	t_ipair			coords_x; // Coordinates of the first and last X points
+	t_ipair			coords_y; // Coordinates of the first and last Y points
+	t_ipair			bounds_x; // Start and end of drawing zone on X axis
+	t_ipair			bounds_y; // Start and end of drawing zone on Y axis
+					// Reflects whether a sprite's column should be drawn or not
+	bool			do_draw_x[WIN_WIDTH];
+}				t_sprt_attr;
+
+// ========================================================================== //
+//                                CUSTOM FONT                                 //
+// ========================================================================== //
 
 void	c_load_font(t_game *g);
 void	c_putstr_to_frame(t_game *g, t_ipair coord, int color, const char *str);
@@ -76,14 +112,29 @@ void	c_putstr_to_frame_dbox(t_game *g, t_ipair coord, int color,
 void	c_putstr_to_frame_sbox(t_game *g, t_ipair coord, int color,
 			const char *str);
 
-void	c_draw_square(t_img *img, t_ipair coord, t_ipair colors, int size);
-void	c_draw_square_2(t_img *img, t_ipair coord, uint64_t col, int size);
+// ========================================================================== //
+//                                  MINIMAP                                   //
+// ========================================================================== //
 
+// minimap_bonus.c
 void	c_minimap_render(t_game *g, int x, int y);
 
+// ========================================================================== //
+//                                  SPRITES                                   //
+// ========================================================================== //
+
+// sprites_bonus.c
 t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y);
 void	c_destroy_sprite(t_sprt **sprt);
+t_pnt	c_sprite_projection_matrix(float sprite_x, float sprite_y,
+			const t_game *g);
+void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[]);
 
+// sprites_sorting_bonus.c
+void	c_calc_sprite_dist(const t_game *g, t_list *sprt_lst);
+t_list	*c_sort_sprites(t_list *p_sprt_lst);
+
+// map_parsing_2_bonus.c
 void	c_init_sprites_pos(t_game *g);
 
 #endif

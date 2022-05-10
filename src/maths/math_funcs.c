@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 18:39:54 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:27:40 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:46:41 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ void	c_math_rotate_vector(float *x, float *y, float angle)
 int	c_min(int a, int b)
 {
 	if (a < b)
+		return (a);
+	return (b);
+}
+
+int	c_max(int a, int b)
+{
+	if (a > b)
 		return (a);
 	return (b);
 }

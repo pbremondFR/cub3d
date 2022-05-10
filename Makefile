@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/06 23:00:28 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/11 00:33:35 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,8 @@ SRC_BONUS =	$(SRC_COMMON)\
 			minimap/minimap_bonus.c\
 			map/map_error_check_bonus.c\
 			render/sprites_bonus.c\
+			render/sprites_utils_bonus.c\
+			render/sprites_sorting_bonus.c\
 			map/map_parsing_2_bonus.c
 
 SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
@@ -107,7 +109,7 @@ NAME = cub3d
 NAME_BONUS = cub3d_bonus
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 all : $(NAME)
 

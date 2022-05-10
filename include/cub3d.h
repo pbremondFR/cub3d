@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 23:14:28 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/10 23:32:18 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ typedef struct s_game_data
 
 	uint16_t	k; // Keystate
 	char		m_cap; // Mouse capture boolean
-	
+
 	t_cub		*c; // .cub file data
 
 	t_img		f; // MLX image for frame
@@ -189,7 +189,6 @@ typedef struct s_game_data
 	void		*mlx; // MLX handle
 	void		*mw; // MLX window
 
-	float		len_buf[WIN_WIDTH];
 	t_img		olay; // Overlay MLX image (minimap)
 	t_list		*sprts_lst; // Sprites list
 	uint8_t		n_sprt;
@@ -268,7 +267,7 @@ void		c_player_decel(float *vx, float *vy, float *va, int keystate);
 
 // rendering.c
 int			c_render(void *handle);
-void		c_render_raycast_loop(t_game *g);
+// void		c_render_raycast_loop(t_game *g);
 
 // textures.c
 void		c_start_draw_wall(t_game *g, t_ray *ray, int x);
@@ -282,6 +281,9 @@ void		draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 void		my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
 void		c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
 char		*c_get_target_addr(t_img *i, int x, int y);
+const char	*c_get_const_target_addr(const t_img *i, int x, int y);
+void		c_draw_square(t_img *img, t_ipair coord, t_ipair colors, int size);
+void		c_draw_square_2(t_img *img, t_ipair coord, uint64_t col, int size);
 
 // ========================================================================== //
 //                                 RAYCASTING                                 //
@@ -298,5 +300,6 @@ float		c_math_get_dist(float x1, float x2, float y1, float y2);
 float		c_math_get_sq_dist(float x1, float x2, float y1, float y2);
 void		c_math_rotate_vector(float *x, float *y, float angle);
 int			c_min(int a, int b);
+int			c_max(int a, int b);
 
 #endif

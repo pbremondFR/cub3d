@@ -6,26 +6,22 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 21:29:28 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/30 21:52:28 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/09 22:30:33 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-static int	_get_pos_in_texture(t_ipair line_coords, int i, int width,
-	int print)
+static int	_get_pos_in_texture(t_ipair line_coords, int i, int tex_width)
 {
 	float	pos;
 
-	(void)print;
 	pos = (float)(i - line_coords.a) / (line_coords.b - line_coords.a);
-	pos = pos * width;
-	return (c_min((int)pos, width - 1));
+	pos = pos * tex_width;
+	return (c_min((int)pos, tex_width - 1));
 }
 
-// FIXME: Segfaults when dereferencing tex_addr in loop
-// TESTME: Is hopefully fixed
 void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 	int height)
 {
@@ -47,7 +43,7 @@ void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 		end = line_coords.b;
 	while (i < end) // i - line_coords.a -> position within texture
 	{
-		pos_in_texture = _get_pos_in_texture(line_coords, i, texture->w, 0);
+		pos_in_texture = _get_pos_in_texture(line_coords, i, texture->w);
 		my_mlx_pixel_put(&g->f, frame_x, i, tex_addr[pos_in_texture]);
 		++i;
 	}

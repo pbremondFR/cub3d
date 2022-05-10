@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 23:14:57 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/11 00:39:06 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 // 	}
 // }
 
-void	c_render_raycast_loop(t_game *g)
+void	c_render_raycast_loop(t_game *g, float ray_len_buf[])
 {
 	t_uint	i;
 	t_ray	ray;
@@ -57,7 +57,7 @@ void	c_render_raycast_loop(t_game *g)
 			ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
 		else
 			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
-		g->len_buf[i] = ray.c_plane_len;
+		ray_len_buf[i] = ray.c_plane_len;
 		c_start_draw_wall(g, &ray, i++);
 	}
 }
@@ -118,12 +118,14 @@ void	_debug_tests(t_game *g)
 {
 	t_list	*node;
 	t_sprt	*sprt;
+	t_uint	i;
 
+	i = 0;
 	node = g->sprts_lst;
 	while (node)
 	{
 		sprt = node->content;
-		printf("x: %.2f\ty: %.2f\n", sprt->x, sprt->y);
+		printf("> %d: %.3f\n", i++, sprt->dist_sq);
 		node = node->next;
 	}
 }
@@ -132,6 +134,7 @@ int	c_render(void *handle)
 {
 	t_game	*g;
 	t_ipair	coord;
+	float	ray_len_buf[WIN_WIDTH];
 
 	g = (t_game *)handle;
 	if (g->k == KEYS_ESC)
@@ -140,7 +143,8 @@ int	c_render(void *handle)
 	c_move_player(g);
 	if (g->m_cap)
 		c_mouse_look(g);
-	c_render_raycast_loop(g);
+	c_render_raycast_loop(g, ray_len_buf);
+	c_render_sprites(g, g->sprts_lst, ray_len_buf);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	c_debug_print_coords(g);
 	coord.a = WIN_WIDTH / 2 - (float)((9.0f / 2) * g->c->font->c_w);
@@ -150,9 +154,9 @@ int	c_render(void *handle)
 	c_minimap_render(g, 0, 0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,
 		20, WIN_HEIGHT - g->olay.h - 20);
-	if (g->c->sprt_src[0])
-		mlx_put_image_to_window(g->mlx, g->mw, g->c->sprt_src[0]->i, 0, 0);
-	_debug_tests(g);
+	// if (g->c->sprt_src[0])
+	// 	mlx_put_image_to_window(g->mlx, g->mw, g->c->sprt_src[0]->i, 0, 0);
+	// _debug_tests(g);
 	// mlx_put_image_to_window(g->mlx, g->mw, g->c->font->i, 0, 0);
 	return (0);
 }
