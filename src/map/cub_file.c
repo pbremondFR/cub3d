@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 22:44:03 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 00:01:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_cub	*c_init_t_cub(t_cub *p_cub)
 
 // Using a double pointer here in case I want to overwrite previous texture
 // instead of quitting program.
-static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g)
+static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g,
+	bool cache_rot)
 {
 	t_img	*dest;
 
@@ -51,7 +52,7 @@ static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g)
 		c_exit_program(g);
 	}
 	else
-		*dest_ptr = c_import_xpm(line, g, true);
+		*dest_ptr = c_import_xpm(line, g, cache_rot);
 	if (*dest_ptr == NULL)
 		c_exit_program(g);
 }
@@ -66,15 +67,15 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	if (line[i] == '#')
 		return (0);
 	else if (ft_strncmp(line + i, "NO", 2) == 0)
-		_import_texture(&c->n, line + i + 2, g);
+		_import_texture(&c->n, line + i + 2, g, true);
 	else if (ft_strncmp(line + i, "SO", 2) == 0)
-		_import_texture(&c->s, line + i + 2, g);
+		_import_texture(&c->s, line + i + 2, g, true);
 	else if (ft_strncmp(line + i, "EA", 2) == 0)
-		_import_texture(&c->e, line + i + 2, g);
+		_import_texture(&c->e, line + i + 2, g, true);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
-		_import_texture(&c->w, line + i + 2, g);
+		_import_texture(&c->w, line + i + 2, g, true);
 	else if (line[i] != '\0' && ft_strchr("2345", line[i]))
-		_import_texture(&c->sprt_src[line[i] - '2'], line + i + 2, g);
+		_import_texture(&c->sprt_src[line[i] - '2'], line + i + 2, g, false);
 	else if (line[i] == 'F')
 		c->f = c_parse_color(line + i + 1);
 	else if (line[i] == 'C')
