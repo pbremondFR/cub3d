@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/11 22:59:39 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 03:36:45 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,15 @@ typedef struct s_sprite
 	float		y;
 	float		dist_sq; // Squared distance to player
 }				t_sprt;
+
+typedef struct s_sprite_source
+{
+	const t_img	*i;
+
+	uint8_t		dir;
+	float		inv_scale; // Inverse of sprite's scale
+	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
+}				t_sprt_src;
 
 /*
  *              ┌────────SCREEN────────┐

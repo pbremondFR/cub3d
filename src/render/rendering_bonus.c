@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/11 00:39:06 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 02:14:48 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	c_render_raycast_loop(t_game *g, float ray_len_buf[])
 
 void	c_print_background(t_game *g)
 {
-	const int	buf_siz = g->f.h * (g->f.ls / 4);
-	const int	halfway = buf_siz / 2;
+	const int	buf_siz = g->f.h * (g->f.ls >> 2);
+	const int	halfway = buf_siz >> 1;
 	int			*frame_buf;
 	int			i;
 
@@ -79,16 +79,9 @@ void	c_print_background(t_game *g)
 			frame_buf[i] = g->c->f;
 		++i;
 	}
-	// Code to add an infobar at the bottom of the screen
-	// while (i < WIN_HEIGHT * (g->f.ls / 4))
-	// {
-	// 	if (frame_buf[i] != 0x202020)
-	// 		frame_buf[i] = 0x202020;
-	// 	++i;
-	// }
 }
 
-void	c_debug_print_coords(t_game *g)
+void	c_print_player_coords(t_game *g)
 {
 	char	buffer[16];
 	t_ipair	coord;
@@ -99,37 +92,7 @@ void	c_debug_print_coords(t_game *g)
 	c_putstr_to_frame_sbox(g, coord, 0xffffff, buffer);
 }
 
-char	*_create_test_string(unsigned int n)
-{
-	char			*str;
-	unsigned int	i;
-
-	str = ft_strnew(n);
-	i = 1;
-	while (i < n)
-	{
-		str[i - 1] = i;
-		++i;
-	}
-	return (str);
-}
-
-void	_debug_tests(t_game *g)
-{
-	t_list	*node;
-	t_sprt	*sprt;
-	t_uint	i;
-
-	i = 0;
-	node = g->sprts_lst;
-	while (node)
-	{
-		sprt = node->content;
-		printf("> %d: %.3f\n", i++, sprt->dist_sq);
-		node = node->next;
-	}
-}
-
+// Main rendering loop
 int	c_render(void *handle)
 {
 	t_game	*g;
@@ -146,7 +109,7 @@ int	c_render(void *handle)
 	c_render_raycast_loop(g, ray_len_buf);
 	c_render_sprites(g, g->sprts_lst, ray_len_buf);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
-	c_debug_print_coords(g);
+	c_print_player_coords(g);
 	coord.a = WIN_WIDTH / 2 - (float)((9.0f / 2) * g->c->font->c_w);
 	coord.b = 0;
 	c_putstr_to_frame_dbox(g, coord, 0xa0a0a0, "Cub3D \x15");
@@ -154,9 +117,5 @@ int	c_render(void *handle)
 	c_minimap_render(g, 0, 0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,
 		20, WIN_HEIGHT - g->olay.h - 20);
-	// if (g->c->sprt_src[0])
-	// 	mlx_put_image_to_window(g->mlx, g->mw, g->c->sprt_src[0]->i, 0, 0);
-	// _debug_tests(g);
-	// mlx_put_image_to_window(g->mlx, g->mw, g->c->font->i, 0, 0);
 	return (0);
 }

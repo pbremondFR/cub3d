@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/10 23:32:18 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 01:47:34 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define MAP_LEGAL_CHARS	"01NESW "
 # define M_CHRS				MAP_LEGAL_CHARS
 
-// # define MLX_BETA
+# define SPRITE_CHARS		"2345"
 
 # define EVENT_KEY_DOWN			2
 # define EVENT_KEY_UP			3

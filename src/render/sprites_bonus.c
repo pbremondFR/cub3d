@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:01:27 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 00:06:19 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 03:38:22 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,10 @@ t_pnt	c_sprite_projection_matrix(float sprite_x, float sprite_y,
 	const float	witchcraft = (1.0f / (g->cx * g->dy - g->dx * g->cy));
 	t_pnt		transform;
 
-	// printf("%sx: %.3f\ty: %.3f\n", RED, sprite_x, sprite_y);
 	sprite_x -= g->x;
 	sprite_y -= g->y;
-	// printf("%sx: %.3f\ty: %.3f%s\n", GRN, sprite_x, sprite_y, RESET);
 	transform.x = witchcraft * (g->dy * sprite_x + -g->dx * sprite_y);
 	transform.y = witchcraft * (-g->cy * sprite_x + g->cx * sprite_y);
-	// printf("%sx: %.3f\ty: %.3f%s\n", YEL, transform.x, transform.y, RESET);
 	return (transform);
 }
 
@@ -91,6 +88,7 @@ void	c_render_current_sprite(t_game *g, t_sprt_attr *sprt,
 		c_draw_sprite_line(g, sprt, i++);
 }
 
+// Sprite rendering loop
 void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[])
 {
 	const t_sprt	*sprt;
@@ -105,10 +103,8 @@ void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[])
 		sprt_attr.transform = c_sprite_projection_matrix(sprt->x, sprt->y, g);
 		sprt_attr.screen_x = (int)((WIN_WIDTH / 2)
 				* (1 + (sprt_attr.transform.x / sprt_attr.transform.y)));
-		// printf("%sx: %.3f\ty: %.3f%s\n", CYN, sprt_attr.transform.x, sprt_attr.transform.y, RESET);
-		// ft_printf("screen_x: %d\n", sprt_attr.screen_x);
-		sprt_attr.w = abs((int)(WIN_HEIGHT / sprt_attr.transform.y));
-		sprt_attr.h = abs((int)(WIN_HEIGHT / sprt_attr.transform.y));
+		sprt_attr.w = abs((int)(WIN_HEIGHT / sprt_attr.transform.y / 1.7f));
+		sprt_attr.h = abs((int)(WIN_HEIGHT / sprt_attr.transform.y / 1.7f));
 		sprt_attr.s = sprts_lst->content;
 		c_render_current_sprite(g, &sprt_attr, ray_len_buf);
 		sprts_lst = sprts_lst->next;

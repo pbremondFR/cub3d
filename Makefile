@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/12 00:06:57 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/12 01:45:59 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,7 +109,7 @@ NAME = cub3d
 NAME_BONUS = cub3d_bonus
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -O2 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 all : $(NAME)
 
