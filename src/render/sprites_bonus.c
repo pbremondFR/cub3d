@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:01:27 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 07:44:00 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:02:52 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ t_pnt	c_sprite_projection_matrix(float sprite_x, float sprite_y,
 // "FoR lOoPs ArE tOo DiFfIcuLt tO ReAd" god DAMN YOU NORM
 // Also, I'm terribly sorry about that pos_y 3-liner.
 void	c_draw_sprite_line(t_game *g, const t_sprt_attr *sprt, int frame_y,
-	int tex_y)
+	int sprt_y_cursor)
 {
 	int			i;
 	int			tex_pos_x;
 	int			tex_pos_y;
 	const int	*tex_addr;
 
-	tex_pos_y = c_min(sprt->s->i->w - 1,
-			(int)((float)tex_y / sprt->h * sprt->s->i->h));
+	tex_pos_y = c_min(sprt->s->i->h - 1,
+			(int)((float)sprt_y_cursor / sprt->h * sprt->s->i->h));
 	tex_addr = (const int *)c_get_const_target_addr(sprt->s->i, 0, tex_pos_y);
 	i = sprt->bounds_x.a - 1;
 	while (++i < sprt->bounds_x.b)
@@ -91,26 +91,29 @@ void	c_render_current_sprite(t_game *g, t_sprt_attr *sprt,
 	}
 }
 
+// Bruh moment
 int	_set_vertical_offset(t_sprt_attr *sprt_a)
 {
 	if (sprt_a->s->v_pos == 0)
 		return (0 / sprt_a->transform.y);
 	// else if (sprt_a->s->v_pos == -1)
-	// 	return ((int)((float)(sprt_a->s->i->h) / sprt_a->transform.y));
+	// 	return ((int)((float)(sprt_a->s->i->h / 2) / sprt_a->transform.y));
 	// else
-	// 	return ((int)((float)(-sprt_a->s->i->h) / sprt_a->transform.y));
+	// 	return ((int)((float)(-sprt_a->s->i->h / 2) / sprt_a->transform.y));
 	else if (sprt_a->s->v_pos == -1)
-		return ((int)((float)(sprt_a->s->i->h * sprt_a->s->scale) / sprt_a->transform.y));
+		return ((int)((float)((sprt_a->s->i->h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
 	else
-		return ((int)((float)(-sprt_a->s->i->h * sprt_a->s->scale) / sprt_a->transform.y));
+		return ((int)((float)(-(sprt_a->s->i->h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
 }
 
 // Sprite rendering loop
-// FIXME: Somewhere in here is a problem with vertical offset
+// BUG: Somewhere in here is a problem with vertical offset...
+// If I can't fix this, it's better to only use 'N' position
 void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[])
 {
 	const t_sprt	*sprt;
 	t_sprt_attr		sprt_attr;
+	t_ipair	test = {10, 10};
 
 	c_calc_sprite_dist(g, sprts_lst);
 	sprts_lst = c_sort_sprites(g->sprts_lst);
@@ -128,5 +131,10 @@ void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[])
 		sprt_attr.v_off = _set_vertical_offset(&sprt_attr);
 		c_render_current_sprite(g, &sprt_attr, ray_len_buf);
 		sprts_lst = sprts_lst->next;
+		// TESTS
+		char	*tmp = ft_itoa(sprt_attr.v_off);
+		c_putstr_to_frame(g, test, 0xffffff, tmp);
+		free(tmp);
+		test.b += g->c->font->c_h;
 	}
 }

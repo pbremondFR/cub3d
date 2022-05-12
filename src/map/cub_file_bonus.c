@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 05:19:22 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 12:20:07 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,38 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	else if (line[i] != '\0' && ft_strchr("2345", line[i]))
 		c_import_sprite(&c->sprt_src[line[i] - '2'], line + i + 1, g);
 	else if (line[i] == 'F')
-		c->f = c_parse_color(line + i + 1);
+		c->f = c_parse_color(line + i + 1, c->f);
 	else if (line[i] == 'C')
-		c->c = c_parse_color(line + i + 1);
+		c->c = c_parse_color(line + i + 1, c->c);
 	else if (line[i] != '\0' && ft_strchr("01NESW", line[i]))
 		return (1);
 	return (0);
 }
 
+// Yes, this is horrible. It's just tricks around the norm...
 static int	_missing_texture_check(const t_cub *c)
 {
 	const t_img	*textures[] = {c->n, c->s, c->w, c->e};
-	const char	*names[] = {"North", "South", "West", "East"};
-	int			i;
+	const char	*tex_names[] = {"North", "South", "West", "East"};
+	const int	colours[] = {c->f, c->c};
+	const char	*c_name[] = {"floor", "ceiling"};
+	static int	i = -1;
 
-	i = -1;
 	while (++i < 4)
 	{
 		if (textures[i] == NULL)
 		{
-			ft_dprintf(2, "Error\nMissing %s texture\n", names[i]);
+			ft_dprintf(2, "Error\nMissing %s texture definition\n", tex_names[i]);
+			return (EXIT_FAILURE);
+		}
+	}
+	i = -1;
+	while (++i < 2)
+	{
+		if (colours[i] == -1 || colours[i] == -2)
+		{
+			if (colours[i] == -1)
+				ft_dprintf(2, "Error\nMissing %s colour definition\n", c_name[i]);
 			return (EXIT_FAILURE);
 		}
 	}

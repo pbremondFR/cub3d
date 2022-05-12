@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 05:12:00 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 12:04:38 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ size_t		ft_stmin(size_t a, size_t b);
 // cub_graphics.c
 char		**c_xpm_to_char(const char *path);
 t_img		*c_import_xpm(const char *line, t_game *g, bool opt);
-int			c_parse_color(const char *line);
+int			c_parse_color(const char *line, int old_colour);
 
 // cub_graphics_2.c
 int			c_opt_texture_for_cache(t_img *img);

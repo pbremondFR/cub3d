@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:28:42 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/28 00:38:01 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 11:51:31 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	c_delete_t_img_ptr(t_img **img_ptr, t_game *g)
 }
 
 // TODO: Handle exit code
+// TODO: Free up everything just to be sure, evem though pointers are
+// still reachable
 // TESTME: Just make sure nothing ever leaks
 int	c_exit_program(void *g_handle)
 {

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 03:10:52 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 12:05:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,10 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 		_import_texture(&c->e, line + i + 2, g, true);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
 		_import_texture(&c->w, line + i + 2, g, true);
-	else if (line[i] != '\0' && ft_strchr("2345", line[i]))
-		_import_texture(&c->sprt_src[line[i] - '2'], line + i + 2, g, false);
 	else if (line[i] == 'F')
-		c->f = c_parse_color(line + i + 1);
+		c->f = c_parse_color(line + i + 1, c->f);
 	else if (line[i] == 'C')
-		c->c = c_parse_color(line + i + 1);
+		c->c = c_parse_color(line + i + 1, c->c);
 	else if (line[i] != '\0' && ft_strchr("01NESW", line[i]))
 		return (1);
 	return (0);
