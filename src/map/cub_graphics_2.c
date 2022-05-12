@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 15:26:52 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 21:40:50 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 04:58:10 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	_remove_transparency(t_uint *dest, int height, int ls)
 		dest[i++] &= 0xffffff;
 }
 
-// TODO: Safety against non-square textures
 // Optimizes a texture in memory, such that it benefits as much as possible from
 // the CPU cache when drawing a wall. It's thus stored column by column, instead
 // of line by line. Origin is still top-left.

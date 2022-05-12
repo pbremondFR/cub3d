@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 03:36:45 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 06:29:24 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,18 @@ typedef struct s_sprite
 	float		x;
 	float		y;
 	float		dist_sq; // Squared distance to player
+	float		scale; // Inverse of sprite's scale
+	char		type; // Type of sprite ('2', '3'...)
+	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
 }				t_sprt;
 
 typedef struct s_sprite_source
 {
 	const t_img	*i;
 
-	uint8_t		dir;
-	float		inv_scale; // Inverse of sprite's scale
+	char		id;
 	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
+	float		scale; // Inverse of sprite's scale
 }				t_sprt_src;
 
 /*
@@ -101,6 +104,7 @@ typedef struct s_sprite_disp_attributes
 	int				screen_x;
 	int				w;
 	int				h;
+	int				v_off;
 	t_pnt			transform;
 	t_ipair			coords_x; // Coordinates of the first and last X points
 	t_ipair			coords_y; // Coordinates of the first and last Y points
@@ -145,5 +149,8 @@ t_list	*c_sort_sprites(t_list *p_sprt_lst);
 
 // map_parsing_2_bonus.c
 void	c_init_sprites_pos(t_game *g);
+
+// cub_graphics_sprites_bonus.c
+void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g);
 
 #endif

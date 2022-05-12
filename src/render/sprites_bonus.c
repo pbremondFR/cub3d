@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:01:27 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 03:38:22 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 07:44:00 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_pnt	c_sprite_projection_matrix(float sprite_x, float sprite_y,
 
 // "FoR lOoPs ArE tOo DiFfIcuLt tO ReAd" god DAMN YOU NORM
 // Also, I'm terribly sorry about that pos_y 3-liner.
-void	c_draw_sprite_line(t_game *g, const t_sprt_attr *sprt, int frame_y)
+void	c_draw_sprite_line(t_game *g, const t_sprt_attr *sprt, int frame_y,
+	int tex_y)
 {
 	int			i;
 	int			tex_pos_x;
@@ -46,8 +47,7 @@ void	c_draw_sprite_line(t_game *g, const t_sprt_attr *sprt, int frame_y)
 	const int	*tex_addr;
 
 	tex_pos_y = c_min(sprt->s->i->w - 1,
-			(int)((float)(frame_y - sprt->coords_y.a)
-				/ sprt->h * sprt->s->i->h));
+			(int)((float)tex_y / sprt->h * sprt->s->i->h));
 	tex_addr = (const int *)c_get_const_target_addr(sprt->s->i, 0, tex_pos_y);
 	i = sprt->bounds_x.a - 1;
 	while (++i < sprt->bounds_x.b)
@@ -70,8 +70,8 @@ void	c_render_current_sprite(t_game *g, t_sprt_attr *sprt,
 	sprt->coords_x.b = (sprt->w / 2) + sprt->screen_x;
 	sprt->bounds_x.a = c_max(0, sprt->coords_x.a);
 	sprt->bounds_x.b = c_min(WIN_WIDTH - 1, sprt->coords_x.b);
-	sprt->coords_y.a = (-sprt->h / 2) + (WIN_HEIGHT / 2);
-	sprt->coords_y.b = (sprt->h / 2) + (WIN_HEIGHT / 2);
+	sprt->coords_y.a = (-sprt->h / 2) + (WIN_HEIGHT / 2) + sprt->v_off;
+	sprt->coords_y.b = (sprt->h / 2) + (WIN_HEIGHT / 2) + sprt->v_off;
 	sprt->bounds_y.a = c_max(0, sprt->coords_y.a);
 	sprt->bounds_y.b = c_min(WIN_HEIGHT - 1, sprt->coords_y.b);
 	i = sprt->bounds_x.a;
@@ -85,10 +85,28 @@ void	c_render_current_sprite(t_game *g, t_sprt_attr *sprt,
 	}
 	i = sprt->bounds_y.a;
 	while (i < sprt->bounds_y.b)
-		c_draw_sprite_line(g, sprt, i++);
+	{
+		c_draw_sprite_line(g, sprt, i, i - sprt->coords_y.a);
+		++i;
+	}
+}
+
+int	_set_vertical_offset(t_sprt_attr *sprt_a)
+{
+	if (sprt_a->s->v_pos == 0)
+		return (0 / sprt_a->transform.y);
+	// else if (sprt_a->s->v_pos == -1)
+	// 	return ((int)((float)(sprt_a->s->i->h) / sprt_a->transform.y));
+	// else
+	// 	return ((int)((float)(-sprt_a->s->i->h) / sprt_a->transform.y));
+	else if (sprt_a->s->v_pos == -1)
+		return ((int)((float)(sprt_a->s->i->h * sprt_a->s->scale) / sprt_a->transform.y));
+	else
+		return ((int)((float)(-sprt_a->s->i->h * sprt_a->s->scale) / sprt_a->transform.y));
 }
 
 // Sprite rendering loop
+// FIXME: Somewhere in here is a problem with vertical offset
 void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[])
 {
 	const t_sprt	*sprt;
@@ -103,9 +121,11 @@ void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[])
 		sprt_attr.transform = c_sprite_projection_matrix(sprt->x, sprt->y, g);
 		sprt_attr.screen_x = (int)((WIN_WIDTH / 2)
 				* (1 + (sprt_attr.transform.x / sprt_attr.transform.y)));
-		sprt_attr.w = abs((int)(WIN_HEIGHT / sprt_attr.transform.y / 1.7f));
-		sprt_attr.h = abs((int)(WIN_HEIGHT / sprt_attr.transform.y / 1.7f));
+		sprt_attr.w
+			= abs((int)(WIN_HEIGHT / sprt_attr.transform.y * sprt->scale));
+		sprt_attr.h = sprt_attr.w;
 		sprt_attr.s = sprts_lst->content;
+		sprt_attr.v_off = _set_vertical_offset(&sprt_attr);
 		c_render_current_sprite(g, &sprt_attr, ray_len_buf);
 		sprts_lst = sprts_lst->next;
 	}

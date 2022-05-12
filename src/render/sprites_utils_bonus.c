@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:05:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/10 21:05:22 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 06:34:00 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 // encountered.
 t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y)
 {
-	t_sprt	*new_sprt;
+	t_sprt				*new_sprt;
+	const t_sprt_src	*src;
 
 	new_sprt = (t_sprt *)malloc(sizeof(t_sprt));
 	if (new_sprt == NULL)
@@ -26,8 +27,8 @@ t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y)
 		perror(strerror(errno));
 		return (NULL);
 	}
-	new_sprt->i = g->c->sprt_src[choice - '2'];
-	if (new_sprt->i == NULL)
+	src = g->c->sprt_src[choice - '2'];
+	if (src == NULL)
 	{
 		ft_dprintf(2, "Error\nSprite's source image isn't defined\n");
 		free(new_sprt);
@@ -35,6 +36,10 @@ t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y)
 	}
 	new_sprt->x = x;
 	new_sprt->y = y;
+	new_sprt->i = src->i;
+	new_sprt->type = src->id;
+	new_sprt->v_pos = src->v_pos;
+	new_sprt->scale = src->scale;
 	return (new_sprt);
 }
 

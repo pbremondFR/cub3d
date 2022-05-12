@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 01:47:34 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/12 05:12:00 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@
 //                                  STRUCTS                                   //
 // ========================================================================== //
 
-typedef unsigned int		t_uint;
+typedef unsigned int			t_uint;
 
 typedef struct s_point
 {
@@ -138,32 +138,30 @@ typedef struct s_mlx_img
 
 # define SPRITE_MAX_NUM	4
 
-typedef struct s_mlx_font	t_font;
+typedef struct s_mlx_font		t_font;
+typedef struct s_sprite_source	t_sprt_src;
 typedef struct s_cub_data
 {
-	char	**map;
-	t_uint	sx; // Map x max size
-	t_uint	sy; // Map y max size
+	char		**map;
+	t_uint		sx; // Map x max size
+	t_uint		sy; // Map y max size
 
-	t_img	*n; // North texture
-	t_img	*s; // South texture
-	t_img	*e; // East texture
-	t_img	*w; // West texture
-	t_font	*font; // Font bitmap
+	t_img		*n; // North texture
+	t_img		*s; // South texture
+	t_img		*e; // East texture
+	t_img		*w; // West texture
+	t_font		*font; // Font bitmap
 	
-	int		f; // Floor
-	int		c; // Ceiling
+	int			f; // Floor
+	int			c; // Ceiling
 
-	t_img	*sprt_src[SPRITE_MAX_NUM];
-	char	sprt_src_id[SPRITE_MAX_NUM];
-
-	// int		pl_x; // Player start position
-	// int		pl_y;
+	t_sprt_src	*sprt_src[SPRITE_MAX_NUM];
+	char		sprt_src_id[SPRITE_MAX_NUM];
 }				t_cub;
 
 t_cub		*c_init_t_cub(t_cub *p_cub);
 
-typedef struct s_list		t_list;
+typedef struct s_list			t_list;
 
 // typedef struct s_sprite		t_sprt;
 

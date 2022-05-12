@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/12 01:45:59 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/12 05:25:08 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
 				utils.c\
 				maths/math_funcs.c
 
-MAP_SRC_FILES =			cub_file.c		cub_graphics.c		map_parsing.c\
+MAP_SRC_FILES =			cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c		cub_graphics_2.c
 
 RENDER_SRC_FILES =		utils.c				movement.c\
@@ -74,7 +74,8 @@ RAYCAST_SRC =	$(addprefix raycast/,	$(RAYCAST_SRC_FILES))
 SRC_MANDATORY =	$(SRC_COMMON)\
 				main.c\
 				render/rendering.c\
-				map/map_error_check.c
+				map/map_error_check.c\
+				map/cub_file.c
 
 SRC_MANDATORY_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_MANDATORY))
 OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_MANDATORY_PLUS_PATH)))
@@ -93,7 +94,9 @@ SRC_BONUS =	$(SRC_COMMON)\
 			render/sprites_bonus.c\
 			render/sprites_utils_bonus.c\
 			render/sprites_sorting_bonus.c\
-			map/map_parsing_2_bonus.c
+			map/map_parsing_2_bonus.c\
+			map/cub_graphics_sprites_bonus.c\
+			map/cub_file_bonus.c
 
 SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
 BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_PLUS_PATH)))
@@ -109,7 +112,7 @@ NAME = cub3d
 NAME_BONUS = cub3d_bonus
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -O2 #-fsanitize=address
 
 all : $(NAME)
 
