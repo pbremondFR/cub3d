@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 15:55:04 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 01:12:52 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:30:14 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	_char_color_print(char c)
 		ft_dprintf(2, "%s%c%s", BLK, c, RESET);
 	else if (c == '1')
 		ft_dprintf(2, "%s%c%s", WHTB, c, RESET);
-	else if (ft_strchr("2345", c))
+	else if (ft_strchr(SPRITE_IDS, c))
 		ft_dprintf(2, "%s%c%s", GRNB, c, RESET);
 	else if (ft_strchr("NESW", c))
 		ft_dprintf(2, "%s%c%s", BLUB, c, RESET);

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 06:29:24 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:35:59 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 # define CUB3D_BONUS_H
 
 # include <cub3d.h>
+# include <time.h>
+
+# define CLOCKS_PER_MS	1000
 
 # undef MAP_LEGAL_CHARS
-# define MAP_LEGAL_CHARS	"01NESW 2345"
+# define MAP_LEGAL_CHARS	"01NESW abcd"
 
 // # define FONT_PATH		"./assets/charmap_zoom2x.xpm"
 // # define FONT_BM_W		18
@@ -68,9 +71,11 @@ typedef struct s_sprite
 	float		x;
 	float		y;
 	float		dist_sq; // Squared distance to player
-	float		scale; // Inverse of sprite's scale
+	float		scale; // Sprite's scaling factor
 	char		type; // Type of sprite ('2', '3'...)
+	int8_t		state; // State of sprite (for animations, AI...)
 	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
+	void		(*routine)(t_game *); // Function pointer for routine if needed
 }				t_sprt;
 
 typedef struct s_sprite_source
@@ -79,7 +84,7 @@ typedef struct s_sprite_source
 
 	char		id;
 	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
-	float		scale; // Inverse of sprite's scale
+	float		scale; // Sprite's scaling factor
 }				t_sprt_src;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 15:44:26 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 21:26:57 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:27:23 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	c_is_flooradj_legal(const char c)
 {
 	if (c == '\0')
 		return (0);
-	if (!ft_strchr("01NESW2345", c))
+	if (!ft_strchr(LEGAL_FLOOR_NEIGHBOURS, c))
 		return (0);
 	return (1);
 }

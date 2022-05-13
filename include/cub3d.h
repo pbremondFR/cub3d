@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 12:04:38 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:51:16 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@
 # define MAP_LEGAL_CHARS	"01NESW "
 # define M_CHRS				MAP_LEGAL_CHARS
 
-# define SPRITE_CHARS		"2345"
+# define SPRITE_IDS			"abcd"
+
+# define LEGAL_FLOOR_NEIGHBOURS	"01NESWabcd"
 
 # define EVENT_KEY_DOWN			2
 # define EVENT_KEY_UP			3
@@ -167,29 +169,30 @@ typedef struct s_list			t_list;
 
 typedef struct s_game_data
 {
-	float		x; // Player x position
-	float		y; // Player y position
-	float		vx; // Player x velocity
-	float		vy; // Player y velocity
-	float		va; // Player head's angular velocity
-	float		dx; // Player direction vector's x
-	float		dy; // Player direction vector's y
-	float		cx; // Player camera plane's x
-	float		cy; // Player camera plane's y
+	float			x; // Player x position
+	float			y; // Player y position
+	float			vx; // Player x velocity
+	float			vy; // Player y velocity
+	float			va; // Player head's angular velocity
+	float			dx; // Player direction vector's x
+	float			dy; // Player direction vector's y
+	float			cx; // Player camera plane's x
+	float			cy; // Player camera plane's y
 
-	uint16_t	k; // Keystate
-	char		m_cap; // Mouse capture boolean
+	uint16_t		k; // Keystate
+	char			m_cap; // Mouse capture boolean
 
-	t_cub		*c; // .cub file data
+	t_cub			*c; // .cub file data
 
-	t_img		f; // MLX image for frame
+	t_img			f; // MLX image for frame
 
-	void		*mlx; // MLX handle
-	void		*mw; // MLX window
+	void			*mlx; // MLX handle
+	void			*mw; // MLX window
 
-	t_img		olay; // Overlay MLX image (minimap)
-	t_list		*sprts_lst; // Sprites list
-	uint8_t		n_sprt;
+	t_img			olay; // Overlay MLX image (minimap)
+	t_list			*sprts_lst; // Sprites list
+	uint8_t			n_sprt;
+	struct timespec	t;
 }				t_game;
 t_game		*c_init_t_game(t_game *g);
 

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 02:14:48 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:21:48 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	c_render(void *handle)
 	float	ray_len_buf[WIN_WIDTH];
 
 	g = (t_game *)handle;
+	clock_gettime(CLOCK_MONOTONIC, &g->t);
 	if (g->k == KEYS_ESC)
 		c_exit_program(handle);
 	c_print_background(g);

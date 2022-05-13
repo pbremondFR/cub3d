@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:05:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 06:34:00 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:54:57 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y)
 		perror(strerror(errno));
 		return (NULL);
 	}
-	src = g->c->sprt_src[choice - '2'];
+	src = g->c->sprt_src[choice - SPRITE_IDS[0]];
 	if (src == NULL)
 	{
 		ft_dprintf(2, "Error\nSprite's source image isn't defined\n");

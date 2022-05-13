@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 03:06:55 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 07:34:23 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:36:56 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g)
 	tgt->i = c_import_xpm(path, g, false);
 	if (tgt->i == NULL)
 		c_exit_program(g);
-	ft_printf("h/w: %d\n", tgt->i->h);
+	ft_printf("w: %d\th: %d\n", tgt->i->w, tgt->i->h);
 }

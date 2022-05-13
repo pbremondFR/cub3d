@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 22:46:21 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 23:01:31 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:30:20 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	c_init_sprites_pos(t_game *g)
 		x = -1;
 		while ((t_uint)++x < g->c->sx)
 		{
-			if (ft_strchr("2345", g->c->map[y][x]))
+			if (ft_strchr(SPRITE_IDS, g->c->map[y][x]))
 			{
 				new_sprt = c_create_sprite(g, g->c->map[y][x],
 						(float)x + 0.5f, (float)y + 0.5f);
