@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 03:06:55 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 16:36:56 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 18:21:23 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ static int	_parse_values(t_sprt_src *tgt, char id)
 		tgt->v_pos = 1;
 	else
 	{
-		ft_dprintf(2, "Error\nIllegal sprite height value > %c\n", tgt->v_pos);
+		ft_dprintf(2, "Error\nIllegal sprite height value\n");
+		return (EXIT_FAILURE);
+	}
+	if (tgt->n_tiles <= 0 || tgt->n_tiles > 255)
+	{
+		ft_dprintf(2, "Error\nIllegal number of tiles provided");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -51,21 +56,22 @@ void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g)
 
 	if (*tgt_ptr != NULL)
 	{
-		ft_dprintf(2, "Error\nRedefined `%c' sprite texture.\n", *(line - 1));
+		ft_dprintf(2, "Error\nRedefined `%c' sprite texture.\n", line[-1]);
 		c_exit_program(g);
 	}
 	*tgt_ptr = (t_sprt_src *)malloc(sizeof(t_sprt_src));
 	if (*tgt_ptr == NULL)
 		_fatal_exit();
 	tgt = *tgt_ptr;
-	if (sscanf(line, "%1024s %f %c", path, &tgt->scale, &tgt->v_pos) != 3
-		|| _parse_values(tgt, *(line - 1)) != EXIT_SUCCESS)
+	if (sscanf(line, "%1024s %f %c %d", path, &tgt->scale, &tgt->v_pos,
+			&tgt->n_tiles) != 4 || _parse_values(tgt, line[-1]) != EXIT_SUCCESS)
 	{
-		ft_dprintf(2, "Error\nIncorrect `%c' sprite definition\n", *(line - 1));
+		ft_dprintf(2, "Error\nIncorrect `%c' sprite definition\n", line[-1]);
 		c_exit_program(g);
 	}
 	tgt->i = c_import_xpm(path, g, false);
 	if (tgt->i == NULL)
 		c_exit_program(g);
-	ft_printf("w: %d\th: %d\n", tgt->i->w, tgt->i->h);
+	tgt->tile_h = tgt->i->h / tgt->n_tiles;
+	// ft_printf("w: %d\th: %d\n", tgt->i->w, tgt->i->h);
 }

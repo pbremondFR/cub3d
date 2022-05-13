@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 16:35:59 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:30:37 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <cub3d.h>
 # include <time.h>
+# include <sys/time.h>
 
 # define CLOCKS_PER_MS	1000
 
@@ -67,6 +68,9 @@ typedef struct s_mlx_font
 typedef struct s_sprite
 {
 	const t_img	*i;
+	t_uint		t_w; // Sprite tile's width on tilemap
+	t_uint		t_h;
+	const char	*addr; // Sprite's source
 
 	float		x;
 	float		y;
@@ -75,7 +79,11 @@ typedef struct s_sprite
 	char		type; // Type of sprite ('2', '3'...)
 	int8_t		state; // State of sprite (for animations, AI...)
 	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
-	void		(*routine)(t_game *); // Function pointer for routine if needed
+	void		(*routine)(t_game *, struct s_sprite *); // Function pointer for routine if needed
+	long		next_time;
+	t_uint		cur_tile;
+	t_uint		n_tiles;
+	bool		skip;
 }				t_sprt;
 
 typedef struct s_sprite_source
@@ -85,6 +93,8 @@ typedef struct s_sprite_source
 	char		id;
 	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
 	float		scale; // Sprite's scaling factor
+	int			n_tiles; // Number of tiles
+	t_uint		tile_h; // Height of one tile
 }				t_sprt_src;
 
 /*
@@ -142,8 +152,6 @@ void	c_minimap_render(t_game *g, int x, int y);
 // ========================================================================== //
 
 // sprites_bonus.c
-t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y);
-void	c_destroy_sprite(t_sprt **sprt);
 t_pnt	c_sprite_projection_matrix(float sprite_x, float sprite_y,
 			const t_game *g);
 void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[]);
@@ -151,6 +159,12 @@ void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[]);
 // sprites_sorting_bonus.c
 void	c_calc_sprite_dist(const t_game *g, t_list *sprt_lst);
 t_list	*c_sort_sprites(t_list *p_sprt_lst);
+
+// sprites_utils_bonus.c
+t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y);
+void	c_destroy_sprite(t_sprt **sprt);
+void	c_sprite_default_animate_routine(t_game *g, t_sprt *sprt);
+void	c_barrel_animate_routine(t_game *g, t_sprt *sprt);
 
 // map_parsing_2_bonus.c
 void	c_init_sprites_pos(t_game *g);

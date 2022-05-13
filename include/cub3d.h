@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 16:51:16 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:34:58 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # define KEYC_D		2
 # define KEYC_LEFT	123
 # define KEYC_RIGHT	124
+# define KEYC_UP	126
 # define KEYC_SPA	49
 
 # define KEYS_A		0x0001
@@ -73,6 +74,7 @@
 # define KEYS_M3	0x0400
 # define KEYS_MUP	0x0800
 # define KEYS_MDNW	0x1000
+# define KEYS_UP	0x2000
 
 # define WIN_WIDTH		720
 # define WIN_HEIGHT		540

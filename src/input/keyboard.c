@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:26:21 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/28 23:06:40 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:36:04 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	c_keypress_handler(int key, void *handle)
 		g->k |= KEYS_LEFT;
 	if (key == KEYC_RIGHT)
 		g->k |= KEYS_RIGHT;
+	if (key == KEYC_UP)
+		g->k |= KEYS_UP;
 	if (key == KEYC_SPA)
 		c_toggle_mouselook(g);
 	if (key == KEYC_ESC)
@@ -54,6 +56,8 @@ int	c_keyrelease_handler(int key, void *handle)
 		g->k ^= KEYS_LEFT;
 	if (key == KEYC_RIGHT)
 		g->k ^= KEYS_RIGHT;
+	if (key == KEYC_UP)
+		g->k ^= KEYS_UP;
 	// if (key == KEYC_SPA)
 	// 	g->k ^= KEYS_SPA;
 	if (key == KEYC_ESC)
