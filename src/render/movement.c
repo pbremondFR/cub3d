@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/28 22:20:03 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 22:39:17 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	c_collision_handling(t_game *g, float next_x, float next_y)
 	// printf("Ray plane len: %.2f\n", ray.c_plane_len);
 }
 
+// FIXME: Does not play well with thin walls at all for now
 void	c_move_player(t_game *g)
 {
 	if (g->k & KEYS_W && g->vy < MAX_VEL)
@@ -123,4 +124,6 @@ void	c_move_player(t_game *g)
 	c_collision_handling(g,
 		g->x + (g->vy * g->dx) + (g->vx * -g->dy),
 		g->y + (g->vy * g->dy) + (g->vx * g->dx));
+	// g->x += (g->vy * g->dx) + (g->vx * -g->dy);
+	// g->y += (g->vy * g->dy) + (g->vx * g->dx);
 }

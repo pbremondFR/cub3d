@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:05:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 17:15:10 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 22:18:32 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void	c_sprite_default_animate_routine(t_game *g, t_sprt *sprt)
 
 void	c_barrel_animate_routine(t_game *g, t_sprt *sprt)
 {
-	if (sprt->x < 27.5f)
-		sprt->x += 0.005f;
+	// if (sprt->x < 27.5f)
+	// 	sprt->x += 0.005f;
 	if (g->t.tv_sec * 1000 + (g->t.tv_nsec / 1e6) < sprt->next_time)
 		return ;
 	if (sprt->state == 0 && fabsf(c_math_get_sq_dist(sprt->x, g->x, sprt->y, g->y)) < 1.0f)

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 20:24:10 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 21:03:20 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	c_map_error_check(const char **map)
 	int	y;
 	int	x;
 
+	return (EXIT_SUCCESS);
 	if (_check_map_is_last(map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	y = -1;

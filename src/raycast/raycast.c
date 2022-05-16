@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 08:26:34 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 20:06:46 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 22:36:34 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,57 @@ void	c_ray_calc_step_and_len(t_ray *ray, float pos_x, float pos_y)
 	}
 }
 
+static bool	_ray_intersect(t_game *g, t_ray *ray)
+{
+	const char	tile = g->c->map[ray->map_y][ray->map_x];
+
+	if (tile == '1')
+		return (true);
+	else if (tile == '|')
+	{
+		if (ray->len_x - ray->delta_dist_x / 2 < ray->len_y)
+		{
+			ray->len_x += ray->delta_dist_x / 2;
+			ray->side = RAY_HIT_X;
+			return (true);
+		}
+		else
+			return (false);
+	}
+	else if (tile == '-')
+	{
+		if (ray->len_x < ray->len_y - ray->delta_dist_y / 2)
+			return (false);
+		else
+		{
+			ray->len_y += ray->delta_dist_y / 2;
+			ray->side = RAY_HIT_Y;
+			return (true);
+		}
+	}
+	else
+		return (false);
+}
+
 void	c_ray_raycasting_loop(t_game *g, t_ray *ray)
 {
 	while (1)
 	{
 		if (ray->map_x < 0 || (t_uint)ray->map_x >= g->c->sx
 			|| ray->map_y < 0 || (t_uint)ray->map_y >= g->c->sy
-			|| g->c->map[ray->map_y][ray->map_x] == '1')
+			|| _ray_intersect(g, ray))
 			break ;
 		if (ray->len_x < ray->len_y)
 		{
 			ray->len_x += ray->delta_dist_x;
 			ray->map_x += ray->step_x;
-			ray->side = 0;
+			ray->side = RAY_HIT_X;
 		}
 		else
 		{
 			ray->len_y += ray->delta_dist_y;
 			ray->map_y += ray->step_y;
-			ray->side = 1;
+			ray->side = RAY_HIT_Y;
 		}
 	}
 }
