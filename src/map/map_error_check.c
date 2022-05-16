@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 21:29:03 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:22:26 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	_chk_tile_adj(const char **map, unsigned int x,
 		|| !c_is_flooradj_legal(map[y][x + 1]))
 		return (EXIT_FAILURE);
 	if (y == 0 || !c_is_flooradj_legal(map[y - 1][x])
-		|| !c_is_flooradj_legal(map[y + 1][x]))
+		|| !map[y + 1] || !c_is_flooradj_legal(map[y + 1][x]))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

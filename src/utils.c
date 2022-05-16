@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:28:42 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 19:44:39 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:05:23 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	c_exit_program(void *g_handle)
 	if (g->f.i)
 		mlx_destroy_image(g->mlx, g->f.i);
 	mlx_destroy_window(g->mlx, g->mw);
-	while (1)
-		;
+	// while (1)
+	// 	;
 	exit(0);
 	return (0);
 }

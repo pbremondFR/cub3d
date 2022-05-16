@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 08:26:34 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/20 11:47:51 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:06:46 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	c_ray_raycasting_loop(t_game *g, t_ray *ray)
 {
 	while (1)
 	{
-		if (ray->map_x < 0 || (t_uint)ray->map_x > g->c->sx
-			|| ray->map_y < 0 || (t_uint)ray->map_y > g->c->sy
+		if (ray->map_x < 0 || (t_uint)ray->map_x >= g->c->sx
+			|| ray->map_y < 0 || (t_uint)ray->map_y >= g->c->sy
 			|| g->c->map[ray->map_y][ray->map_x] == '1')
 			break ;
 		if (ray->len_x < ray->len_y)

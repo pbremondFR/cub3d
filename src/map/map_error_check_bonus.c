@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 22:27:55 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:24:10 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	_chk_tile_adj(const char **map, unsigned int x,
 		|| !c_is_flooradj_legal(map[y][x + 1]))
 		return (EXIT_FAILURE);
 	if (y == 0 || !c_is_flooradj_legal(map[y - 1][x])
-		|| !c_is_flooradj_legal(map[y + 1][x]))
+		|| !map[y + 1] || !c_is_flooradj_legal(map[y + 1][x]))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -60,7 +60,8 @@ int	c_map_error_check(const char **map)
 		while (map[y][++x])
 		{
 			if ((!ft_strchr(M_CHRS, map[y][x]))
-				|| (map[y][x] == '0' && _chk_tile_adj(map, x, y) != 0))
+				|| (ft_strchr("0"SPRITE_IDS, map[y][x])
+						&& _chk_tile_adj(map, x, y) != 0))
 			{
 				ft_dprintf(2, "Error\nIllegal map tile around (%d, %d)\n", x, y);
 				c_map_print_error(map, x, y);
