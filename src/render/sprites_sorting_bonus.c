@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 22:31:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/10 23:30:22 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 19:37:11 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	_insert_into_sorted(t_list *current, t_list *sorted)
 	}
 }
 
-t_list	*c_sort_sprites(t_list *sprts_l)
+t_list	*c_sort_sprites(const t_game *g, t_list *sprts_l)
 {
 	t_list	*sorted;
 	t_list	*current;
@@ -52,6 +52,7 @@ t_list	*c_sort_sprites(t_list *sprts_l)
 
 	if (sprts_l == NULL || sprts_l->next == NULL)
 		return (sprts_l);
+	c_calc_sprite_dist(g, sprts_l);
 	sorted = NULL;
 	while (sprts_l)
 	{

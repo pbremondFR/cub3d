@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 19:30:37 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 19:37:28 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_sprite
 	long		next_time;
 	t_uint		cur_tile;
 	t_uint		n_tiles;
-	bool		skip;
+	bool		del;
 }				t_sprt;
 
 typedef struct s_sprite_source
@@ -158,7 +158,7 @@ void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[]);
 
 // sprites_sorting_bonus.c
 void	c_calc_sprite_dist(const t_game *g, t_list *sprt_lst);
-t_list	*c_sort_sprites(t_list *p_sprt_lst);
+t_list	*c_sort_sprites(const t_game *g, t_list *p_sprt_lst);
 
 // sprites_utils_bonus.c
 t_sprt	*c_create_sprite(t_game *g, char choice, float x, float y);

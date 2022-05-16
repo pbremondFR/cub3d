@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:01:27 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 19:30:59 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 19:42:17 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,48 +92,76 @@ void	c_render_current_sprite(t_game *g, t_sprt_attr *sprt_a,
 }
 
 // Bruh moment
-int	_set_vertical_offset(t_sprt_attr *sprt_a)
+// int	_set_vertical_offset(t_sprt_attr *sprt_a)
+// {
+// 	if (sprt_a->s->v_pos == 0)
+// 		return (0 / sprt_a->transform.y);
+// 	// else if (sprt_a->s->v_pos == -1)
+// 	// 	return ((int)((float)(sprt_a->s->i->h / 2) / sprt_a->transform.y));
+// 	// else
+// 	// 	return ((int)((float)(-sprt_a->s->i->h / 2) / sprt_a->transform.y));
+// 	else if (sprt_a->s->v_pos == -1)
+// 		return ((int)((float)((sprt_a->s->t_h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
+// 	else
+// 		return ((int)((float)(-(sprt_a->s->t_h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
+// }
+
+// lst->next is guaranteed to be a valid pointer to the next node
+const t_sprt	*_remove_sprite_from_list(t_list **lst_p, t_list **lst_begin,
+	bool del_current)
 {
-	if (sprt_a->s->v_pos == 0)
-		return (0 / sprt_a->transform.y);
-	// else if (sprt_a->s->v_pos == -1)
-	// 	return ((int)((float)(sprt_a->s->i->h / 2) / sprt_a->transform.y));
-	// else
-	// 	return ((int)((float)(-sprt_a->s->i->h / 2) / sprt_a->transform.y));
-	else if (sprt_a->s->v_pos == -1)
-		return ((int)((float)((sprt_a->s->t_h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
+	t_list			*lst;
+	t_list			*tmp;
+	const t_sprt	*retval = NULL;
+
+	lst = *lst_p;
+	if (del_current == true)
+	{
+		tmp = *lst_p;
+		if (*lst_p == *lst_begin)
+			*lst_begin = (*lst_p)->next;
+		*lst_p = (*lst_p)->next;
+		if (*lst_p)
+			retval = (*lst_p)->content;
+	}
 	else
-		return ((int)((float)(-(sprt_a->s->t_h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
+	{
+		tmp = lst->next;
+		lst->next = lst->next->next;
+		retval = lst->content;
+	}
+	ft_lstdelone(tmp, &free);
+	return (retval);
 }
 
 // Sprite rendering loop
 // BUG: Somewhere in here is a problem with vertical offset...
 // If I can't fix this, it's better to only use 'N' position
-void	c_render_sprites(t_game *g, t_list *sprts_lst, float ray_len_buf[])
+void	c_render_sprites(t_game *g, t_list *sp_lst, float ray_len_buf[])
 {
 	const t_sprt	*sprt;
-	t_sprt_attr		sprt_attr;
+	t_sprt_attr		sprt_a;
 
-	c_calc_sprite_dist(g, sprts_lst);
-	sprts_lst = c_sort_sprites(g->sprts_lst);
-	g->sprts_lst = sprts_lst;
-	while (sprts_lst)
+	sp_lst = c_sort_sprites(g, g->sprts_lst);
+	g->sprts_lst = sp_lst;
+	while (sp_lst)
 	{
-		sprt = (const t_sprt *)sprts_lst->content;
-		if (sprt->skip == false)
-		{
-			if (sprt->routine)
-				sprt->routine(g, (t_sprt *)sprt);
-			sprt_attr.transform = c_sprite_projection_matrix(sprt->x, sprt->y, g);
-			sprt_attr.screen_x = (int)((WIN_WIDTH / 2)
-					* (1 + (sprt_attr.transform.x / sprt_attr.transform.y)));
-			sprt_attr.w
-				= abs((int)(WIN_HEIGHT / sprt_attr.transform.y * sprt->scale));
-			sprt_attr.h = sprt_attr.w;
-			sprt_attr.s = sprts_lst->content;
-			sprt_attr.v_off = _set_vertical_offset(&sprt_attr);
-			c_render_current_sprite(g, &sprt_attr, ray_len_buf);
-		}
-		sprts_lst = sprts_lst->next;
+		sprt = (const t_sprt *)sp_lst->content;
+		if (sprt->del || (sp_lst->next
+				&& ((const t_sprt *)(sp_lst->next->content))->del))
+			sprt = _remove_sprite_from_list(&sp_lst, &g->sprts_lst, sprt->del);
+		if (sprt == NULL)
+			break ;
+		if (sprt->routine)
+			sprt->routine(g, (t_sprt *)sprt);
+		sprt_a.transform = c_sprite_projection_matrix(sprt->x, sprt->y, g);
+		sprt_a.screen_x = (int)((WIN_WIDTH / 2)
+				* (1 + (sprt_a.transform.x / sprt_a.transform.y)));
+		sprt_a.w = abs((int)(WIN_HEIGHT / sprt_a.transform.y * sprt->scale));
+		sprt_a.h = sprt_a.w;
+		sprt_a.s = sp_lst->content;
+		sprt_a.v_off = 0;
+		c_render_current_sprite(g, &sprt_a, ray_len_buf);
+		sp_lst = sp_lst->next;
 	}
 }

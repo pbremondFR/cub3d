@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 21:05:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 19:42:26 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/16 17:15:10 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	_init_new_values(t_sprt *new_sprt, const t_sprt_src *src)
 	new_sprt->t_w = new_sprt->i->w;
 	new_sprt->t_h = src->tile_h;
 	new_sprt->addr = new_sprt->i->addr;
-	new_sprt->skip = false;
+	new_sprt->del = false;
 }
 
 // Allocates a t_sprt and initializes it according to choice. Choice can be
@@ -82,6 +82,8 @@ void	c_sprite_default_animate_routine(t_game *g, t_sprt *sprt)
 
 void	c_barrel_animate_routine(t_game *g, t_sprt *sprt)
 {
+	if (sprt->x < 27.5f)
+		sprt->x += 0.005f;
 	if (g->t.tv_sec * 1000 + (g->t.tv_nsec / 1e6) < sprt->next_time)
 		return ;
 	if (sprt->state == 0 && fabsf(c_math_get_sq_dist(sprt->x, g->x, sprt->y, g->y)) < 1.0f)
@@ -103,7 +105,7 @@ void	c_barrel_animate_routine(t_game *g, t_sprt *sprt)
 		if (sprt->cur_tile >= sprt->n_tiles)
 		{
 			g->c->map[(int)sprt->y][(int)sprt->x] = '0';
-			sprt->skip = true;
+			sprt->del = true;
 		}
 		else
 		{
