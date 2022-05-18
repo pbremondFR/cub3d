@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 22:10:31 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 21:12:21 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	c_render_raycast_loop(t_game *g)
 		else
 			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
 		line_height = (int)(WIN_HEIGHT / ray.c_plane_len);
-		c_start_draw_wall(g, &ray, i++);
+		c_start_draw_wall(g, &ray, i++, 0);
 	}
 }
 

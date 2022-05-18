@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 19:37:28 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 21:23:58 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,27 @@ typedef struct s_sprite_disp_attributes
 	bool			do_draw_x[WIN_WIDTH];
 }				t_sprt_attr;
 
+typedef struct s_door
+{
+	// const t_img	*i;
+	int			x;
+	int			y;
+	long		next_time;
+	int8_t		open; // 0 = closed, 100 = opened.
+	int8_t		state; // Door is closed, opened, closing, or opening
+}				t_door;
+# define DOOR_PERIOD_MS		10
+# define DOOR_OPEN_DELTA	1
+# define DOOR_OPENED		0
+# define DOOR_CLOSED		2
+# define DOOR_OPENING		1
+# define DOOR_CLOSING		-1
+
+bool	c_is_time_over(const struct timespec *t, long next);
+void	c_move_door(t_door *door);
+t_door	*c_get_door(t_door *doors, t_uint n_doors, int x, int y);
+void	c_init_doors(t_cub *c);
+
 // ========================================================================== //
 //                                CUSTOM FONT                                 //
 // ========================================================================== //
@@ -171,5 +192,11 @@ void	c_init_sprites_pos(t_game *g);
 
 // cub_graphics_sprites_bonus.c
 void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g);
+
+// ========================================================================== //
+//                                   DOORS                                    //
+// ========================================================================== //
+
+void	c_ray_raycasting_loop_bonus(t_game *g, t_ray *ray, int8_t *offset);
 
 #endif

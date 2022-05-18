@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:28:42 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 20:05:23 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 20:57:51 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,12 @@ int	c_exit_program(void *g_handle)
 	// 	;
 	exit(0);
 	return (0);
+}
+
+// To be used when all hell breaks loose, i.e. malloc failure.
+void	c_fatal_exit(void)
+{
+	write(2, "Fatal error: ", 13);
+	perror(strerror(errno));
+	exit(errno);
 }

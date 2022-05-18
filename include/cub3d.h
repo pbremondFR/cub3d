@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 19:34:58 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 21:12:06 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ typedef struct s_mlx_img
 
 typedef struct s_mlx_font		t_font;
 typedef struct s_sprite_source	t_sprt_src;
+typedef struct s_door			t_door;
 typedef struct s_cub_data
 {
 	char		**map;
@@ -155,12 +156,15 @@ typedef struct s_cub_data
 	t_img		*e; // East texture
 	t_img		*w; // West texture
 	t_font		*font; // Font bitmap
+	t_img		*door; // Door texture
 	
 	int			f; // Floor
 	int			c; // Ceiling
 
 	t_sprt_src	*sprt_src[SPRITE_MAX_NUM];
 	char		sprt_src_id[SPRITE_MAX_NUM];
+	t_door		*doors;
+	t_uint		n_doors;
 }				t_cub;
 
 t_cub		*c_init_t_cub(t_cub *p_cub);
@@ -211,6 +215,7 @@ void		c_mouse_look(t_game *g);
 
 // utils.c
 int			c_exit_program(void *g_handle);
+void		c_fatal_exit(void);
 
 // ========================================================================== //
 //                                  CUB FILE                                  //
@@ -273,7 +278,7 @@ int			c_render(void *handle);
 // void		c_render_raycast_loop(t_game *g);
 
 // textures.c
-void		c_start_draw_wall(t_game *g, t_ray *ray, int x);
+void		c_start_draw_wall(t_game *g, t_ray *ray, int x, int8_t tex_offset);
 const char	*c_fetch_texture_col(const t_img *texture, float texture_x);
 
 // textures_2.c

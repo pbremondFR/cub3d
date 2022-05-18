@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:15:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 13:47:33 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 20:33:22 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ t_img	*c_import_xpm(const char *path, t_game *g, bool opt)
 		return (NULL);
 	img->i = mlx_xpm_file_to_image(g->mlx, trimmed, &img->w, &img->h);
 	if (img->i == NULL)
+	{
+		ft_dprintf(2, "Error\nCouldn't import `%s' texture.\n", trimmed);
 		return (NULL);
+	}
 	if (opt == true && img->w != img->h)
 	{
 		ft_dprintf(2, "Error\nTexture in `%s' is not squared.\n", trimmed);

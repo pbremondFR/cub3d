@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/16 20:05:52 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/18 21:17:26 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ MAP_SRC_FILES =			cub_graphics.c		map_parsing.c\
 RENDER_SRC_FILES =		utils.c				movement.c\
 	textures.c			textures_2.c
 
-RAYCAST_SRC_FILES =		raycast.c
+# RAYCAST_SRC_FILES =		raycast.c
 
 MAP_SRC =		$(addprefix map/,		$(MAP_SRC_FILES))
 RENDER_SRC =	$(addprefix render/,	$(RENDER_SRC_FILES))
@@ -75,7 +75,8 @@ SRC_MANDATORY =	$(SRC_COMMON)\
 				main.c\
 				render/rendering.c\
 				map/map_error_check.c\
-				map/cub_file.c
+				map/cub_file.c\
+				raycast/raycast.c
 
 SRC_MANDATORY_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_MANDATORY))
 OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_MANDATORY_PLUS_PATH)))
@@ -96,7 +97,9 @@ SRC_BONUS =	$(SRC_COMMON)\
 			render/sprites_sorting_bonus.c\
 			map/map_parsing_2_bonus.c\
 			map/cub_graphics_sprites_bonus.c\
-			map/cub_file_bonus.c
+			map/cub_file_bonus.c\
+			raycast/raycast_bonus.c\
+			render/doors_bonus.c
 
 SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
 BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_PLUS_PATH)))

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 22:39:17 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 21:19:07 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,55 +59,55 @@ static void	_player_rotation(t_game *g)
 // Else just add velocity to pos like normal
 
 // FIXME: God damnit just fix this abhorrent mess
-void	c_collision_handling(t_game *g, float next_x, float next_y)
-{
-	t_ray	ray;
-	// float	len_x;
-	// float	len_y;
-	float	dist_to_next;
-	float	dist_to_next_abs;
+// void	c_collision_handling(t_game *g, float next_x, float next_y)
+// {
+// 	t_ray	ray;
+// 	// float	len_x;
+// 	// float	len_y;
+// 	float	dist_to_next;
+// 	float	dist_to_next_abs;
 
-	ray.map_x = (int)g->x;
-	ray.map_y = (int)g->y;
-	dist_to_next = c_math_get_dist(g->x, next_x, g->y, next_y);
-	dist_to_next_abs = fabsf(dist_to_next);
-	ray.dir_x = (next_x - g->x) / dist_to_next_abs;
-	ray.dir_y = (next_y - g->y) / dist_to_next_abs;
-	ray.delta_dist_x = fabsf(c_math_get_dist(0, ray.dir_x, 0, ray.dir_y) / ray.dir_x);
-	ray.delta_dist_y = fabsf(c_math_get_dist(0, ray.dir_x, 0, ray.dir_y) / ray.dir_y);
-	c_ray_calc_step_and_len(&ray, g->x, g->y);
-	c_ray_raycasting_loop(g, &ray);
-	if (ray.side == RAY_HIT_X)
-		ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
-	else
-		ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
-	if (ray.c_plane_len - 0.1f < dist_to_next_abs)
-	{
-		if (ray.side == RAY_HIT_X)
-		{
-			// g->x += (ray.c_plane_len - 0.1f) * ray.dir_x;
-			// g->y = (float)ray.map_y;
-			// g->y = next_y;
-			printf("%sXXXXXXXXXXXXX%s\n", RED, RESET);
-		}
-		else
-		{
-			// g->x = (float)ray.map_x;
-			// g->y += (ray.c_plane_len - 0.1f) * ray.dir_y;
-			// g->x = next_x;
-			printf("%sYYYYYYYYYYYYY%s\n", BLU, RESET);
-		}
-		g->x += ((ray.c_plane_len - 0.1f) * ray.dir_x);
-		g->y += ((ray.c_plane_len - 0.1f) * ray.dir_y);
-	}
-	else
-	{
-		g->x = next_x;
-		g->y = next_y;
-	}
-	// printf("Collision dir: %.3f \t%.3f\n", ray.dir_x, ray.dir_y);
-	// printf("Ray plane len: %.2f\n", ray.c_plane_len);
-}
+// 	ray.map_x = (int)g->x;
+// 	ray.map_y = (int)g->y;
+// 	dist_to_next = c_math_get_dist(g->x, next_x, g->y, next_y);
+// 	dist_to_next_abs = fabsf(dist_to_next);
+// 	ray.dir_x = (next_x - g->x) / dist_to_next_abs;
+// 	ray.dir_y = (next_y - g->y) / dist_to_next_abs;
+// 	ray.delta_dist_x = fabsf(c_math_get_dist(0, ray.dir_x, 0, ray.dir_y) / ray.dir_x);
+// 	ray.delta_dist_y = fabsf(c_math_get_dist(0, ray.dir_x, 0, ray.dir_y) / ray.dir_y);
+// 	c_ray_calc_step_and_len(&ray, g->x, g->y);
+// 	c_ray_raycasting_loop(g, &ray);
+// 	if (ray.side == RAY_HIT_X)
+// 		ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
+// 	else
+// 		ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
+// 	if (ray.c_plane_len - 0.1f < dist_to_next_abs)
+// 	{
+// 		if (ray.side == RAY_HIT_X)
+// 		{
+// 			// g->x += (ray.c_plane_len - 0.1f) * ray.dir_x;
+// 			// g->y = (float)ray.map_y;
+// 			// g->y = next_y;
+// 			printf("%sXXXXXXXXXXXXX%s\n", RED, RESET);
+// 		}
+// 		else
+// 		{
+// 			// g->x = (float)ray.map_x;
+// 			// g->y += (ray.c_plane_len - 0.1f) * ray.dir_y;
+// 			// g->x = next_x;
+// 			printf("%sYYYYYYYYYYYYY%s\n", BLU, RESET);
+// 		}
+// 		g->x += ((ray.c_plane_len - 0.1f) * ray.dir_x);
+// 		g->y += ((ray.c_plane_len - 0.1f) * ray.dir_y);
+// 	}
+// 	else
+// 	{
+// 		g->x = next_x;
+// 		g->y = next_y;
+// 	}
+// 	// printf("Collision dir: %.3f \t%.3f\n", ray.dir_x, ray.dir_y);
+// 	// printf("Ray plane len: %.2f\n", ray.c_plane_len);
+// }
 
 // FIXME: Does not play well with thin walls at all for now
 void	c_move_player(t_game *g)
@@ -121,9 +121,9 @@ void	c_move_player(t_game *g)
 	if (g->k & KEYS_A && g->vx > -MAX_VEL)
 		g->vx -= ACCEL;
 	_player_rotation(g);
-	c_collision_handling(g,
-		g->x + (g->vy * g->dx) + (g->vx * -g->dy),
-		g->y + (g->vy * g->dy) + (g->vx * g->dx));
-	// g->x += (g->vy * g->dx) + (g->vx * -g->dy);
-	// g->y += (g->vy * g->dy) + (g->vx * g->dx);
+	// c_collision_handling(g,
+	// 	g->x + (g->vy * g->dx) + (g->vx * -g->dy),
+	// 	g->y + (g->vy * g->dy) + (g->vx * g->dx));
+	g->x += (g->vy * g->dx) + (g->vx * -g->dy);
+	g->y += (g->vy * g->dy) + (g->vx * g->dx);
 }

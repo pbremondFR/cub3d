@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 08:26:34 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 22:36:34 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 20:44:11 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,18 @@ static bool	_ray_intersect(t_game *g, t_ray *ray)
 	}
 	else if (tile == '-')
 	{
+		float	test = g->x + (ray->len_y - ray->delta_dist_y / 2) * ray->dir_x;
+		test -= (int)test;
 		if (ray->len_x < ray->len_y - ray->delta_dist_y / 2)
 			return (false);
-		else
+		else if (test < 0.5f)
 		{
 			ray->len_y += ray->delta_dist_y / 2;
 			ray->side = RAY_HIT_Y;
 			return (true);
 		}
+		else
+			return (false);
 	}
 	else
 		return (false);

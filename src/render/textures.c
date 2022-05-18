@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 14:04:49 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/27 22:24:00 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 22:05:34 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ const char	*c_fetch_texture_col(const t_img *texture, float texture_x)
 	return (texture->addr + (offset_i * texture->ls));
 }
 
-static float	_get_texture_x_offset(const t_ray *ray, const t_game *g)
+static float	_get_texture_x_offset(const t_ray *ray, const t_game *g,
+	int8_t tex_offset)
 {
 	float	texture_x;
 
@@ -33,6 +34,8 @@ static float	_get_texture_x_offset(const t_ray *ray, const t_game *g)
 	{
 		texture_x = g->y + ray->c_plane_len * ray->dir_y;
 		texture_x -= floorf(texture_x);
+		if (tex_offset)
+			texture_x += (1.0f - ((float)tex_offset / 100.0f));
 		if (ray->dir_x < 0)
 			texture_x = -texture_x + 1.0f;
 	}
@@ -40,17 +43,24 @@ static float	_get_texture_x_offset(const t_ray *ray, const t_game *g)
 	{
 		texture_x = g->x + ray->c_plane_len * ray->dir_x;
 		texture_x -= floorf(texture_x);
+		if (tex_offset)
+			texture_x += (1.0f - ((float)tex_offset / 100.0f));
 		if (ray->dir_y > 0)
 			texture_x = -texture_x + 1.0f;
 	}
+	// 	printf("texture_x: %.3f\toffset: %.3f\n", texture_x, (float)tex_offset / 100.0f);
+	// if (tex_offset)
+	// texture_x = texture_x + (1.0f - ((float)tex_offset / 100.0f));
 	return (texture_x);
 }
 
 static const t_img	*_get_texture_ptr(const t_ray *ray, const t_game *g)
 {
-	if (ray->side == RAY_HIT_X && ray->dir_x > 0)
+	if (ft_strchr("|-", g->c->map[ray->map_y][ray->map_x]))
+		return (g->c->door);
+	else if (ray->side == RAY_HIT_X && ray->dir_x > 0)
 		return (g->c->w);
-	else if (ray->side == RAY_HIT_X && ray->dir_x <= 0)
+	else if (ray->side == RAY_HIT_X)
 		return (g->c->e);
 	else if (ray->side == RAY_HIT_Y && ray->dir_y > 0)
 		return (g->c->s);
@@ -58,7 +68,7 @@ static const t_img	*_get_texture_ptr(const t_ray *ray, const t_game *g)
 		return (g->c->n);
 }
 
-void	c_start_draw_wall(t_game *g, t_ray *ray, int x)
+void	c_start_draw_wall(t_game *g, t_ray *ray, int x, int8_t tex_offset)
 {
 	int			line_height;
 	float		texture_x;
@@ -67,7 +77,7 @@ void	c_start_draw_wall(t_game *g, t_ray *ray, int x)
 
 	line_height = (int)(WIN_HEIGHT / ray->c_plane_len);
 	texture_ptr = _get_texture_ptr(ray, g);
-	texture_x = _get_texture_x_offset(ray, g);
+	texture_x = _get_texture_x_offset(ray, g, tex_offset);
 	tex_line.addr = c_fetch_texture_col(texture_ptr, texture_x);
 	tex_line.ls = texture_ptr->ls;
 	tex_line.w = texture_ptr->w;

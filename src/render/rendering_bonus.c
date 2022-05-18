@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 20:34:54 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 21:52:00 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ void	c_render_raycast_loop(t_game *g, float ray_len_buf[])
 	t_uint	i;
 	t_ray	ray;
 	float	ray_vec_adj;
+	int8_t	tex_offset;
 
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
+		tex_offset = 0;
 		ray.map_x = (int)g->x;
 		ray.map_y = (int)g->y;
 		ray_vec_adj = ((2 * i) / WIN_FWIDTH) - 1;
@@ -52,13 +54,13 @@ void	c_render_raycast_loop(t_game *g, float ray_len_buf[])
 		ray.delta_dist_x = fabsf(1 / ray.dir_x);
 		ray.delta_dist_y = fabsf(1 / ray.dir_y);
 		c_ray_calc_step_and_len(&ray, g->x, g->y);
-		c_ray_raycasting_loop(g, &ray);
-		if (ray.side == 0)
+		c_ray_raycasting_loop_bonus(g, &ray, &tex_offset);
+		if (ray.side == RAY_HIT_X)
 			ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
 		else
 			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
 		ray_len_buf[i] = ray.c_plane_len;
-		c_start_draw_wall(g, &ray, i++);
+		c_start_draw_wall(g, &ray, i++, tex_offset);
 	}
 }
 

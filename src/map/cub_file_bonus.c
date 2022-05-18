@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/13 16:55:05 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 20:37:33 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 		_import_texture(&c->e, line + i + 2, g, true);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
 		_import_texture(&c->w, line + i + 2, g, true);
+	else if (ft_strncmp(line + i, "DOOR", 4) == 0)
+		_import_texture(&g->c->door, line + i + 4, g, true);
 	else if (line[i] != '\0' && ft_strchr(SPRITE_IDS, line[i]))
 		c_import_sprite(&c->sprt_src[line[i] - SPRITE_IDS[0]], line + i + 1, g);
 	else if (line[i] == 'F')
@@ -85,11 +87,12 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	return (0);
 }
 
-// Yes, this is horrible. It's just tricks around the norm...
+// Yes, some of this is quite horrible, like that static i. It's just
+// a cheap trick around the norm !
 static int	_missing_texture_check(const t_cub *c)
 {
-	const t_img	*textures[] = {c->n, c->s, c->w, c->e};
-	const char	*tex_names[] = {"North", "South", "West", "East"};
+	const t_img	*textures[] = {c->n, c->s, c->w, c->e, c->door};
+	const char	*tex_names[] = {"North", "South", "West", "East", "Door"};
 	const int	colours[] = {c->f, c->c};
 	const char	*c_name[] = {"floor", "ceiling"};
 	static int	i = -1;

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 03:07:24 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/18 21:24:10 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	main(int argc, const char *argv[])
 	_debug_tests(&c, &g);
 	c_init_player_pos(&g, &c);
 	c_init_sprites_pos(&g);
+	c_init_doors(&c);
 	g.f.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
 	g.f.addr = mlx_get_data_addr(g.f.i, &g.f.bpp, &g.f.ls, &g.f.e);
 	g.f.w = WIN_WIDTH;
