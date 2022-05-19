@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 21:52:00 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:47:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,28 @@ void	c_print_player_coords(t_game *g)
 	c_putstr_to_frame_sbox(g, coord, 0xffffff, buffer);
 }
 
+void	debug_tests(t_game *g)
+{
+	unsigned int	i;
+
+	// for (i = (int)(sizeof(g->k) * 8) - 1; i >= 0; --i)
+	// {
+	// 	if (i % 8 == 7 && i != 15)
+	// 		ft_putchar(' ');
+	// 	if ((g->k >> i) & 1)
+	// 		ft_putchar('1');
+	// 	else
+	// 		ft_putchar('0');
+	// }
+	// ft_putchar('\n');
+	for (i = 0; i < g->c->n_doors; ++i)
+	{
+		const t_door	*door;
+		door = &g->c->doors[i];
+		printf("door %d at %d;%d: %d\n", i, door->x, door->y, door->state);
+	}
+}
+
 // Main rendering loop
 int	c_render(void *handle)
 {
@@ -105,11 +127,15 @@ int	c_render(void *handle)
 	clock_gettime(CLOCK_MONOTONIC, &g->t);
 	if (g->k == KEYS_ESC)
 		c_exit_program(handle);
+	// debug_tests(g);
 	c_print_background(g);
 	c_move_player(g);
 	if (g->m_cap)
 		c_mouse_look(g);
+	if (g->k & KEYS_M1)
+		c_player_try_open_door(g, g->c->doors, g->c->n_doors);
 	c_render_raycast_loop(g, ray_len_buf);
+	c_doors_routine(&g->t, g->c->doors, g->c->n_doors);
 	c_render_sprites(g, g->sprts_lst, ray_len_buf);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	c_print_player_coords(g);

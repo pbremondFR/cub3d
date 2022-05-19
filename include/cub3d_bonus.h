@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 21:23:58 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:34:26 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,16 +139,12 @@ typedef struct s_door
 	int8_t		state; // Door is closed, opened, closing, or opening
 }				t_door;
 # define DOOR_PERIOD_MS		10
-# define DOOR_OPEN_DELTA	1
+# define DOOR_OPEN_DELTA	2
 # define DOOR_OPENED		0
 # define DOOR_CLOSED		2
 # define DOOR_OPENING		1
 # define DOOR_CLOSING		-1
 
-bool	c_is_time_over(const struct timespec *t, long next);
-void	c_move_door(t_door *door);
-t_door	*c_get_door(t_door *doors, t_uint n_doors, int x, int y);
-void	c_init_doors(t_cub *c);
 
 // ========================================================================== //
 //                                CUSTOM FONT                                 //
@@ -198,5 +194,15 @@ void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g);
 // ========================================================================== //
 
 void	c_ray_raycasting_loop_bonus(t_game *g, t_ray *ray, int8_t *offset);
+
+bool	c_is_time_over(const struct timespec *t, long next);
+void	c_move_door(t_door *door);
+t_door	*c_get_door(t_door *doors, t_uint n_doors, int x, int y);
+void	c_init_doors(t_cub *c);
+
+t_ipair	c_get_player_target(const t_game *g);
+void	c_player_try_open_door(const t_game *g, t_door *doors, t_uint n_doors);
+void	c_doors_routine(const struct timespec *t, t_door *doors,
+			t_uint n_doors);
 
 #endif

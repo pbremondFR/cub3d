@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 21:24:10 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:40:21 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	main(int argc, const char *argv[])
 	c_load_font(&g);
 	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);
 	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);
+	mlx_hook(g.mw, E_MPRESS, 0, &c_mousepress_handler, &g);
+	mlx_hook(g.mw, E_MREL, 0, &c_mouserelease_handler, &g);
 	mlx_hook(g.mw, E_DSTR, 0, &c_exit_program, &g);
 	mlx_loop_hook(g.mlx, &c_render, &g);
 	mlx_loop(g.mlx);

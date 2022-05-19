@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 19:47:30 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 17:04:19 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:40:14 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,36 @@ void	c_mouse_look(t_game *g)
 	c_math_rotate_vector(&g->dx, &g->dy, (float)(delta * MOUSE_SENS));
 	c_math_rotate_vector(&g->cx, &g->cy, (float)(delta * MOUSE_SENS));
 	mlx_mouse_move(g->mw, old_m.a, old_m.b);
+}
+
+int	c_mousepress_handler(int key, int x, int y, void *handle)
+{
+	t_game	*g;
+
+	(void)x;
+	(void)y;
+	g = (t_game *)handle;
+	if (key == KEYC_M1)
+		g->k |= KEYS_M1;
+	else if (key == KEYC_M2)
+		g->k |= KEYS_M2;
+	else if (key == KEYC_M3)
+		g->k |= KEYS_M3;
+	return (0);
+}
+
+int	c_mouserelease_handler(int key, int x, int y, void *handle)
+{
+	t_game	*g;
+
+	(void)x;
+	(void)y;
+	g = (t_game *)handle;
+	if (key == KEYC_M1)
+		g->k ^= KEYS_M1;
+	else if (key == KEYC_M2)
+		g->k ^= KEYS_M2;
+	else if (key == KEYC_M3)
+		g->k ^= KEYS_M3;
+	return (0);
 }

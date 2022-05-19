@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/18 21:17:26 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/19 15:06:22 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,8 @@ SRC_BONUS =	$(SRC_COMMON)\
 			map/cub_graphics_sprites_bonus.c\
 			map/cub_file_bonus.c\
 			raycast/raycast_bonus.c\
-			render/doors_bonus.c
+			render/doors_bonus.c\
+			utils_bonus.c
 
 SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
 BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_PLUS_PATH)))

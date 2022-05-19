@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 21:12:06 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:22:51 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@
 
 # define EVENT_KEY_DOWN			2
 # define EVENT_KEY_UP			3
-# define EVENT_SCROLL_DOWN		4
-# define EVENT_SCROLL_UP		5
+# define EVENT_MOUSE_PRESS		4
+# define EVENT_MOUSE_RELEASE	5
 # define EVENT_MOUSE_MOVE		6
 # define EVENT_EXPOSE			12
 # define EVENT_DESTROY			17
 
 # define E_KDWN		EVENT_KEY_DOWN
 # define E_KUP		EVENT_KEY_UP
-# define E_MDWN		EVENT_SCROLL_DOWN
-# define E_MUP		EVENT_SCROLL_UP
+# define E_MPRESS	EVENT_MOUSE_PRESS
+# define E_MREL		EVENT_MOUSE_RELEASE
 # define E_MMOV		EVENT_MOUSE_MOVE
 # define E_XP		EVENT_EXPOSE
 # define E_DSTR		EVENT_DESTROY
@@ -60,6 +60,12 @@
 # define KEYC_UP	126
 # define KEYC_SPA	49
 
+# define KEYC_M1	1
+# define KEYC_M2	2
+# define KEYC_M3	3
+# define KEYC_MUP	4
+# define KEYC_MDWN	5
+
 # define KEYS_A		0x0001
 # define KEYS_S		0x0002
 # define KEYS_D		0x0004
@@ -68,12 +74,11 @@
 # define KEYS_RIGHT	0x0020
 # define KEYS_SPA	0x0040
 # define KEYS_ESC	0x0080
-
 # define KEYS_M1	0x0100
 # define KEYS_M2	0x0200
 # define KEYS_M3	0x0400
 # define KEYS_MUP	0x0800
-# define KEYS_MDNW	0x1000
+# define KEYS_MDWN	0x1000
 # define KEYS_UP	0x2000
 
 # define WIN_WIDTH		720
@@ -212,6 +217,9 @@ int			c_keyrelease_handler(int key, void *handle);
 // mouse.c
 void		c_toggle_mouselook(t_game *g);
 void		c_mouse_look(t_game *g);
+int			c_mouse_event_handler(int key, int x, int y, void *handle);
+int			c_mousepress_handler(int key, int x, int y, void *handle);
+int			c_mouserelease_handler(int key, int x, int y, void *handle);
 
 // utils.c
 int			c_exit_program(void *g_handle);

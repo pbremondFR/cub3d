@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 08:26:34 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 21:54:42 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:46:58 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,13 @@ static bool	_vertical_door_intersect(t_game *g, t_ray *ray, int8_t *offset)
 	if (door->state == DOOR_OPENED
 		|| ray->len_y < ray->len_x - ray->delta_dist_x / 2)
 		return (false);
-	else if (door->state == DOOR_CLOSED)
+	else if (door->state == DOOR_CLOSED
+		|| (door->state != DOOR_CLOSED && tex_pos < door->open))
 	{
 		ray->len_x += ray->delta_dist_x / 2;
 		ray->side = RAY_HIT_X;
-		return (true);
-	}
-	if (tex_pos < door->open)
-	{
-		ray->len_x += ray->delta_dist_x / 2;
-		ray->side = RAY_HIT_X;
-		*offset = door->open;
+		if (tex_pos < door->open)
+			*offset = door->open;
 		return (true);
 	}
 	return (false);
@@ -83,19 +79,9 @@ static bool	_horizontal_door_intersect(t_game *g, t_ray *ray, int8_t *offset)
 		ray->len_y += ray->delta_dist_y / 2;
 		ray->side = RAY_HIT_Y;
 		if (tex_pos < door->open)
-		{
 			*offset = door->open;
-			ft_printf("offset: %d\n", *offset);
-		}
 		return (true);
 	}
-	// if (tex_pos < door->open)
-	// {
-	// 	ray->len_y += ray->delta_dist_y / 2;
-	// 	ray->side = RAY_HIT_Y;
-	// 	*offset = door->open;
-	// 	return (true);
-	// }
 	return (false);
 }
 

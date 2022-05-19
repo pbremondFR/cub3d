@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:26:21 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 21:42:57 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:15:54 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	c_keypress_handler(int key, void *handle)
 	if (key == KEYC_A)
 		g->k |= KEYS_A;
 	if (key == KEYC_LEFT)
-		debug_move_doors(key, g);
-		// g->k |= KEYS_LEFT;
+		// debug_move_doors(key, g);
+		g->k |= KEYS_LEFT;
 	if (key == KEYC_RIGHT)
-		debug_move_doors(key, g);
-		// g->k |= KEYS_RIGHT;
+		// debug_move_doors(key, g);
+		g->k |= KEYS_RIGHT;
 	if (key == KEYC_UP)
 		g->k |= KEYS_UP;
 	if (key == KEYC_SPA)
@@ -69,10 +69,10 @@ int	c_keyrelease_handler(int key, void *handle)
 		g->k ^= KEYS_D;
 	if (key == KEYC_A)
 		g->k ^= KEYS_A;
-	// if (key == KEYC_LEFT)
-	// 	g->k ^= KEYS_LEFT;
-	// if (key == KEYC_RIGHT)
-	// 	g->k ^= KEYS_RIGHT;
+	if (key == KEYC_LEFT)
+		g->k ^= KEYS_LEFT;
+	if (key == KEYC_RIGHT)
+		g->k ^= KEYS_RIGHT;
 	if (key == KEYC_UP)
 		g->k ^= KEYS_UP;
 	// if (key == KEYC_SPA)
