@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 21:03:20 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:54:26 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	_chk_tile_adj(const char **map, unsigned int x,
 	return (EXIT_SUCCESS);
 }
 
+// TODO: Check for legal door neighbours
 int	c_map_error_check(const char **map)
 {
 	int	y;

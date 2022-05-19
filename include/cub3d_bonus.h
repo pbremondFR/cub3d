@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 15:34:26 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:57:56 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ typedef struct s_door
 	int			x;
 	int			y;
 	long		next_time;
-	int8_t		open; // 0 = closed, 100 = opened.
+	int8_t		offset; // 100 = closed, 0 = opened.
 	int8_t		state; // Door is closed, opened, closing, or opening
 }				t_door;
 # define DOOR_PERIOD_MS		10

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:26:21 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 15:15:54 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:58:03 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	debug_move_doors(int key, t_game *g)
 		offset = 1;
 	for (i = 0; i < g->c->n_doors; ++i)
 	{
-		g->c->doors[i].open += offset;
+		g->c->doors[i].offset += offset;
 	}
 }
 

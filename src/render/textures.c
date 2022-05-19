@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 14:04:49 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 22:05:34 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:53:13 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static float	_get_texture_x_offset(const t_ray *ray, const t_game *g,
 		texture_x -= floorf(texture_x);
 		if (tex_offset)
 			texture_x += (1.0f - ((float)tex_offset / 100.0f));
-		if (ray->dir_x < 0)
+		if (ray->dir_x < 0 && !tex_offset)
 			texture_x = -texture_x + 1.0f;
 	}
 	else
@@ -45,12 +45,9 @@ static float	_get_texture_x_offset(const t_ray *ray, const t_game *g,
 		texture_x -= floorf(texture_x);
 		if (tex_offset)
 			texture_x += (1.0f - ((float)tex_offset / 100.0f));
-		if (ray->dir_y > 0)
+		if (ray->dir_y > 0 && !tex_offset)
 			texture_x = -texture_x + 1.0f;
 	}
-	// 	printf("texture_x: %.3f\toffset: %.3f\n", texture_x, (float)tex_offset / 100.0f);
-	// if (tex_offset)
-	// texture_x = texture_x + (1.0f - ((float)tex_offset / 100.0f));
 	return (texture_x);
 }
 

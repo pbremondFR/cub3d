@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:46:15 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 15:44:16 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:58:06 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 // door->state has to be +1 or -1, corresponding to an opening or a closing.
 void	c_move_door(t_door *door)
 {
-	door->open += DOOR_OPEN_DELTA * -door->state;
-	if (door->open <= 0)
+	door->offset += DOOR_OPEN_DELTA * -door->state;
+	if (door->offset <= 0)
 	{
 		door->state = DOOR_OPENED;
-		door->open = 0;
+		door->offset = 0;
 	}
-	else if (door->open >= 100)
+	else if (door->offset >= 100)
 	{
 		door->state = DOOR_CLOSED;
-		door->open = 100;
+		door->offset = 100;
 	}
 }
 
@@ -61,7 +61,8 @@ void	c_doors_routine(const struct timespec *t, t_door *doors, t_uint n_doors)
 		else if (c_is_time_over(t, doors[i].next_time))
 		{
 			c_move_door(&doors[i]);
-			doors[i].next_time += DOOR_PERIOD_MS;
+			doors[i].next_time = t->tv_sec * 1000 + (t->tv_nsec / 1e6)
+				+ DOOR_PERIOD_MS;
 		}
 		++i;
 	}

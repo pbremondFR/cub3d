@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 22:46:21 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 15:32:31 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:57:59 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_uint	_count_number_of_doors(char **map, t_uint sx,
 
 static void	c_init_t_door(t_door *door, int x, int y)
 {
-	door->open = 100;
+	door->offset = 100;
 	door->state = DOOR_CLOSED;
 	door->x = x;
 	door->y = y;
