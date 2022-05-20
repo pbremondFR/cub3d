@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 21:19:07 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/20 23:11:58 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,9 @@ void	c_move_player(t_game *g)
 	if (g->k & KEYS_A && g->vx > -MAX_VEL)
 		g->vx -= ACCEL;
 	_player_rotation(g);
-	// c_collision_handling(g,
-	// 	g->x + (g->vy * g->dx) + (g->vx * -g->dy),
-	// 	g->y + (g->vy * g->dy) + (g->vx * g->dx));
-	g->x += (g->vy * g->dx) + (g->vx * -g->dy);
-	g->y += (g->vy * g->dy) + (g->vx * g->dx);
+	c_collision_handling(g,
+		(g->vy * g->dx) + (g->vx * -g->dy),
+		(g->vy * g->dy) + (g->vx * g->dx));
+	// g->x += (g->vy * g->dx) + (g->vx * -g->dy);
+	// g->y += (g->vy * g->dy) + (g->vx * g->dx);
 }

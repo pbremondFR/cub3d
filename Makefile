@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/19 15:06:22 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/20 23:09:38 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,8 @@ OBJ_DIR = objs
 SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
 				input/keyboard.c input/mouse.c\
 				utils.c\
-				maths/math_funcs.c
+				maths/math_funcs.c\
+				collisions/collision_detection.c
 
 MAP_SRC_FILES =			cub_graphics.c		map_parsing.c\
 	checking_funcs.c	map_print.c		cub_graphics_2.c

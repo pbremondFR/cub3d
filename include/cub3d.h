@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 14:22:51 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/20 23:11:36 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@
 # define RAY_HIT_Y	1
 
 # define PLAYER_FOV	0.66f
+
+# define PLAYER_HBOX_HALFSIZE	0.25f
+# define PLY_HBOX				PLAYER_HBOX_HALFSIZE
 
 // ========================================================================== //
 //                                  STRUCTS                                   //
@@ -207,6 +210,17 @@ typedef struct s_game_data
 }				t_game;
 t_game		*c_init_t_game(t_game *g);
 
+typedef struct s_box
+{
+	t_pnt	a;
+	t_pnt	b;
+	t_pnt	c;
+	t_pnt	d;
+
+	t_pnt	pos;
+}			t_box;
+
+
 // ========================================================================== //
 //                                  MAIN/MISC                                 //
 // ========================================================================== //
@@ -224,6 +238,9 @@ int			c_mouserelease_handler(int key, int x, int y, void *handle);
 // utils.c
 int			c_exit_program(void *g_handle);
 void		c_fatal_exit(void);
+
+// fjkdals fhadsjkl fhjklwerafh iujwo DHIUPFH IUDJEORA HIUOSD
+void		c_collision_handling(t_game *g, float vel_x, float vel_y);
 
 // ========================================================================== //
 //                                  CUB FILE                                  //
@@ -278,7 +295,7 @@ typedef struct s_texture_line
 
 // movement.c
 void		c_move_player(t_game *g);
-void		c_collision_handling(t_game *g, float next_x, float next_y);
+// void		c_collision_handling(t_game *g, float next_x, float next_y);
 void		c_player_decel(float *vx, float *vy, float *va, int keystate);
 
 // rendering.c
