@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/20 23:11:58 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:34:09 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,22 @@
 // Applies deceleration to player.
 void	c_player_decel(float *vx, float *vy, float *va, int keystate)
 {
-	if (!(keystate & (KEYS_W | KEYS_S)))
+	(void)keystate;
+	// if (!(keystate & (KEYS_W | KEYS_S)))
 	{
 		if (*vy > 0.0f)
 			*vy -= fminf(DECEL, *vy);
 		else if (*vy < 0.0f)
 			*vy -= fmaxf(-DECEL, *vy);
 	}
-	if (!(keystate & (KEYS_A | KEYS_D)))
+	// if (!(keystate & (KEYS_A | KEYS_D)))
 	{
 		if (*vx > 0.0f)
 			*vx -= fminf(DECEL, *vx);
 		else if (*vx < 0.0f)
 			*vx -= fmaxf(-DECEL, *vx);
 	}
-	if (!(keystate & (KEYS_LEFT | KEYS_RIGHT)))
+	// if (!(keystate & (KEYS_LEFT | KEYS_RIGHT)))
 	{
 		if (*va > 0.0f)
 			*va -= fminf(ANG_VEL_DEC, *va);

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 21:31:05 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/23 17:15:35 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:15:03 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void	c_collision_handling_shit(t_game *g, float vel_x, float vel_y)
 // ========================================================================== //
 // ========================================================================== //
 
+// Get distance between player's hitbox and wall in X and Y
 t_pnt	c_get_AABB_dist(float pl_x, float pl_y, const t_pnt hbox,
 	const t_ipair wall)
 {
@@ -224,17 +225,24 @@ void	c_collision_handling(t_game *g, float vel_x, float vel_y)
 	i = -1;
 	while ((t_uint)++i < num_solve)
 	{
+		// If this tile isn't a wall, skip
 		if (!c_is_tile_collider(g->c, to_solve[i].a, to_solve[i].b))
 			continue ;
 		printf("(%d;%d)\tCollide ?\n", to_solve[i].a, to_solve[i].b);
+		// If player's box isn't in this tile, skip
 		if (!c_does_player_collide(pos.x, pos.y, hbox, to_solve[i]))
 			continue ;
 		printf("Yes !\n");
 		dist = c_get_AABB_dist(pos.x, pos.y, hbox, to_solve[i]);
 		if (dist.x < dist.y)
 			pos.x += dist.x;
-		else
+		else if (dist.y < dist.x)
 			pos.y += dist.y;
+		// dist = c_get_AABB_dist(pos.x, pos.y, hbox, to_solve[i]);
+		// if (dist.x < dist.y)
+		// 	pos.x += dist.x;
+		// else if (dist.y < dist.x)
+		// 	pos.y += dist.y;
 	}
 	printf("======================\n");
 	g->x = pos.x;
