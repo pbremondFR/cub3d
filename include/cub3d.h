@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/20 23:11:36 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:04:18 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 # define SPRITE_IDS			"abcd"
 
-# define LEGAL_FLOOR_NEIGHBOURS	"01NESWabcd"
+# define LEGAL_FLOOR_NEIGHBOURS	"01NESWabcd-|"
 
 # define EVENT_KEY_DOWN			2
 # define EVENT_KEY_UP			3

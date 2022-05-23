@@ -6,14 +6,14 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 21:31:05 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/21 00:21:15 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:15:35 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d_bonus.h>
 
-bool	c_collision_check(const t_cub *c, int x, int y)
+bool	c_is_tile_collider(const t_cub *c, int x, int y)
 {
 	const char	tile = c->map[y][x];
 	t_door		*door;
@@ -34,9 +34,9 @@ bool	c_collision_check(const t_cub *c, int x, int y)
 		return (true);
 }
 
-inline bool	c_collision_check_pnt(const t_cub *c, t_pnt p)
+inline bool	c_is_tile_collider_pnt(const t_cub *c, t_pnt p)
 {
-	return (c_collision_check(c, (int)p.x, (int)p.y));
+	return (c_is_tile_collider(c, (int)p.x, (int)p.y));
 }
 
 t_box	c_get_player_bounding_box(float x, float y)
@@ -89,13 +89,13 @@ char	c_bounds_check(const t_box *p_box, const t_cub *c)
 	char	result;
 
 	result = 0;
-	if (c_collision_check_pnt(c, p_box->a))
+	if (c_is_tile_collider_pnt(c, p_box->a))
 		result |= 0b0001;
-	if (c_collision_check_pnt(c, p_box->b))
+	if (c_is_tile_collider_pnt(c, p_box->b))
 		result |= 0b0010;
-	if (c_collision_check_pnt(c, p_box->c))
+	if (c_is_tile_collider_pnt(c, p_box->c))
 		result |= 0b0100;
-	if (c_collision_check_pnt(c, p_box->d))
+	if (c_is_tile_collider_pnt(c, p_box->d))
 		result |= 0b1000;
 	return (result);
 }
@@ -118,7 +118,7 @@ void	c_solve_collision(t_game *g, t_pnt pnt, t_box *box)
 	c_recalc_bounding_box(box, box->pos.x, box->pos.y);
 }
 
-void	c_collision_handling(t_game *g, float vel_x, float vel_y)
+void	c_collision_handling_shit(t_game *g, float vel_x, float vel_y)
 {
 	t_box	p_box_1;
 	t_box	p_box_2;
@@ -127,14 +127,116 @@ void	c_collision_handling(t_game *g, float vel_x, float vel_y)
 
 	p_box_1 = c_get_player_bounding_box(g->x, g->y);
 	p_box_2 = c_get_player_bounding_box(g->x + vel_x, g->y + vel_y);
-	if (c_collision_check_pnt(g->c, p_box_2.a))
-		c_solve_collision(g, p_box_2.a, &p_box_2);
-	if (c_collision_check_pnt(g->c, p_box_2.b))
-		c_solve_collision(g, p_box_2.b, &p_box_2);
-	if (c_collision_check_pnt(g->c, p_box_2.c))
-		c_solve_collision(g, p_box_2.c, &p_box_2);
-	if (c_collision_check_pnt(g->c, p_box_2.d))
-		c_solve_collision(g, p_box_2.d, &p_box_2);
+
+	if (vel_x > 0 && (c_is_tile_collider_pnt(g->c, p_box_2.b)
+			|| c_is_tile_collider_pnt(g->c, p_box_2.d)))
+	{
+		// check and solve right side of hitbox
+		g->x += (nearbyintf(p_box_2.b.x) - p_box_2.b.x);
+		c_recalc_bounding_box(&p_box_2, g->x, g->y);
+	}
+	else if (vel_x < 0 && (c_is_tile_collider_pnt(g->c, p_box_2.a)
+			|| c_is_tile_collider_pnt(g->c, p_box_2.c)))
+	{
+		// check and solve for left side
+		g->x += (nearbyintf(p_box_2.a.x) - p_box_2.a.x);
+		c_recalc_bounding_box(&p_box_2, g->x, g->y);
+	}
+	if (vel_y > 0 && (c_is_tile_collider_pnt(g->c, p_box_2.c)
+			|| c_is_tile_collider_pnt(g->c, p_box_2.d)))
+	{
+		// check and solve for bottom side
+		g->y += (nearbyintf(p_box_2.c.y) - p_box_2.c.y);
+		c_recalc_bounding_box(&p_box_2, g->x, g->y);
+	}
+	else if (vel_y < 0 && (c_is_tile_collider_pnt(g->c, p_box_2.a)
+			|| c_is_tile_collider_pnt(g->c, p_box_2.b)))
+	{
+		// check and solve for top side
+		g->y += (nearbyintf(p_box_2.a.y) - p_box_2.a.y);
+		c_recalc_bounding_box(&p_box_2, g->x, g->y);
+	}
+	// if (c_is_tile_collider_pnt(g->c, p_box_2.a))
+	// 	ft_printf("A\t");
+	// if (c_is_tile_collider_pnt(g->c, p_box_2.b))
+	// 	ft_printf("B\t");
+	// if (c_is_tile_collider_pnt(g->c, p_box_2.c))
+	// 	ft_printf("C\t");
+	// if (c_is_tile_collider_pnt(g->c, p_box_2.d))
+	// 	ft_printf("D\t");
+	// ft_printf("\n");
 	g->x = p_box_2.pos.x;
 	g->y = p_box_2.pos.y;
+}
+
+// ========================================================================== //
+// ========================================================================== //
+// ========================================================================== //
+
+t_pnt	c_get_AABB_dist(float pl_x, float pl_y, const t_pnt hbox,
+	const t_ipair wall)
+{
+	t_pnt	dist;
+
+	if (pl_x < wall.a)
+		dist.x = wall.a - (pl_x + hbox.x);
+	else if (pl_x > wall.a)
+		dist.x = -((pl_x - hbox.x) - (wall.a + 1));
+	else
+		dist.x = 0;
+	if (pl_y < wall.b)
+		dist.y = wall.b - (pl_y + hbox.y);
+	else if (pl_x > wall.a)
+		dist.y = -((pl_y - hbox.y) - (wall.b + 1));
+	else
+		dist.y = 0;
+	printf("%s%.3f;%.3f%s\n", RED, dist.x, dist.y, RESET);
+	return (dist);
+}
+
+bool	c_does_player_collide(float pl_x, float pl_y, t_pnt hbox, t_ipair wall)
+{
+	const t_ipair	a = {pl_x - hbox.x, pl_y - hbox.y};
+	const t_ipair	b = {pl_x + hbox.x, pl_y - hbox.y};
+	const t_ipair	c = {pl_x - hbox.x, pl_y + hbox.y};
+	const t_ipair	d = {pl_x + hbox.x, pl_y + hbox.y};
+
+	return ((a.a == wall.a && a.b == wall.b)
+		|| (b.a == wall.a && b.b == wall.b)
+		|| (c.a == wall.a && c.b == wall.b)
+		|| (d.a == wall.a && d.b == wall.b));
+}
+
+void	c_collision_handling(t_game *g, float vel_x, float vel_y)
+{
+	const t_pnt		hbox = {PLAYER_HBOX_HALFSIZE, PLAYER_HBOX_HALFSIZE};
+	const t_ipair	to_solve[] = {{g->x - 1, g->y - 1}, {g->x, g->y - 1},
+	{g->x + 1, g->y - 1}, {g->x - 1, g->y}, {g->x + 1, g->y},
+	{g->x - 1, g->y + 1}, {g->x, g->y + 1}, {g->x + 1, g->y + 1}};
+	const t_uint	num_solve = 8;
+	int				i;
+	t_pnt			dist;
+	t_pnt			pos = {g->x + vel_x, g->y + vel_y};
+
+	for (i = 0; (unsigned int)i < num_solve; ++i)
+		printf("to_solve[%d]: (%d;%d)\n", i, to_solve[i].a, to_solve[i].b);
+
+	i = -1;
+	while ((t_uint)++i < num_solve)
+	{
+		if (!c_is_tile_collider(g->c, to_solve[i].a, to_solve[i].b))
+			continue ;
+		printf("(%d;%d)\tCollide ?\n", to_solve[i].a, to_solve[i].b);
+		if (!c_does_player_collide(pos.x, pos.y, hbox, to_solve[i]))
+			continue ;
+		printf("Yes !\n");
+		dist = c_get_AABB_dist(pos.x, pos.y, hbox, to_solve[i]);
+		if (dist.x < dist.y)
+			pos.x += dist.x;
+		else
+			pos.y += dist.y;
+	}
+	printf("======================\n");
+	g->x = pos.x;
+	g->y = pos.y;
 }

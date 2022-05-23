@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 18:57:56 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:04:03 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define CLOCKS_PER_MS	1000
 
 # undef MAP_LEGAL_CHARS
-# define MAP_LEGAL_CHARS	"01NESW abcd"
+# define MAP_LEGAL_CHARS	"01NESW abcd-|"
 
 // # define FONT_PATH		"./assets/charmap_zoom2x.xpm"
 // # define FONT_BM_W		18

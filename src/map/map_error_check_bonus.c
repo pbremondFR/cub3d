@@ -6,13 +6,15 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 18:54:26 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:16:14 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d_bonus.h>
 
+// FIXME: line breaks in map without any other characters are erased by
+// ft_split, which can pass an invalid map with linebreaks in the middle
 static int	_check_map_is_last(const char **map)
 {
 	int	y;
@@ -34,25 +36,42 @@ static int	_check_map_is_last(const char **map)
 }
 
 // Checks if a tile's neighbours in the 4 cardinal directions are legal.
-static int	_chk_tile_adj(const char **map, unsigned int x,
+static bool	_chk_tile_adj(const char **map, unsigned int x,
 	unsigned int y)
 {
 	if (x == 0 || !c_is_flooradj_legal(map[y][x - 1])
 		|| !c_is_flooradj_legal(map[y][x + 1]))
-		return (EXIT_FAILURE);
+		return (false);
 	if (y == 0 || !c_is_flooradj_legal(map[y - 1][x])
 		|| !map[y + 1] || !c_is_flooradj_legal(map[y + 1][x]))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return (false);
+	return (true);
 }
 
-// TODO: Check for legal door neighbours
+static bool	_chk_door_adj(const char **map, unsigned int x,
+	unsigned int y)
+{
+	const char	door = map[y][x];
+
+	if (door == '-'
+		&& (x == 0 || map[y][x - 1] != '1' || map[y][x + 1] != '1'))
+		return (false);
+	else if (door == '|'
+		&& (y == 0 || map[y - 1][x] != '1'
+			|| !map[y + 1] || map[y + 1][x] != '1'))
+		return (false);
+	else
+		return (true);
+}
+
+# define SPRT	SPRITE_IDS
+
 int	c_map_error_check(const char **map)
 {
 	int	y;
 	int	x;
 
-	return (EXIT_SUCCESS);
+	// return (EXIT_SUCCESS);
 	if (_check_map_is_last(map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	y = -1;
@@ -62,8 +81,8 @@ int	c_map_error_check(const char **map)
 		while (map[y][++x])
 		{
 			if ((!ft_strchr(M_CHRS, map[y][x]))
-				|| (ft_strchr("0"SPRITE_IDS, map[y][x])
-						&& _chk_tile_adj(map, x, y) != 0))
+				|| (ft_strchr("0"SPRT, map[y][x]) && !_chk_tile_adj(map, x, y))
+				|| (ft_strchr("-|", map[y][x]) && !_chk_door_adj(map, x, y)))
 			{
 				ft_dprintf(2, "Error\nIllegal map tile around (%d, %d)\n", x, y);
 				c_map_print_error(map, x, y);
