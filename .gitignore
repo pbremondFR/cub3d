@@ -11,6 +11,7 @@ cub3d
 cub3d_bonus
 
 libft.a
+libmlx.a
 *.o
 *.so
 *.sh

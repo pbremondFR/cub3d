@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 10:35:05 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 11:04:14 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	_debug_tests(t_cub const *c, t_game const *g)
 
 static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 {
-	c_init_player_pos(&g, &c);
-	c_init_sprites_pos(&g);
-	c_init_doors(&c);
+	c_init_player_pos(g, c);
+	c_init_sprites_pos(g);
+	c_init_doors(c);
 	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
 	g->f.w = WIN_WIDTH;

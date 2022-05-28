@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/28 10:12:22 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/28 11:13:23 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,9 @@ OBJ_DIR = objs
 # ============================================================================ #
 
 # Common source files
-SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
-				input/keyboard.c input/mouse.c\
+SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC)\
+				input/keyboard.c\
+				input/mouse.c\
 				utils.c\
 				maths/math_funcs.c\
 				collisions/collision_detection.c
@@ -64,11 +65,8 @@ MAP_SRC_FILES =			cub_graphics.c		map_parsing.c\
 RENDER_SRC_FILES =		utils.c				movement.c\
 	textures.c			textures_2.c
 
-# RAYCAST_SRC_FILES =		raycast.c
-
 MAP_SRC =		$(addprefix map/,		$(MAP_SRC_FILES))
 RENDER_SRC =	$(addprefix render/,	$(RENDER_SRC_FILES))
-RAYCAST_SRC =	$(addprefix raycast/,	$(RAYCAST_SRC_FILES))
 
 # ============================================================================ #
 # ============================================================================ #
@@ -88,24 +86,24 @@ OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_MANDATORY_PLU
 # ============================================================================ #
 
 # Bonus source files
-SRC_BONUS =	$(SRC_COMMON)\
+SRC_BONUS =	$(SRC_COMMON) $(RENDER_SRC_BONUS) $(MAP_SRC_BONUS)\
 			main_bonus.c\
 			str_display/font_display_bonus.c\
 			str_display/font_display_bonus_2.c\
-			render/rendering_bonus.c\
 			minimap/minimap_bonus.c\
-			map/map_error_check_bonus.c\
-			render/sprites_bonus.c\
-			render/sprites_utils_bonus.c\
-			render/sprite_barrel_bonus.c\
-			render/sprites_sorting_bonus.c\
-			map/map_parsing_2_bonus.c\
-			map/cub_graphics_sprites_bonus.c\
-			map/cub_file_bonus.c\
 			raycast/raycast_bonus.c\
-			render/doors_bonus.c\
 			utils_bonus.c\
 			collisions/collision_detection_utils_bonus.c
+
+RENDER_SRC_FILES_BONUS =	rendering_bonus.c			sprites_bonus.c\
+	sprites_utils_bonus.c	sprites_sorting_bonus.c		sprite_barrel_bonus.c\
+	doors_bonus.c
+
+MAP_SRC_FILES_BONUS =		cub_file_bonus.c		cub_graphics_sprites_bonus.c\
+	map_parsing_2_bonus.c	map_error_check_bonus.c
+
+RENDER_SRC_BONUS =	$(addprefix render/,	$(RENDER_SRC_FILES_BONUS))
+MAP_SRC_BONUS =		$(addprefix map/,		$(MAP_SRC_FILES_BONUS))
 
 SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
 BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_PLUS_PATH)))
@@ -115,6 +113,8 @@ BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_P
 
 LIBFT = libft.a
 LIBFT_PATH = libft
+LIBMLX = libmlx.a
+LIBMLX_PATH = mlx_opengl
 LIBS = -L./libft -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
 
 NAME = cub3d
@@ -125,21 +125,25 @@ CFLAGS = -Wall -Wextra -Werror -g -O2 -fsanitize=address
 
 all : $(NAME)
 
-$(NAME): $(LIBFT_PATH)/$(LIBFT) $(OBJ)
+$(NAME): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
 bonus: $(NAME_BONUS)
 
-$(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(BONUS_OBJ)
+$(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
 	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
 	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
 $(LIBFT_PATH)/$(LIBFT):
 	@echo "$(_PURPLE)Making $(basename $(LIBFT))$(_COLOR_RESET)"
-	@make -C $(LIBFT_PATH)/
+	@make -C $(LIBFT_PATH)
+
+$(LIBMLX_PATH)/$(LIBMLX):
+	@echo "$(_PURPLE)Making $(basename $(LIBMLX))$(_COLOR_RESET)"
+	@make -C $(LIBMLX_PATH)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@echo "$(_BLUE)Compiling $(basename $(notdir $*.o)) $(_COLOR_RESET)"
