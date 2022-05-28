@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 21:31:05 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/23 18:15:03 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 08:22:49 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,28 +179,51 @@ t_pnt	c_get_AABB_dist(float pl_x, float pl_y, const t_pnt hbox,
 {
 	t_pnt	dist;
 
-	if (pl_x < wall.a)
-		dist.x = wall.a - (pl_x + hbox.x);
-	else if (pl_x > wall.a)
+	if (pl_x < (float)wall.a)
+		dist.x = -(wall.a - (pl_x + hbox.x));
+	else if (pl_x > (float)wall.a)
 		dist.x = -((pl_x - hbox.x) - (wall.a + 1));
 	else
 		dist.x = 0;
-	if (pl_y < wall.b)
-		dist.y = wall.b - (pl_y + hbox.y);
-	else if (pl_x > wall.a)
+	if (pl_y < (float)wall.b)
+		dist.y = -(wall.b - (pl_y + hbox.y));
+	else if (pl_y > (float)wall.b)
+	{
 		dist.y = -((pl_y - hbox.y) - (wall.b + 1));
+		printf("EEEEELSE IF\n");
+	}
 	else
 		dist.y = 0;
 	printf("%s%.3f;%.3f%s\n", RED, dist.x, dist.y, RESET);
 	return (dist);
 }
 
+t_pnt	c_get_closest_wall_dist(float pl_x, float pl_y, const t_pnt hbox,
+	const t_ipair wall)
+{
+	t_pnt	w_dist;
+	float	x1;
+	float	x2;
+	float	y1;
+	float	y2;
+
+	x1 = ((float)wall.a - (pl_x + hbox.x));
+	x2 = ((pl_x - hbox.x) - (wall.a + 1));
+	y1 = (wall.b - (pl_x + hbox.y));
+	y2 = ((pl_y - hbox.y) - (wall.b + 1));
+	printf("%.3f - %.3f ; %.3f - %.3f\n", x1, x2, y1, y2);
+	w_dist.x = fminf(fabsf(x1), fabsf(x2));
+	w_dist.y = fminf(fabsf(y1), fabsf(y2));
+	return (w_dist);
+}
+
 bool	c_does_player_collide(float pl_x, float pl_y, t_pnt hbox, t_ipair wall)
 {
-	const t_ipair	a = {pl_x - hbox.x, pl_y - hbox.y};
-	const t_ipair	b = {pl_x + hbox.x, pl_y - hbox.y};
-	const t_ipair	c = {pl_x - hbox.x, pl_y + hbox.y};
-	const t_ipair	d = {pl_x + hbox.x, pl_y + hbox.y};
+	const float		offset = 0.0001f;
+	const t_ipair	a = {pl_x - hbox.x + offset, pl_y - hbox.y + offset};
+	const t_ipair	b = {pl_x + hbox.x - offset, pl_y - hbox.y + offset};
+	const t_ipair	c = {pl_x - hbox.x + offset, pl_y + hbox.y - offset};
+	const t_ipair	d = {pl_x + hbox.x - offset, pl_y + hbox.y - offset};
 
 	return ((a.a == wall.a && a.b == wall.b)
 		|| (b.a == wall.a && b.b == wall.b)
@@ -211,9 +234,19 @@ bool	c_does_player_collide(float pl_x, float pl_y, t_pnt hbox, t_ipair wall)
 void	c_collision_handling(t_game *g, float vel_x, float vel_y)
 {
 	const t_pnt		hbox = {PLAYER_HBOX_HALFSIZE, PLAYER_HBOX_HALFSIZE};
-	const t_ipair	to_solve[] = {{g->x - 1, g->y - 1}, {g->x, g->y - 1},
-	{g->x + 1, g->y - 1}, {g->x - 1, g->y}, {g->x + 1, g->y},
-	{g->x - 1, g->y + 1}, {g->x, g->y + 1}, {g->x + 1, g->y + 1}};
+	// const t_ipair	to_solve[] = {{g->x - 1, g->y - 1}, {g->x, g->y - 1},
+	// {g->x + 1, g->y - 1}, {g->x - 1, g->y}, {g->x + 1, g->y},
+	// {g->x - 1, g->y + 1}, {g->x, g->y + 1}, {g->x + 1, g->y + 1}};
+	const t_ipair	to_solve[] = {
+		{g->x, g->y - 1},
+		{g->x - 1, g->y},
+		{g->x + 1, g->y},
+		{g->x, g->y + 1},
+		{g->x - 1, g->y - 1},
+		{g->x + 1, g->y - 1},
+		{g->x - 1, g->y + 1},
+		{g->x + 1, g->y + 1}
+		};
 	const t_uint	num_solve = 8;
 	int				i;
 	t_pnt			dist;
@@ -228,20 +261,33 @@ void	c_collision_handling(t_game *g, float vel_x, float vel_y)
 		// If this tile isn't a wall, skip
 		if (!c_is_tile_collider(g->c, to_solve[i].a, to_solve[i].b))
 			continue ;
-		printf("(%d;%d)\tCollide ?\n", to_solve[i].a, to_solve[i].b);
+		printf("%s(%d;%d)\tCollider%s\n", YEL, to_solve[i].a, to_solve[i].b, RESET);
 		// If player's box isn't in this tile, skip
 		if (!c_does_player_collide(pos.x, pos.y, hbox, to_solve[i]))
 			continue ;
-		printf("Yes !\n");
+		printf("%sCollision ! (%d)%s\n", GRN, i + 1, RESET);
+		// dist = c_get_AABB_dist(pos.x, pos.y, hbox, to_solve[i]);
 		dist = c_get_AABB_dist(pos.x, pos.y, hbox, to_solve[i]);
 		if (dist.x < dist.y)
-			pos.x += dist.x;
-		else if (dist.y < dist.x)
-			pos.y += dist.y;
-		// dist = c_get_AABB_dist(pos.x, pos.y, hbox, to_solve[i]);
-		// if (dist.x < dist.y)
-		// 	pos.x += dist.x;
+		{
+			if (pos.x < to_solve[i].a)
+				pos.x -= dist.x;
+			else
+				pos.x += dist.x;
+			printf("XXXX\n");
+		}
 		// else if (dist.y < dist.x)
+		else
+		{
+			if (pos.y < to_solve[i].b)
+				pos.y -= dist.y;
+			else
+				pos.y += dist.y;
+			printf("YYYY\n");
+		}
+		// if (to_solve[i].a != (int)pos.x)
+		// 	pos.x += dist.x;
+		// else if (to_solve[i].b != (int)pos.y)
 		// 	pos.y += dist.y;
 	}
 	printf("======================\n");

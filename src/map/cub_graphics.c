@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:15:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 20:33:22 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 02:40:42 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	_color_error(int code)
 
 // Returns an int representing a color in RGB format, in range [0x00 - 0xff]
 // Outputs an error message and returns -1 if error is found.
-// TODO: Check for color redefine
 int	c_parse_color(const char *line, int old_colour)
 {
 	const char	*begin;

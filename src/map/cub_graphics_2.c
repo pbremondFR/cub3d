@@ -6,14 +6,13 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 15:26:52 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 04:58:10 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 02:40:52 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-// TESTME: Most probably fixed that segfault.
 // NOTE: Does NOT work with textures that aren't squares.
 static void	_reorder_buffers(t_uint *img_buf, t_uint *buffer, int side_len,
 	int line_size)
