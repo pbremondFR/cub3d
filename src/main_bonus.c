@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 14:40:21 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 10:35:05 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,34 @@ static void	_debug_tests(t_cub const *c, t_game const *g)
 		ft_printf("Floor color error\n");
 	if (c->c == -1)
 		ft_printf("Ceiling color error\n");
-	printf("F: %2X-%2X-%2X\nC: %2X-%2X-%2X\n",
+	printf("F: %02X-%02X-%02X\nC: %02X-%02X-%02X\n",
 		c->f >> 16 & 0xff, c->f >> 8 & 0xff, c->f & 0xff,
 		c->c >> 16 & 0xff, c->c >> 8 & 0xff, c->c & 0xff);
 	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
+}
+
+static void	_init_vars_and_hooks(t_game *g, t_cub *c)
+{
+	c_init_player_pos(&g, &c);
+	c_init_sprites_pos(&g);
+	c_init_doors(&c);
+	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
+	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
+	g->f.w = WIN_WIDTH;
+	g->f.h = WIN_HEIGHT;
+	g->olay.i = mlx_new_image(g->mlx, MINIMAP_WIDTH * MM_TIL_SIZ,
+			MINIMAP_HEIGHT * MM_TIL_SIZ);
+	g->olay.addr = mlx_get_data_addr(g->olay.i, &g->olay.bpp, &g->olay.ls,
+			&g->olay.e);
+	g->olay.w = MINIMAP_WIDTH * MM_TIL_SIZ;
+	g->olay.h = MINIMAP_HEIGHT * MM_TIL_SIZ;
+	c_load_font(g);
+	mlx_hook(g->mw, E_KDWN, 0, &c_keypress_handler, g);
+	mlx_hook(g->mw, E_KUP, 0, &c_keyrelease_handler, g);
+	mlx_hook(g->mw, E_MPRESS, 0, &c_mousepress_handler, g);
+	mlx_hook(g->mw, E_MREL, 0, &c_mouserelease_handler, g);
+	mlx_hook(g->mw, E_DSTR, 0, &c_exit_program, g);
+	mlx_loop_hook(g->mlx, &c_render, g);
 }
 
 int	main(int argc, const char *argv[])
@@ -75,24 +99,7 @@ int	main(int argc, const char *argv[])
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
 		return (1);
 	_debug_tests(&c, &g);
-	c_init_player_pos(&g, &c);
-	c_init_sprites_pos(&g);
-	c_init_doors(&c);
-	g.f.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
-	g.f.addr = mlx_get_data_addr(g.f.i, &g.f.bpp, &g.f.ls, &g.f.e);
-	g.f.w = WIN_WIDTH;
-	g.f.h = WIN_HEIGHT;
-	g.olay.i = mlx_new_image(g.mlx, MINIMAP_WIDTH * MM_TIL_SIZ, MINIMAP_HEIGHT * MM_TIL_SIZ);
-	g.olay.addr = mlx_get_data_addr(g.olay.i, &g.olay.bpp, &g.olay.ls, &g.olay.e);
-	g.olay.w = MINIMAP_WIDTH * MM_TIL_SIZ;
-	g.olay.h = MINIMAP_HEIGHT * MM_TIL_SIZ;
-	c_load_font(&g);
-	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);
-	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);
-	mlx_hook(g.mw, E_MPRESS, 0, &c_mousepress_handler, &g);
-	mlx_hook(g.mw, E_MREL, 0, &c_mouserelease_handler, &g);
-	mlx_hook(g.mw, E_DSTR, 0, &c_exit_program, &g);
-	mlx_loop_hook(g.mlx, &c_render, &g);
+	_init_vars_and_hooks(&g, &c);
 	mlx_loop(g.mlx);
 	return (0);
 }

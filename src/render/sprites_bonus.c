@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:01:27 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/16 19:42:17 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 09:03:41 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,11 @@ void	c_render_current_sprite(t_game *g, t_sprt_attr *sprt_a,
 // 	// else
 // 	// 	return ((int)((float)(-sprt_a->s->i->h / 2) / sprt_a->transform.y));
 // 	else if (sprt_a->s->v_pos == -1)
-// 		return ((int)((float)((sprt_a->s->t_h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
+// 		return ((int)((float)((sprt_a->s->t_h / 2) * sprt_a->s->scale)
+// 				/ sprt_a->transform.y));
 // 	else
-// 		return ((int)((float)(-(sprt_a->s->t_h / 2) * sprt_a->s->scale) / sprt_a->transform.y));
+// 		return ((int)((float)(-(sprt_a->s->t_h / 2) * sprt_a->s->scale)
+// 				/ sprt_a->transform.y));
 // }
 
 // lst->next is guaranteed to be a valid pointer to the next node

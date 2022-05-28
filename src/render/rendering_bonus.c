@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 15:47:39 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 09:27:56 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,51 +83,58 @@ void	c_print_background(t_game *g)
 	}
 }
 
+static void	_title_overlay(t_game *g, const char *str, t_uint color)
+{
+	const float		box_len = (float)ft_strlen(str) + 2;
+	const int		char_w = g->c->font->c_w;
+	const t_ipair	coords = {(WIN_WIDTH / 2) - ((box_len / 2) * char_w),
+		0};
+
+	c_putstr_to_frame_dbox(g, coords, color, str);
+}
+
 void	c_print_player_coords(t_game *g)
 {
-	char	buffer[16];
-	t_ipair	coord;
+	char			buffer[16];
+	const t_ipair	coord = {0,
+		(WIN_HEIGHT - g->olay.h - 20 - (g->c->font->c_h * 3))};
 
 	snprintf(buffer, 16, "%.3f %.3f", g->x, g->y);
-	coord.a = 0;
-	coord.b = WIN_HEIGHT - g->olay.h - 20 - (g->c->font->c_h * 3);
 	c_putstr_to_frame_sbox(g, coord, 0xffffff, buffer);
 }
 
-void	debug_tests(t_game *g)
-{
-	unsigned int	i;
+// void	debug_tests(t_game *g)
+// {
+// 	unsigned int	i;
 
-	// for (i = (int)(sizeof(g->k) * 8) - 1; i >= 0; --i)
-	// {
-	// 	if (i % 8 == 7 && i != 15)
-	// 		ft_putchar(' ');
-	// 	if ((g->k >> i) & 1)
-	// 		ft_putchar('1');
-	// 	else
-	// 		ft_putchar('0');
-	// }
-	// ft_putchar('\n');
-	for (i = 0; i < g->c->n_doors; ++i)
-	{
-		const t_door	*door;
-		door = &g->c->doors[i];
-		printf("door %d at %d;%d: %d\n", i, door->x, door->y, door->state);
-	}
-}
+// 	// for (i = (int)(sizeof(g->k) * 8) - 1; i >= 0; --i)
+// 	// {
+// 	// 	if (i % 8 == 7 && i != 15)
+// 	// 		ft_putchar(' ');
+// 	// 	if ((g->k >> i) & 1)
+// 	// 		ft_putchar('1');
+// 	// 	else
+// 	// 		ft_putchar('0');
+// 	// }
+// 	// ft_putchar('\n');
+// 	for (i = 0; i < g->c->n_doors; ++i)
+// 	{
+// 		const t_door	*door;
+// 		door = &g->c->doors[i];
+// 		printf("door %d at %d;%d: %d\n", i, door->x, door->y, door->state);
+// 	}
+// }
 
 // Main rendering loop
 int	c_render(void *handle)
 {
 	t_game	*g;
-	t_ipair	coord;
 	float	ray_len_buf[WIN_WIDTH];
 
 	g = (t_game *)handle;
 	clock_gettime(CLOCK_MONOTONIC, &g->t);
 	if (g->k == KEYS_ESC)
 		c_exit_program(handle);
-	// debug_tests(g);
 	c_print_background(g);
 	c_move_player(g);
 	if (g->m_cap)
@@ -137,14 +144,12 @@ int	c_render(void *handle)
 	c_render_raycast_loop(g, ray_len_buf);
 	c_doors_routine(&g->t, g->c->doors, g->c->n_doors);
 	c_render_sprites(g, g->sprts_lst, ray_len_buf);
-	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	c_print_player_coords(g);
-	coord.a = WIN_WIDTH / 2 - (float)((9.0f / 2) * g->c->font->c_w);
-	coord.b = 0;
-	c_putstr_to_frame_dbox(g, coord, 0xa0a0a0, "Cub3D \x15");
+	_title_overlay(g, "Cub3D \x15", 0xa0a0a0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
 	c_minimap_render(g, 0, 0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,
 		20, WIN_HEIGHT - g->olay.h - 20);
+	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/28 08:58:44 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/28 10:12:22 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC) $(RAYCAST_SRC)\
 				collisions/collision_detection.c
 
 MAP_SRC_FILES =			cub_graphics.c		map_parsing.c\
-	checking_funcs.c	map_print.c		cub_graphics_2.c
+	checking_funcs.c	map_print.c			cub_graphics_2.c\
+	cub_file_utils.c
 
 RENDER_SRC_FILES =		utils.c				movement.c\
 	textures.c			textures_2.c
@@ -96,6 +97,7 @@ SRC_BONUS =	$(SRC_COMMON)\
 			map/map_error_check_bonus.c\
 			render/sprites_bonus.c\
 			render/sprites_utils_bonus.c\
+			render/sprite_barrel_bonus.c\
 			render/sprites_sorting_bonus.c\
 			map/map_parsing_2_bonus.c\
 			map/cub_graphics_sprites_bonus.c\

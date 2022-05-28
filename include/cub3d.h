@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 08:59:03 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 10:10:37 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@
 // # define CAM_FWIDTH		(float)CAM_WIDTH
 // # define CAM_FHEIGHT	(float)CAM_HEIGHT
 
-# define ACCEL			0.005f
+# define ACCEL			0.004f
 # define DECEL			0.003f
 # define MAX_VEL		0.075f
 # define ANG_VEL_ACC	0.005f
@@ -263,6 +263,10 @@ int			c_opt_texture_for_cache_2(t_img *img, t_game *g);
 
 // cub_file.c
 t_cub		*c_parse_cub_file(const char *path, t_cub *c, t_game *g);
+
+// cub_file_utils.c
+int			c_cub_try_open_file(const char *path);
+t_cub		*c_init_t_cub(t_cub *p_cub);
 
 // cub_file_processing.c
 int			c_cub_process_line(const char *line, t_cub *c, t_game *g);

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/21 21:16:14 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 09:55:07 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,19 @@ static bool	_chk_door_adj(const char **map, unsigned int x,
 		return (false);
 	else if (door == '|'
 		&& (y == 0 || map[y - 1][x] != '1'
-			|| !map[y + 1] || map[y + 1][x] != '1'))
+		|| !map[y + 1] || map[y + 1][x] != '1'))
 		return (false);
 	else
 		return (true);
 }
 
-# define SPRT	SPRITE_IDS
+#define SPRT	SPRITE_IDS
 
 int	c_map_error_check(const char **map)
 {
 	int	y;
 	int	x;
 
-	// return (EXIT_SUCCESS);
 	if (_check_map_is_last(map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	y = -1;

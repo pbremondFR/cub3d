@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 22:23:01 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 10:36:42 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,19 @@ static void	_debug_tests(t_cub const *c, t_game const *g)
 	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
 }
 
+static void	_init_vars_and_hooks(t_game *g, t_cub *c)
+{
+	c_init_player_pos(&g, &c);
+	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
+	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
+	g->f.w = WIN_WIDTH;
+	g->f.h = WIN_HEIGHT;
+	mlx_hook(g->mw, E_KDWN, 0, &c_keypress_handler, g);
+	mlx_hook(g->mw, E_KUP, 0, &c_keyrelease_handler, g);
+	mlx_hook(g->mw, E_DSTR, 0, &c_exit_program, g);
+	mlx_loop_hook(g->mlx, &c_render, g);
+}
+
 int	main(int argc, const char *argv[])
 {
 	t_cub	c;
@@ -75,15 +88,7 @@ int	main(int argc, const char *argv[])
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
 		return (1);
 	_debug_tests(&c, &g);
-	c_init_player_pos(&g, &c);
-	g.f.i = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
-	g.f.addr = mlx_get_data_addr(g.f.i, &g.f.bpp, &g.f.ls, &g.f.e);
-	g.f.w = WIN_WIDTH;
-	g.f.h = WIN_HEIGHT;
-	mlx_hook(g.mw, E_KDWN, 0, &c_keypress_handler, &g);
-	mlx_hook(g.mw, E_KUP, 0, &c_keyrelease_handler, &g);
-	mlx_hook(g.mw, E_DSTR, 0, &c_exit_program, &g);
-	mlx_loop_hook(g.mlx, &c_render, &g);
+	_init_vars_and_hooks(&g, &c);
 	mlx_loop(g.mlx);
 	return (0);
 }

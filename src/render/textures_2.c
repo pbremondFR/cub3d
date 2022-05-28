@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 21:29:28 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/09 22:30:33 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 09:13:10 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ static int	_get_pos_in_texture(t_ipair line_coords, int i, int tex_width)
 	return (c_min((int)pos, tex_width - 1));
 }
 
+/*
+ *        ┬ line_coords.a
+ *        │
+ *    i►┌─┼────SCREEN──────┐
+ *      │ │                │
+ *      │ │                │
+ *      │ │                │
+ *      │ │                │
+ *      │ │                │
+ *  end►└─┼────────────────┘
+ *        │
+ *        ┴ line_coords.b
+ */
+
 void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 	int height)
 {
@@ -31,8 +45,8 @@ void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 	int			end;
 	int			pos_in_texture;
 
-	line_coords.a = (-height / 2) + (WIN_HEIGHT / 2); // Start
-	line_coords.b = (height / 2) + (WIN_HEIGHT / 2); // End
+	line_coords.a = (-height / 2) + (WIN_HEIGHT / 2);
+	line_coords.b = (height / 2) + (WIN_HEIGHT / 2);
 	if (line_coords.a < 0)
 		i = 0;
 	else
@@ -41,7 +55,7 @@ void	draw_textures_wall_line(t_game *g, t_tex_line *texture, int frame_x,
 		end = WIN_HEIGHT - 1;
 	else
 		end = line_coords.b;
-	while (i < end) // i - line_coords.a -> position within texture
+	while (i < end)
 	{
 		pos_in_texture = _get_pos_in_texture(line_coords, i, texture->w);
 		my_mlx_pixel_put(&g->f, frame_x, i, tex_addr[pos_in_texture]);
