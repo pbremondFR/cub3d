@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/21 21:04:18 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/28 08:59:03 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ int			c_exit_program(void *g_handle);
 void		c_fatal_exit(void);
 
 // fjkdals fhadsjkl fhjklwerafh iujwo DHIUPFH IUDJEORA HIUOSD
+bool		c_is_tile_collider(const t_cub *c, int x, int y);
 void		c_collision_handling(t_game *g, float vel_x, float vel_y);
 
 // ========================================================================== //

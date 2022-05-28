@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/20 23:09:38 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/28 08:58:44 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,8 @@ SRC_MANDATORY =	$(SRC_COMMON)\
 				render/rendering.c\
 				map/map_error_check.c\
 				map/cub_file.c\
-				raycast/raycast.c
+				raycast/raycast.c\
+				collisions/collision_detection_utils.c
 
 SRC_MANDATORY_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_MANDATORY))
 OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_MANDATORY_PLUS_PATH)))
@@ -101,7 +102,8 @@ SRC_BONUS =	$(SRC_COMMON)\
 			map/cub_file_bonus.c\
 			raycast/raycast_bonus.c\
 			render/doors_bonus.c\
-			utils_bonus.c
+			utils_bonus.c\
+			collisions/collision_detection_utils_bonus.c
 
 SRC_BONUS_PLUS_PATH = $(addprefix $(SRC_DIR)/, $(SRC_BONUS))
 BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_PLUS_PATH)))
