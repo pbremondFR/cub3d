@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 16:54:00 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/04 19:16:31 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 04:02:51 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,9 @@ void	c_putstr_to_frame_dbox(t_game *g, t_ipair coord, int color,
 
 	init_len = ft_strlen(str);
 	edited_str = malloc(((init_len + 2) + 1) * sizeof(char));
-	edited_str[init_len + 2] = '\0';
 	if (edited_str == NULL)
-	{
-		perror(strerror(errno));
-		c_exit_program((void *)g);
-	}
+		c_fatal_exit();
+	edited_str[init_len + 2] = '\0';
 	_get_box_outline_str(edited_str, DBOX_TOP_OUTLINE, init_len + 2);
 	c_putstr_to_frame(g, coord, color, edited_str);
 	coord.b += g->c->font->c_h;
@@ -60,12 +57,9 @@ void	c_putstr_to_frame_sbox(t_game *g, t_ipair coord, int color,
 
 	init_len = ft_strlen(str);
 	edited_str = malloc(((init_len + 2) + 1) * sizeof(char));
-	edited_str[init_len + 2] = '\0';
 	if (edited_str == NULL)
-	{
-		perror(strerror(errno));
-		c_exit_program((void *)g);
-	}
+		c_fatal_exit();
+	edited_str[init_len + 2] = '\0';
 	_get_box_outline_str(edited_str, SBOX_TOP_OUTLINE, init_len + 2);
 	c_putstr_to_frame(g, coord, color, edited_str);
 	coord.b += g->c->font->c_h;

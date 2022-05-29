@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:15:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 02:40:42 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:46:45 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,27 @@ char	**c_xpm_to_char(const char *path)
 	return (dump_tab);
 }
 
-// TODO: Check if file exists and can be opened
+#define XPM_IMPORT_FAILED	1
+#define TEXTURE_NOT_SQUARED	2
+
+static t_img	*_xpm_import_error(t_img *img, char *trimmed, t_game *g,
+	int choice)
+{
+	if (choice == XPM_IMPORT_FAILED)
+	{
+		ft_dprintf(2, "Error\nCouldn't import `%s' texture.\n", trimmed);
+		free(img);
+		free(trimmed);
+	}
+	else if (choice == TEXTURE_NOT_SQUARED)
+	{
+		ft_dprintf(2, "Error\nTexture in `%s' is not squared.\n", trimmed);
+		mlx_destroy_image(g->mlx, img->i);
+		free(trimmed);
+	}
+	return (NULL);
+}
+
 t_img	*c_import_xpm(const char *path, t_game *g, bool opt)
 {
 	char	*trimmed;
@@ -96,16 +116,9 @@ t_img	*c_import_xpm(const char *path, t_game *g, bool opt)
 		return (NULL);
 	img->i = mlx_xpm_file_to_image(g->mlx, trimmed, &img->w, &img->h);
 	if (img->i == NULL)
-	{
-		ft_dprintf(2, "Error\nCouldn't import `%s' texture.\n", trimmed);
-		return (NULL);
-	}
+		return (_xpm_import_error(img, trimmed, g, XPM_IMPORT_FAILED));
 	if (opt == true && img->w != img->h)
-	{
-		ft_dprintf(2, "Error\nTexture in `%s' is not squared.\n", trimmed);
-		mlx_destroy_image(g->mlx, img->i);
-		return (NULL);
-	}
+		return (_xpm_import_error(img, trimmed, g, TEXTURE_NOT_SQUARED));
 	free(trimmed);
 	img->addr = mlx_get_data_addr(img->i, &img->bpp, &img->ls, &img->e);
 	if (opt == true && c_opt_texture_for_cache(img) != EXIT_SUCCESS)

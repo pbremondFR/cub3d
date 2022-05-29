@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 03:33:35 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:43:54 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@
 # define MINIMAP_HEIGHT			9
 
 // ========================================================================== //
+//                                   MISC                                     //
+// ========================================================================== //
+
+// raycast_bonus.c
+void	c_ray_raycasting_loop_bonus(t_game *g, t_ray *ray, int8_t *offset);
+
+// utils_bonus.c
+bool	c_is_time_over(const struct timespec *t, long next);
+
+// ========================================================================== //
 //                                CUSTOM FONT                                 //
 // ========================================================================== //
 
@@ -82,7 +92,7 @@ void	c_destroy_sprite(t_sprt **sprt);
 void	c_sprite_default_animate_routine(t_game *g, t_sprt *sprt);
 void	c_barrel_animate_routine(t_game *g, t_sprt *sprt);
 
-// map_parsing_2_bonus.c
+// map_parsing_bonus.c
 void	c_init_sprites_pos(t_game *g);
 
 // cub_graphics_sprites_bonus.c
@@ -92,16 +102,15 @@ void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g);
 //                                   DOORS                                    //
 // ========================================================================== //
 
-void	c_ray_raycasting_loop_bonus(t_game *g, t_ray *ray, int8_t *offset);
-
-bool	c_is_time_over(const struct timespec *t, long next);
+// doors_bonus.c
 void	c_move_door(t_door *door);
 t_door	*c_get_door(t_door *doors, t_uint n_doors, int x, int y);
-void	c_init_doors(t_cub *c);
-
-t_ipair	c_get_player_target(const t_game *g);
-void	c_player_try_open_door(const t_game *g, t_door *doors, t_uint n_doors);
 void	c_doors_routine(const struct timespec *t, t_door *doors,
 			t_uint n_doors);
+t_ipair	c_get_player_target(const t_game *g);
+void	c_player_try_open_door(const t_game *g, t_door *doors, t_uint n_doors);
+
+// map_parsing_bonus.c
+void	c_init_doors(t_cub *c);
 
 #endif

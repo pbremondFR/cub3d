@@ -6,14 +6,14 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 14:04:49 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 18:53:13 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:45:42 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-// TODO: Optimize me, dipshit
+// TODO: Optimize me, dipshit... Or don't. I dunno.
 const char	*c_fetch_texture_col(const t_img *texture, float texture_x)
 {
 	float	offset_f;

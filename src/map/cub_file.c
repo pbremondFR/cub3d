@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 10:25:37 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 03:59:37 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g,
 	{
 		ft_dprintf(2, "Error\nRedefined `%c%c' texture.\n", *(line - 2),
 			*(line - 1));
-		c_exit_program(g);
+		c_exit_program(g, 1);
 	}
 	else
 		*dest_ptr = c_import_xpm(line, g, cache_rot);
 	if (*dest_ptr == NULL)
-		c_exit_program(g);
+		c_exit_program(g, 1);
 }
 
 static int	_process_line(const char *line, t_cub *c, t_game *g)

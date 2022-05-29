@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 09:27:56 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 03:59:59 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	c_render(void *handle)
 	g = (t_game *)handle;
 	clock_gettime(CLOCK_MONOTONIC, &g->t);
 	if (g->k == KEYS_ESC)
-		c_exit_program(handle);
+		c_exit_program(g, 0);
 	c_print_background(g);
 	c_move_player(g);
 	if (g->m_cap)

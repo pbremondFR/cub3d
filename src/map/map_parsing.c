@@ -6,68 +6,38 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:42:12 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/06 22:09:01 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:07:00 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
 
-// Finds trailing whitespaces in each map line, and simply replaces them with
-// '\0'. Does not reallocate anything!
-static void	_remove_trailing_spaces(char *line)
-{
-	size_t	i;
-
-	i = ft_strlen(line);
-	while (i > 0 && ft_isspace(line[i]))
-		--i;
-	ft_memset(line + i, '\0', ft_strlen(line) - i);
-}
-
-static void	_align_map_line_lengths(t_cub *c)
-{
-	const t_uint	new_len = c->sx;
-	t_uint			marker;
-	char			*new_line;
-	t_uint			i;
-
-	i = 0;
-	while (c->map[i])
-	{
-		new_line = (char *)malloc((new_len + 1) * sizeof(char));
-		marker = ft_strlcpy(new_line, c->map[i], new_len + 1);
-		ft_memset(new_line + marker, ' ', new_len - marker);
-		new_line[new_len] = '\0';
-		ft_strrep(&c->map[i], new_line);
-		++i;
-	}
-}
-
-void	c_parse_map(const char *first_line, int fd, t_cub *c)
+int	c_parse_map(const char *first_line, int fd, t_cub *c)
 {
 	char	*map;
 	char	*line;
-	int		i;
+	size_t	old_len;
 
 	map = ft_strjoin(first_line, "\n");
 	line = get_next_line(fd);
 	while (line)
 	{
+		if (old_len == 1 && ft_strlen(line) > 1)
+		{
+			free(map);
+			free(line);
+			ft_dprintf(2, "Error\nEmpty line in map\n");
+			return (EXIT_FAILURE);
+		}
+		old_len = ft_strlen(line);
 		map = ft_stradd2(map, line, 1 | 2);
 		line = get_next_line(fd);
 	}
 	c->map = ft_split(map, '\n');
 	free(map);
-	i = 0;
-	while (c->map[i])
-	{
-		_remove_trailing_spaces(c->map[i]);
-		if (c->sx < ft_strlen(c->map[i++]))
-			c->sx = ft_strlen(c->map[i - 1]);
-	}
-	c->sy = i;
-	_align_map_line_lengths(c);
+	c_parse_map_align_len(c);
+	return (EXIT_SUCCESS);
 }
 
 // TESTME: What to do when changing FOV, or aspect ratio of window ?
@@ -121,7 +91,7 @@ void	c_init_player_pos(t_game *g, t_cub *c)
 			{
 				ft_dprintf(2, "Error\nPlayer position set more than once\n");
 				c_map_print_error((const char **)c->map, j, i);
-				c_exit_program(g);
+				c_exit_program(g, 1);
 			}
 		}
 	}

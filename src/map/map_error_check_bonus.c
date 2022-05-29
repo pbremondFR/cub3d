@@ -6,15 +6,13 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 09:55:07 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:46:29 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d_bonus.h>
 
-// FIXME: line breaks in map without any other characters are erased by
-// ft_split, which can pass an invalid map with linebreaks in the middle
 static int	_check_map_is_last(const char **map)
 {
 	int	y;

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:22 by pbremond          #+#    #+#             */
-/*   Updated: 2022/04/29 22:06:35 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:46:14 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	_draw_font_line(int *dest, const int *src, t_uint len, int color)
 	}
 }
 
-// TODO: Add a scaling factor ?
+// NOTE: A scaling factor here would have been cool... Although the norm
+// won't allow it.
 void	c_putstr_to_frame(t_game *g, t_ipair coord, int color, const char *str)
 {
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 11:04:14 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:54:04 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 	mlx_hook(g->mw, E_KUP, 0, &c_keyrelease_handler, g);
 	mlx_hook(g->mw, E_MPRESS, 0, &c_mousepress_handler, g);
 	mlx_hook(g->mw, E_MREL, 0, &c_mouserelease_handler, g);
-	mlx_hook(g->mw, E_DSTR, 0, &c_exit_program, g);
+	mlx_hook(g->mw, E_DSTR, 0, &c_exit_program_hook, g);
 	mlx_loop_hook(g->mlx, &c_render, g);
 }
 
@@ -97,7 +97,8 @@ int	main(int argc, const char *argv[])
 	g.c = &c;
 	if (c_parse_cub_file(argv[1], &c, &g) == NULL
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
-		return (1);
+		while (1)
+			;
 	_debug_tests(&c, &g);
 	_init_vars_and_hooks(&g, &c);
 	mlx_loop(g.mlx);

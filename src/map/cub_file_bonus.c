@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 10:25:02 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:20:15 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ static void	_import_texture(t_img **dest_ptr, const char *line, t_game *g,
 	{
 		ft_dprintf(2, "Error\nRedefined `%c%c' texture.\n", *(line - 2),
 			*(line - 1));
-		c_exit_program(g);
+		c_exit_program(g, 1);
 	}
 	else
 		*dest_ptr = c_import_xpm(line, g, cache_rot);
 	if (*dest_ptr == NULL)
-		c_exit_program(g);
+	{
+		c_exit_program(g, 1);
+	}
 }
 
 static int	_process_line(const char *line, t_cub *c, t_game *g)
@@ -60,6 +62,9 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	return (0);
 }
 
+#define NUM_TEXTURES	5
+#define NUM_COLORS		2
+
 // Yes, some of this is quite horrible, like that static i. It's just
 // a cheap trick around the norm !
 static int	_missing_texture_check(const t_cub *c)
@@ -70,7 +75,7 @@ static int	_missing_texture_check(const t_cub *c)
 	const char	*c_name[] = {"floor", "ceiling"};
 	static int	i = -1;
 
-	while (++i < 4)
+	while (++i < NUM_TEXTURES)
 	{
 		if (textures[i] == NULL)
 		{
@@ -79,7 +84,7 @@ static int	_missing_texture_check(const t_cub *c)
 		}
 	}
 	i = -1;
-	while (++i < 2)
+	while (++i < NUM_COLORS)
 	{
 		if (colours[i] == -1 || colours[i] == -2)
 		{
@@ -95,8 +100,8 @@ static int	_missing_texture_check(const t_cub *c)
 // NOTE: Don't get confused by first use of *line. It's just to save space.
 t_cub	*c_parse_cub_file(const char *path, t_cub *c, t_game *g)
 {
-	const char	*line;
-	int			fd;
+	char	*line;
+	int		fd;
 
 	fd = c_cub_try_open_file(path);
 	if (fd == -1)
@@ -106,7 +111,13 @@ t_cub	*c_parse_cub_file(const char *path, t_cub *c, t_game *g)
 	while (line)
 	{
 		if (_process_line(line, c, g) == 1)
-			c_parse_map(line, fd, c);
+		{
+			if (c_parse_map(line, fd, c) == EXIT_FAILURE)
+			{
+				free(line);
+				return (NULL);
+			}
+		}
 		ft_strrep((char **)&line, get_next_line(fd));
 	}
 	if (_missing_texture_check(c) != EXIT_SUCCESS)

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 03:06:55 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 10:27:09 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:46:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int	_parse_values(t_sprt_src *tgt, char id)
 	return (EXIT_SUCCESS);
 }
 
-// TODO: c_exit_program should free up memory allocated here
 // NOTE: If porting this code, remember to change the sscanf string limit !
 void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g)
 {
@@ -57,7 +56,7 @@ void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g)
 	if (*tgt_ptr != NULL)
 	{
 		ft_dprintf(2, "Error\nRedefined `%c' sprite texture.\n", line[-1]);
-		c_exit_program(g);
+		c_exit_program(g, 1);
 	}
 	*tgt_ptr = (t_sprt_src *)malloc(sizeof(t_sprt_src));
 	if (*tgt_ptr == NULL)
@@ -67,10 +66,10 @@ void	c_import_sprite(t_sprt_src **tgt_ptr, const char *line, t_game *g)
 			&tgt->n_tiles) != 4 || _parse_values(tgt, line[-1]) != EXIT_SUCCESS)
 	{
 		ft_dprintf(2, "Error\nIncorrect `%c' sprite definition\n", line[-1]);
-		c_exit_program(g);
+		c_exit_program(g, 1);
 	}
 	tgt->i = c_import_xpm(path, g, false);
 	if (tgt->i == NULL)
-		c_exit_program(g);
+		c_exit_program(g, 1);
 	tgt->tile_h = tgt->i->h / tgt->n_tiles;
 }

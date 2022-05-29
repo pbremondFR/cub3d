@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_parsing_2_bonus.c                              :+:      :+:    :+:   */
+/*   map_parsing_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 22:46:21 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 01:19:53 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:53:11 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	c_init_sprites_pos(t_game *g)
 				new_sprt = c_create_sprite(g, g->c->map[y][x],
 						(float)x + 0.5f, (float)y + 0.5f);
 				if (new_sprt == NULL)
-					c_exit_program(g);
+					c_exit_program(g, 0);
 				ft_lstadd_back(&g->sprts_lst, ft_lstnew(new_sprt));
 				g->n_sprt++;
 				g->c->map[y][x] = '0';
@@ -60,12 +60,13 @@ static t_uint	_count_number_of_doors(char **map, t_uint sx,
 	return (count);
 }
 
-static void	c_init_t_door(t_door *door, int x, int y)
+// Sorry const... It's for your own good, I promise.
+static void	_init_t_door(t_door *door, int x, int y)
 {
 	door->offset = 100;
 	door->state = DOOR_CLOSED;
-	door->x = x;
-	door->y = y;
+	*(int *)(&door->x) = x;
+	*(int *)(&door->y) = y;
 	door->next_time = 0L;
 }
 
@@ -88,7 +89,7 @@ void	c_init_doors(t_cub *c)
 		while ((t_uint)++x < c->sx)
 		{
 			if (ft_strchr("|-", c->map[y][x]))
-				c_init_t_door(&c->doors[i++], x, y);
+				_init_t_door(&c->doors[i++], x, y);
 		}
 	}
 }

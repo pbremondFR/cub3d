@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 11:04:06 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 04:03:21 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 	g->f.h = WIN_HEIGHT;
 	mlx_hook(g->mw, E_KDWN, 0, &c_keypress_handler, g);
 	mlx_hook(g->mw, E_KUP, 0, &c_keyrelease_handler, g);
-	mlx_hook(g->mw, E_DSTR, 0, &c_exit_program, g);
+	mlx_hook(g->mw, E_DSTR, 0, &c_exit_program_hook, g);
 	mlx_loop_hook(g->mlx, &c_render, g);
 }
 

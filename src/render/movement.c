@@ -6,14 +6,13 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:48:39 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 09:38:21 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 03:52:35 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 #include <libft.h>
 
-// Applies deceleration to player.
 void	c_player_decel(float *vx, float *vy, float *va, int keystate)
 {
 	if (!(keystate & (KEYS_W | KEYS_S)))
@@ -39,7 +38,6 @@ void	c_player_decel(float *vx, float *vy, float *va, int keystate)
 	}
 }
 
-// TODO: Optimize me
 static void	_player_rotation(t_game *g)
 {
 	if (g->k & KEYS_LEFT && g->va > -ANG_VEL_MAX)
@@ -53,7 +51,6 @@ static void	_player_rotation(t_game *g)
 	}
 }
 
-// FIXME: Does not play well with thin walls at all for now
 void	c_move_player(t_game *g)
 {
 	if (g->k & KEYS_W && g->vy < MAX_VEL)

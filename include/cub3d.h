@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 03:33:17 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:40:07 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ int			c_mousepress_handler(int key, int x, int y, void *handle);
 int			c_mouserelease_handler(int key, int x, int y, void *handle);
 
 // utils.c
-int			c_exit_program(void *g_handle);
+int			c_exit_program(t_game *g, int code);
+int			c_exit_program_hook(void *g_handle);
 void		c_fatal_exit(void);
 
 // fjkdals fhadsjkl fhjklwerafh iujwo DHIUPFH IUDJEORA HIUOSD
@@ -159,8 +160,11 @@ t_cub		*c_init_t_cub(t_cub *p_cub);
 int			c_cub_process_line(const char *line, t_cub *c, t_game *g);
 
 // map_parsing.c
-void		c_parse_map(const char *first_line, int fd, t_cub *c);
+int			c_parse_map(const char *first_line, int fd, t_cub *c);
 void		c_init_player_pos(t_game *g, t_cub *c);
+
+// map_parsing_2.c
+void		c_parse_map_align_len(t_cub *c);
 
 // map_error_check.c
 int			c_map_error_check(const char **map);

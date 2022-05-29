@@ -6,12 +6,14 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:28:42 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/18 20:57:51 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:46:24 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d.h>
+
+// #define LEAK_CHECK
 
 void	c_delete_t_img_ptr(t_img **img_ptr, t_game *g)
 {
@@ -26,29 +28,37 @@ void	c_delete_t_img_ptr(t_img **img_ptr, t_game *g)
 	img_ptr = NULL;
 }
 
-// TODO: Handle exit code
-// TODO: Free up everything just to be sure, evem though pointers are
-// still reachable
-// TESTME: Just make sure nothing ever leaks
-int	c_exit_program(void *g_handle)
+int	c_exit_program_hook(void *g_handle)
 {
-	t_game	*g;
-
-	g = (t_game *)g_handle;
-	if (g->c->map)
-		ft_split_free(g->c->map, g->c->sy);
-	c_delete_t_img_ptr(&g->c->n, g);
-	c_delete_t_img_ptr(&g->c->s, g);
-	c_delete_t_img_ptr(&g->c->e, g);
-	c_delete_t_img_ptr(&g->c->w, g);
-	if (g->f.i)
-		mlx_destroy_image(g->mlx, g->f.i);
-	mlx_destroy_window(g->mlx, g->mw);
-	// while (1)
-	// 	;
-	exit(0);
+	c_exit_program((t_game *)g_handle, 0);
 	return (0);
 }
+
+#ifdef LEAK_CHECK
+
+int	c_exit_program(t_game *g, int code)
+{
+	if (g->c->map)
+		ft_split_free(g->c->map, g->c->sy);
+	mlx_destroy_window(g->mlx, g->mw);
+	while (1)
+		;
+	exit(code);
+	return (code);
+}
+
+#else
+
+int	c_exit_program(t_game *g, int code)
+{
+	if (g->c->map)
+		ft_split_free(g->c->map, g->c->sy);
+	mlx_destroy_window(g->mlx, g->mw);
+	exit(code);
+	return (code);
+}
+
+#endif
 
 // To be used when all hell breaks loose, i.e. malloc failure.
 void	c_fatal_exit(void)

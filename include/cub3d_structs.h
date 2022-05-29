@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 01:51:14 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 03:41:36 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:53:29 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,11 +398,10 @@ typedef struct s_sprite_disp_attributes
  *   Door's state. Opened/Closed/Opening/Closing. Change this value to move
  *   the door, not the offset directly.
  */
-// TODO: const x and y?
 typedef struct s_door
 {
-	int			x;
-	int			y;
+	const int	x;
+	const int	y;
 	long		next_time;
 	int8_t		offset;
 	int8_t		state;

@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/28 11:13:23 by pbremond         ###   ########.fr        #
+#    Updated: 2022/05/29 05:41:23 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC)\
 				maths/math_funcs.c\
 				collisions/collision_detection.c
 
-MAP_SRC_FILES =			cub_graphics.c		map_parsing.c\
+MAP_SRC_FILES =			cub_graphics.c		map_parsing.c		map_parsing_2.c\
 	checking_funcs.c	map_print.c			cub_graphics_2.c\
 	cub_file_utils.c
 
@@ -100,7 +100,7 @@ RENDER_SRC_FILES_BONUS =	rendering_bonus.c			sprites_bonus.c\
 	doors_bonus.c
 
 MAP_SRC_FILES_BONUS =		cub_file_bonus.c		cub_graphics_sprites_bonus.c\
-	map_parsing_2_bonus.c	map_error_check_bonus.c
+	map_parsing_bonus.c	map_error_check_bonus.c
 
 RENDER_SRC_BONUS =	$(addprefix render/,	$(RENDER_SRC_FILES_BONUS))
 MAP_SRC_BONUS =		$(addprefix map/,		$(MAP_SRC_FILES_BONUS))
@@ -121,7 +121,7 @@ NAME = cub3d
 NAME_BONUS = cub3d_bonus
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -O2 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -O2 #-fsanitize=address
 
 all : $(NAME)
 
@@ -165,4 +165,4 @@ clean:
 	@echo "$(_RED)Cleaning object files$(_COLOR_RESET)"
 	@rm -rf $(OBJ_DIR)
 	
-.PHONY: clean fclean re all bonus
+.PHONY: clean fclean re all bonus debug
