@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 15:26:52 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 02:40:52 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 08:31:48 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ int	c_opt_texture_for_cache(t_img *img)
 	if (buffer == NULL)
 		return (EXIT_FAILURE);
 	ft_memcpy(buffer, img->addr, buf_siz);
-	ft_printf("ls: %d (%d)\n", img->ls, img->ls / 4);
-	ft_printf("buf_siz: %d\n", buf_siz);
-	ft_printf("h: %d\tw: %d\n", img->h, img->w);
 	_reorder_buffers((t_uint *)img->addr, buffer, img->h, img->ls / 4);
 	_remove_transparency(buffer, img->h, img->ls / 4);
 	ft_memcpy(img->addr, buffer, buf_siz);

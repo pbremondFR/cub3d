@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 05:46:29 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:57:54 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,22 @@ static bool	_chk_tile_adj(const char **map, unsigned int x,
 	return (true);
 }
 
+// Dear reader, I'm sorry.
 static bool	_chk_door_adj(const char **map, unsigned int x,
 	unsigned int y)
 {
 	const char	door = map[y][x];
 
 	if (door == '-'
-		&& (x == 0 || map[y][x - 1] != '1' || map[y][x + 1] != '1'))
+		&& (x == 0 || map[y][x - 1] != '1' || map[y][x + 1] != '1'
+		|| y == 0 || !c_is_flooradj_legal(map[y - 1][x])
+			|| !c_is_flooradj_legal(map[y + 1][x])))
 		return (false);
 	else if (door == '|'
-		&& (y == 0 || map[y - 1][x] != '1'
-		|| !map[y + 1] || map[y + 1][x] != '1'))
+		&& (y == 0 || map[y - 1][x] != '1' || !map[y + 1]
+		|| map[y + 1][x] != '1' || x == 0
+			|| !c_is_flooradj_legal(map[y][x - 1])
+			|| !c_is_flooradj_legal(map[y][x + 1])))
 		return (false);
 	else
 		return (true);

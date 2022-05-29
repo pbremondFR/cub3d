@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 07:53:19 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:01:55 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ t_game	*c_init_t_game(t_game *g)
 		game = (t_game *)malloc(sizeof(t_game));
 	if (game == NULL)
 		return (NULL);
-	game->dx = 0.0f;
-	game->dy = -1.0f;
-	game->cx = 0.66f;
-	game->cy = 0.0f;
 	game->vx = 0.0f;
 	game->vy = 0.0f;
 	game->va = 0.0f;
@@ -40,20 +36,6 @@ t_game	*c_init_t_game(t_game *g)
 	g->sprts_lst = NULL;
 	g->n_sprt = 0;
 	return (game);
-}
-
-static void	_debug_tests(t_cub const *c, t_game const *g)
-{
-	(void)g;
-	c_map_print_error((const char **)c->map, UINT_MAX, UINT_MAX);
-	if (c->f == -1)
-		ft_printf("Floor color error\n");
-	if (c->c == -1)
-		ft_printf("Ceiling color error\n");
-	printf("F: %02X-%02X-%02X\nC: %02X-%02X-%02X\n",
-		c->f >> 16 & 0xff, c->f >> 8 & 0xff, c->f & 0xff,
-		c->c >> 16 & 0xff, c->c >> 8 & 0xff, c->c & 0xff);
-	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
 }
 
 static void	_fill_buffer_with_colour(t_img *img, t_uint colour)
@@ -71,6 +53,11 @@ static void	_fill_buffer_with_colour(t_img *img, t_uint colour)
 static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 {
 	c_init_player_pos(g, c);
+	if (g->x == 0.0f || g->y == 0.0f)
+	{
+		ft_dprintf(2, "Error\nMissing player start position\n");
+		exit(1);
+	}
 	c_init_sprites_pos(g);
 	c_init_doors(c);
 	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -109,9 +96,7 @@ int	main(int argc, const char *argv[])
 	g.c = &c;
 	if (c_parse_cub_file(argv[1], &c, &g) == NULL
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
-		while (1)
-			;
-	_debug_tests(&c, &g);
+		exit(1);
 	_init_vars_and_hooks(&g, &c);
 	mlx_loop(g.mlx);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 04:03:21 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:03:26 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,14 @@ t_game	*c_init_t_game(t_game *g)
 	return (game);
 }
 
-static void	_debug_tests(t_cub const *c, t_game const *g)
-{
-	(void)g;
-	c_map_print_error((const char **)c->map, UINT_MAX, UINT_MAX);
-	if (c->f == -1)
-		ft_printf("Floor color error\n");
-	if (c->c == -1)
-		ft_printf("Ceiling color error\n");
-	printf("F: %2X-%2X-%2X\nC: %2X-%2X-%2X\n",
-		c->f >> 16 & 0xff, c->f >> 8 & 0xff, c->f & 0xff,
-		c->c >> 16 & 0xff, c->c >> 8 & 0xff, c->c & 0xff);
-	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
-}
-
 static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 {
 	c_init_player_pos(g, c);
+	if (g->x == 0.0f || g->y == 0.0f)
+	{
+		ft_dprintf(2, "Error\nMissing player start position\n");
+		exit(1);
+	}
 	g->f.i = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
 	g->f.w = WIN_WIDTH;
@@ -86,9 +77,9 @@ int	main(int argc, const char *argv[])
 	g.c = &c;
 	if (c_parse_cub_file(argv[1], &c, &g) == NULL
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
-		return (1);
-	_debug_tests(&c, &g);
+		exit(1);
 	_init_vars_and_hooks(&g, &c);
+	c_map_print_error((const char **)g.c->map, UINT_MAX, UINT_MAX);
 	mlx_loop(g.mlx);
 	return (0);
 }

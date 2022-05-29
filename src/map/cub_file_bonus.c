@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 05:20:15 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:05:15 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,14 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	return (0);
 }
 
-#define NUM_TEXTURES	5
 #define NUM_COLORS		2
 
-// Yes, some of this is quite horrible, like that static i. It's just
-// a cheap trick around the norm !
-static int	_missing_texture_check(const t_cub *c)
+static int	_missing_elents_check_2(const t_cub *c)
 {
-	const t_img	*textures[] = {c->n, c->s, c->w, c->e, c->door};
-	const char	*tex_names[] = {"North", "South", "West", "East", "Door"};
 	const int	colours[] = {c->f, c->c};
 	const char	*c_name[] = {"floor", "ceiling"};
-	static int	i = -1;
+	int			i;
 
-	while (++i < NUM_TEXTURES)
-	{
-		if (textures[i] == NULL)
-		{
-			ft_dprintf(2, "Error\nMissing %s texture definition\n", tex_names[i]);
-			return (EXIT_FAILURE);
-		}
-	}
 	i = -1;
 	while (++i < NUM_COLORS)
 	{
@@ -94,6 +81,26 @@ static int	_missing_texture_check(const t_cub *c)
 		}
 	}
 	return (EXIT_SUCCESS);
+}
+
+#define NUM_TEXTURES	5
+
+static int	_missing_elements_check(const t_cub *c)
+{
+	const t_img	*textures[] = {c->n, c->s, c->w, c->e, c->door};
+	const char	*tex_names[] = {"North", "South", "West", "East", "Door"};
+	int			i;
+
+	i = -1;
+	while (++i < NUM_TEXTURES)
+	{
+		if (textures[i] == NULL)
+		{
+			ft_dprintf(2, "Error\nMissing %s texture definition\n", tex_names[i]);
+			return (EXIT_FAILURE);
+		}
+	}
+	return (_missing_elents_check_2(c));
 }
 
 // Could also use autovar from main's stack ?
@@ -120,7 +127,7 @@ t_cub	*c_parse_cub_file(const char *path, t_cub *c, t_game *g)
 		}
 		ft_strrep((char **)&line, get_next_line(fd));
 	}
-	if (_missing_texture_check(c) != EXIT_SUCCESS)
+	if (_missing_elements_check(c) != EXIT_SUCCESS)
 		return (NULL);
 	return (c);
 }

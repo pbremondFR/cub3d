@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 08:24:11 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 08:49:10 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@
 # define KEYS_MDWN	0x1000
 # define KEYS_UP	0x2000
 
-# define WIN_WIDTH		720
-# define WIN_HEIGHT		540
+# define WIN_WIDTH		960
+# define WIN_HEIGHT		720
 # define WIN_FWIDTH		(float)WIN_WIDTH
 # define WIN_FHEIGHT	(float)WIN_HEIGHT
 // # define CAM_WIDTH		720

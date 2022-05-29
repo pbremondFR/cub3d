@@ -6,34 +6,12 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 08:22:26 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:03:40 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <cub3d_bonus.h>
-
-// void	_draw_wall_from_ray(t_game *g, int height, int x, int color)
-// {
-// 	t_pnt	a;
-// 	t_pnt	b;
-// 	int		i;
-
-// 	a.x = x;
-// 	b.x = x;
-// 	a.y = (-height / 2) + (WIN_HEIGHT / 2);
-// 	if (a.y < 0)
-// 		a.y = 0;
-// 	b.y = (height / 2) + (WIN_HEIGHT / 2);
-// 	if (b.y > WIN_HEIGHT - 1)
-// 		b.y = WIN_HEIGHT - 1;
-// 	i = a.y;
-// 	while (i < b.y)
-// 	{
-// 		my_mlx_pixel_put(&g->f, x, i, color);
-// 		++i;
-// 	}
-// }
 
 void	c_render_raycast_loop(t_game *g, float ray_len_buf[])
 {
@@ -103,29 +81,6 @@ void	c_print_player_coords(t_game *g)
 	c_putstr_to_frame_sbox(g, coord, 0xffffff, buffer);
 }
 
-// void	debug_tests(t_game *g)
-// {
-// 	unsigned int	i;
-
-// 	// for (i = (int)(sizeof(g->k) * 8) - 1; i >= 0; --i)
-// 	// {
-// 	// 	if (i % 8 == 7 && i != 15)
-// 	// 		ft_putchar(' ');
-// 	// 	if ((g->k >> i) & 1)
-// 	// 		ft_putchar('1');
-// 	// 	else
-// 	// 		ft_putchar('0');
-// 	// }
-// 	// ft_putchar('\n');
-// 	for (i = 0; i < g->c->n_doors; ++i)
-// 	{
-// 		const t_door	*door;
-// 		door = &g->c->doors[i];
-// 		printf("door %d at %d;%d: %d\n", i, door->x, door->y, door->state);
-// 	}
-// }
-
-// Main rendering loop
 int	c_render(void *handle)
 {
 	t_game	*g;

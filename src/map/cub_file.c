@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 03:59:37 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 10:54:45 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	return (0);
 }
 
-static int	_missing_texture_check(const t_cub *c)
+static int	_missing_elements_check(const t_cub *c)
 {
 	const t_img	*textures[] = {c->n, c->s, c->w, c->e};
 	const char	*names[] = {"North", "South", "West", "East"};
@@ -93,7 +93,7 @@ t_cub	*c_parse_cub_file(const char *path, t_cub *c, t_game *g)
 			c_parse_map(line, fd, c);
 		ft_strrep((char **)&line, get_next_line(fd));
 	}
-	if (_missing_texture_check(c) != EXIT_SUCCESS)
+	if (_missing_elements_check(c) != EXIT_SUCCESS)
 		return (NULL);
 	return (c);
 }
