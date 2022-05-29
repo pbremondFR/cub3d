@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 05:43:54 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 08:22:19 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@
 # define MM_TIL_SIZ				MINIMAP_TILE_SIZ
 # define MINIMAP_WIDTH			13
 # define MINIMAP_HEIGHT			9
+# define MINIMAP_BORDER_SIZE	4
+# define MM_BORD_SIZ			MINIMAP_BORDER_SIZE
 
 // ========================================================================== //
 //                                   MISC                                     //

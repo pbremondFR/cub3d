@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 05:40:07 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 08:24:11 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ int			c_parse_color(const char *line, int old_colour);
 
 // cub_graphics_2.c
 int			c_opt_texture_for_cache(t_img *img);
-int			c_opt_texture_for_cache_2(t_img *img, t_game *g);
 
 // cub_file.c
 t_cub		*c_parse_cub_file(const char *path, t_cub *c, t_game *g);
@@ -185,12 +184,10 @@ typedef struct s_texture_line
 
 // movement.c
 void		c_move_player(t_game *g);
-// void		c_collision_handling(t_game *g, float next_x, float next_y);
 void		c_player_decel(float *vx, float *vy, float *va, int keystate);
 
 // rendering.c
 int			c_render(void *handle);
-// void		c_render_raycast_loop(t_game *g);
 
 // textures.c
 void		c_start_draw_wall(t_game *g, t_ray *ray, int x, int8_t tex_offset);

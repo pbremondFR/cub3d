@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 03:59:59 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 08:22:26 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int	c_render(void *handle)
 	c_print_player_coords(g);
 	_title_overlay(g, "Cub3D \x15", 0xa0a0a0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
-	c_minimap_render(g, 0, 0);
+	c_minimap_render(g, MINIMAP_BORDER_SIZE, MINIMAP_BORDER_SIZE);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,
 		20, WIN_HEIGHT - g->olay.h - 20);
 	c_player_decel(&g->vx, &g->vy, &g->va, g->k);

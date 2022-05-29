@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 05:54:04 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 07:53:19 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,18 @@ static void	_debug_tests(t_cub const *c, t_game const *g)
 	ft_printf("Map length: %d\nMap height: %d\n", c->sx, c->sy);
 }
 
+static void	_fill_buffer_with_colour(t_img *img, t_uint colour)
+{
+	t_uint			*int_buf;
+	t_uint			i;
+	const t_uint	limit = img->h * (img->ls / 4);
+
+	int_buf = (t_uint *)img->addr;
+	i = 0;
+	while (i < limit)
+		int_buf[i++] = colour;
+}
+
 static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 {
 	c_init_player_pos(g, c);
@@ -65,12 +77,12 @@ static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 	g->f.addr = mlx_get_data_addr(g->f.i, &g->f.bpp, &g->f.ls, &g->f.e);
 	g->f.w = WIN_WIDTH;
 	g->f.h = WIN_HEIGHT;
-	g->olay.i = mlx_new_image(g->mlx, MINIMAP_WIDTH * MM_TIL_SIZ,
-			MINIMAP_HEIGHT * MM_TIL_SIZ);
+	g->olay.w = MINIMAP_WIDTH * MM_TIL_SIZ + (MM_BORD_SIZ * 2);
+	g->olay.h = MINIMAP_HEIGHT * MM_TIL_SIZ + (MM_BORD_SIZ * 2);
+	g->olay.i = mlx_new_image(g->mlx, g->olay.w, g->olay.h);
 	g->olay.addr = mlx_get_data_addr(g->olay.i, &g->olay.bpp, &g->olay.ls,
 			&g->olay.e);
-	g->olay.w = MINIMAP_WIDTH * MM_TIL_SIZ;
-	g->olay.h = MINIMAP_HEIGHT * MM_TIL_SIZ;
+	_fill_buffer_with_colour(&g->olay, 0xc0000000);
 	c_load_font(g);
 	mlx_hook(g->mw, E_KDWN, 0, &c_keypress_handler, g);
 	mlx_hook(g->mw, E_KUP, 0, &c_keyrelease_handler, g);
