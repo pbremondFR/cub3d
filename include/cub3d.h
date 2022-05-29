@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 10:10:37 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 03:33:17 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,120 +106,7 @@
 # define PLAYER_HBOX_HALFSIZE	0.25f
 # define PLY_HBOX				PLAYER_HBOX_HALFSIZE
 
-// ========================================================================== //
-//                                  STRUCTS                                   //
-// ========================================================================== //
-
-typedef unsigned int			t_uint;
-
-typedef struct s_point
-{
-	float	x;
-	float	y;
-}				t_pnt;
-
-typedef struct s_raycast
-{
-	float	dir_x; // Ray's direction vector
-	float	dir_y;
-	float	delta_dist_x; // Ray stepping distance
-	float	delta_dist_y;
-	float	len_x; // Length of ray until next vertical wall
-	float	len_y; // Length of ray until next horizontal wall
-	float	c_plane_len; // Final length of ray, adjusted for fisheye
-	int		map_x; // Initial ray position in map
-	int		map_y;
-	int8_t	step_x; // Raycasting direction (pos/neg)
-	int8_t	step_y;
-	// int8_t	hit;
-	int8_t	side; // What wall side did ray hit (x/y)
-}				t_ray;
-
-typedef struct s_mlx_img
-{
-	void	*i; // Image handle
-	char	*addr; // Char buffer to write into
-
-	int		bpp; // Bits per pixel
-	int		ls; // Line size
-	int		e; // Endian
-	
-	int		w; // Image width
-	int		h; // Image height
-}				t_img;
-
-# define SPRITE_MAX_NUM	4
-
-typedef struct s_mlx_font		t_font;
-typedef struct s_sprite_source	t_sprt_src;
-typedef struct s_door			t_door;
-typedef struct s_cub_data
-{
-	char		**map;
-	t_uint		sx; // Map x max size
-	t_uint		sy; // Map y max size
-
-	t_img		*n; // North texture
-	t_img		*s; // South texture
-	t_img		*e; // East texture
-	t_img		*w; // West texture
-	t_font		*font; // Font bitmap
-	t_img		*door; // Door texture
-	
-	int			f; // Floor
-	int			c; // Ceiling
-
-	t_sprt_src	*sprt_src[SPRITE_MAX_NUM];
-	char		sprt_src_id[SPRITE_MAX_NUM];
-	t_door		*doors;
-	t_uint		n_doors;
-}				t_cub;
-
-t_cub		*c_init_t_cub(t_cub *p_cub);
-
-typedef struct s_list			t_list;
-
-// typedef struct s_sprite		t_sprt;
-
-typedef struct s_game_data
-{
-	float			x; // Player x position
-	float			y; // Player y position
-	float			vx; // Player x velocity
-	float			vy; // Player y velocity
-	float			va; // Player head's angular velocity
-	float			dx; // Player direction vector's x
-	float			dy; // Player direction vector's y
-	float			cx; // Player camera plane's x
-	float			cy; // Player camera plane's y
-
-	uint16_t		k; // Keystate
-	char			m_cap; // Mouse capture boolean
-
-	t_cub			*c; // .cub file data
-
-	t_img			f; // MLX image for frame
-
-	void			*mlx; // MLX handle
-	void			*mw; // MLX window
-
-	t_img			olay; // Overlay MLX image (minimap)
-	t_list			*sprts_lst; // Sprites list
-	uint8_t			n_sprt;
-	struct timespec	t;
-}				t_game;
-t_game		*c_init_t_game(t_game *g);
-
-typedef struct s_box
-{
-	t_pnt	a;
-	t_pnt	b;
-	t_pnt	c;
-	t_pnt	d;
-
-	t_pnt	pos;
-}			t_box;
-
+# include "cub3d_structs.h"
 
 // ========================================================================== //
 //                                  MAIN/MISC                                 //
@@ -284,12 +171,6 @@ void		c_map_print_error(const char **map, unsigned int x, unsigned int y);
 // ========================================================================== //
 //                                   RENDER                                   //
 // ========================================================================== //
-
-typedef struct s_int_pair
-{
-	int	a;
-	int	b;
-}				t_ipair;
 
 typedef struct s_texture_line
 {

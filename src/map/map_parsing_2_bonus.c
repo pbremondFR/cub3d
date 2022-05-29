@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 22:46:21 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/19 18:57:59 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 01:19:53 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	c_init_sprites_pos(t_game *g)
 					c_exit_program(g);
 				ft_lstadd_back(&g->sprts_lst, ft_lstnew(new_sprt));
 				g->n_sprt++;
+				g->c->map[y][x] = '0';
 			}
 		}
 	}

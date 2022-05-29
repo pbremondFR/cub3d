@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 09:16:06 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 09:16:25 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 01:20:48 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	_barrel_explode(t_game *g, t_sprt *sprt)
 	sprt->state = 2;
 	if (sprt->cur_tile >= sprt->n_tiles)
 	{
-		g->c->map[(int)sprt->y][(int)sprt->x] = '0';
 		sprt->del = true;
 	}
 	else

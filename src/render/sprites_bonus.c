@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:01:27 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 09:03:41 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 03:41:39 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,22 @@ void	c_draw_sprite_line(t_game *g, const t_sprt_attr *sprt, int frame_y,
 			my_mlx_pixel_put(&g->f, i, frame_y, tex_addr[tex_pos_x]);
 	}
 }
+
+/*
+ *              ┌────────SCREEN────────┐
+ *              │                      │
+ *              │                      │
+ *              │                      │
+ * coords_x.a   │                      │
+ * coords_y.a+──┼──────+coords_x.b     │
+ *           │▲ │      │               │
+ *           ││ │      │               │
+ *    height ││ └──────┼───────────────┘
+ *           │▼        │
+ * coords_y.b+─────────┘
+ *           ◄─────────►
+ *              width
+ */
 
 void	c_render_current_sprite(t_game *g, t_sprt_attr *sprt_a,
 	float ray_len_buf[])

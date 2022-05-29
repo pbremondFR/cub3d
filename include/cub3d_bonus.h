@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/21 21:04:03 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/29 03:33:35 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,107 +44,6 @@
 # define MM_TIL_SIZ				MINIMAP_TILE_SIZ
 # define MINIMAP_WIDTH			13
 # define MINIMAP_HEIGHT			9
-
-typedef struct s_mlx_font
-{
-	void	*i; // Image handle
-	char	*addr; // Char buffer to write into
-
-	int		bpp; // Bits per pixel
-	int		ls; // Line size
-	int		e; // Endian
-	
-	int		i_w; // Image width
-	int		i_h; // Image height
-
-	char	bm_w; // Bitmap width
-	char	bm_h; // Bitmap height
-	char	offset; // ASCII offset to apply in bitmap
-
-	int		c_w; // Char width
-	int		c_h; // Char height
-}				t_font;
-
-typedef struct s_sprite
-{
-	const t_img	*i;
-	t_uint		t_w; // Sprite tile's width on tilemap
-	t_uint		t_h;
-	const char	*addr; // Sprite's source
-
-	float		x;
-	float		y;
-	float		dist_sq; // Squared distance to player
-	float		scale; // Sprite's scaling factor
-	char		type; // Type of sprite ('2', '3'...)
-	int8_t		state; // State of sprite (for animations, AI...)
-	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
-	void		(*routine)(t_game *, struct s_sprite *); // Function pointer for routine if needed
-	long		next_time;
-	t_uint		cur_tile;
-	t_uint		n_tiles;
-	bool		del;
-}				t_sprt;
-
-typedef struct s_sprite_source
-{
-	const t_img	*i;
-
-	char		id;
-	int8_t		v_pos; // Vertical position. -1=floor, 0=floating, 1=ceiling
-	float		scale; // Sprite's scaling factor
-	int			n_tiles; // Number of tiles
-	t_uint		tile_h; // Height of one tile
-}				t_sprt_src;
-
-/*
- *              ┌────────SCREEN────────┐
- *              │                      │
- *              │                      │
- *              │                      │
- * coords_x.a   │                      │
- * coords_y.a+──┼──────+coords_x.b     │
- *           │▲ │      │               │
- *           ││ │      │               │
- *    height ││ └──────┼───────────────┘
- *           │▼        │
- * coords_y.b+─────────┘
- *           ◄─────────►
- *              width
- */
-
-typedef struct s_sprite_disp_attributes
-{
-	const t_sprt	*s;
-	int				screen_x;
-	int				w;
-	int				h;
-	int				v_off;
-	t_pnt			transform;
-	t_ipair			coords_x; // Coordinates of the first and last X points
-	t_ipair			coords_y; // Coordinates of the first and last Y points
-	t_ipair			bounds_x; // Start and end of drawing zone on X axis
-	t_ipair			bounds_y; // Start and end of drawing zone on Y axis
-					// Reflects whether a sprite's column should be drawn or not
-	bool			do_draw_x[WIN_WIDTH];
-}				t_sprt_attr;
-
-typedef struct s_door
-{
-	// const t_img	*i;
-	int			x;
-	int			y;
-	long		next_time;
-	int8_t		offset; // 100 = closed, 0 = opened.
-	int8_t		state; // Door is closed, opened, closing, or opening
-}				t_door;
-# define DOOR_PERIOD_MS		10
-# define DOOR_OPEN_DELTA	2
-# define DOOR_OPENED		0
-# define DOOR_CLOSED		2
-# define DOOR_OPENING		1
-# define DOOR_CLOSING		-1
-
 
 // ========================================================================== //
 //                                CUSTOM FONT                                 //
