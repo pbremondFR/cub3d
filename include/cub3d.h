@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 08:49:10 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/05/30 07:56:28 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@
 # define ANG_VEL_ACC	0.005f
 # define ANG_VEL_DEC	0.008f
 # define ANG_VEL_MAX	0.05f
-# define MOUSE_SENS		0.003f
+# define MOUSE_SENS		0.002f
 
 # define RAY_HIT_X	0
 # define RAY_HIT_Y	1

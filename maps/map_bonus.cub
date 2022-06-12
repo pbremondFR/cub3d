@@ -1,18 +1,18 @@
-F       64		 ,   64  ,                 64
-C 36, 34, 52
-NO assets/DarkCastle_1_16x16.xpm
-SO assets/DarkCastle_6_16x16.xpm
-EA assets/DarkCastle_2_16x16.xpm
-WE assets/DarkCastle_19_16x16.xpm
-DOOR	assets/DarkCastle_11_16x16.xpm
+# F       64		 ,   64  ,                 64
+# C 36, 34, 52
+# NO assets/DarkCastle_1_16x16.xpm
+# SO assets/DarkCastle_6_16x16.xpm
+# EA assets/DarkCastle_2_16x16.xpm
+# WE assets/DarkCastle_19_16x16.xpm
+# DOOR	assets/DarkCastle_11_16x16.xpm
 
-# F	149,	82,		63
-# C	44, 	4, 		20
-# NO assets/inca_1_bright.xpm
-# SO assets/inca_1_dark.xpm
-# EA assets/inca_2_bright.xpm
-# WE assets/inca_2_dark.xpm
-# DOOR	assets/inca_blank.xpm
+F	149,	82,		63
+C	44, 	4, 		20
+NO ./assets/inca_1_bright.xpm
+SO ./assets/inca_1_dark.xpm
+EA ./assets/inca_2_bright.xpm
+WE ./assets/inca_2_dark.xpm
+DOOR	./assets/inca_blank.xpm
 
 ### I can't be bothered to document expected format. Go read the code.
 ### The 'b' sprite is reserved for barrels.

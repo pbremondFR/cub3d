@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 11:03:26 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/06/12 16:52:40 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	main(int argc, const char *argv[])
 		|| c_map_error_check((const char **)c.map) != EXIT_SUCCESS)
 		exit(1);
 	_init_vars_and_hooks(&g, &c);
-	c_map_print_error((const char **)g.c->map, UINT_MAX, UINT_MAX);
 	mlx_loop(g.mlx);
 	return (0);
 }

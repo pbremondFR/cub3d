@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 10:54:45 by pbremond         ###   ########.fr       */
+/*   Updated: 2022/06/12 15:57:03 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,27 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 	return (0);
 }
 
+#define NUM_COLORS		2
+
+static int	_missing_elents_check_2(const t_cub *c)
+{
+	const int	colours[] = {c->f, c->c};
+	const char	*c_name[] = {"floor", "ceiling"};
+	int			i;
+
+	i = -1;
+	while (++i < NUM_COLORS)
+	{
+		if (colours[i] == -1 || colours[i] == -2)
+		{
+			if (colours[i] == -1)
+				ft_dprintf(2, "Error\nMissing %s colour definition\n", c_name[i]);
+			return (EXIT_FAILURE);
+		}
+	}
+	return (EXIT_SUCCESS);
+}
+
 static int	_missing_elements_check(const t_cub *c)
 {
 	const t_img	*textures[] = {c->n, c->s, c->w, c->e};
@@ -74,7 +95,7 @@ static int	_missing_elements_check(const t_cub *c)
 			return (EXIT_FAILURE);
 		}
 	}
-	return (EXIT_SUCCESS);
+	return (_missing_elents_check_2(c));
 }
 
 // Could also use autovar from main's stack ?
