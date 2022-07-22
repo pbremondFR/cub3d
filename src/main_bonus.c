@@ -71,10 +71,10 @@ static void	_init_vars_and_hooks(t_game *g, t_cub *c)
 			&g->olay.e);
 	_fill_buffer_with_colour(&g->olay, 0xc0000000);
 	c_load_font(g);
-	mlx_hook(g->mw, E_KDWN, 0, &c_keypress_handler, g);
-	mlx_hook(g->mw, E_KUP, 0, &c_keyrelease_handler, g);
-	mlx_hook(g->mw, E_MPRESS, 0, &c_mousepress_handler, g);
-	mlx_hook(g->mw, E_MREL, 0, &c_mouserelease_handler, g);
+	mlx_hook(g->mw, E_KDWN, 1L<<0, &c_keypress_handler, g);
+	mlx_hook(g->mw, E_KUP, 1L<<1, &c_keyrelease_handler, g);
+	mlx_hook(g->mw, E_MPRESS, 1L<<2, &c_mousepress_handler, g);
+	mlx_hook(g->mw, E_MREL, 1L<<3, &c_mouserelease_handler, g);
 	mlx_hook(g->mw, E_DSTR, 0, &c_exit_program_hook, g);
 	mlx_loop_hook(g->mlx, &c_render, g);
 }

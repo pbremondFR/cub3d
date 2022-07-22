@@ -13,16 +13,18 @@
 #include <cub3d.h>
 #include <libft.h>
 
+// Why the fuck does MLX segfault when trying to use mouse functions ???
 void	c_toggle_mouselook(t_game *g)
 {
-	if (!g->m_cap)
-	{
-		mlx_mouse_hide();
-		mlx_mouse_move(g->mw, WIN_WIDTH / 2, WIN_HEIGHT / 2);
-	}
-	else
-		mlx_mouse_show();
-	g->m_cap ^= 1;
+	// if (!g->m_cap)
+	// {
+	// 	mlx_mouse_hide();
+	// 	mlx_mouse_move(g->mw, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	// }
+	// else
+	// 	mlx_mouse_show();
+	// g->m_cap ^= 1;
+	(void)g;
 }
 
 void	c_mouse_look(t_game *g)

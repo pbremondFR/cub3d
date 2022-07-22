@@ -30,6 +30,7 @@ t_cub	*c_init_t_cub(t_cub *p_cub)
 	cub->s = NULL;
 	cub->e = NULL;
 	cub->w = NULL;
+	cub->door = NULL;
 	cub->f = -1;
 	cub->c = -1;
 	ft_memset(cub->sprt_src, '\0', sizeof(uintptr_t) * SPRITE_MAX_NUM);

@@ -114,14 +114,14 @@ BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_P
 LIBFT = libft.a
 LIBFT_PATH = libft
 LIBMLX = libmlx.a
-LIBMLX_PATH = mlx_opengl
-LIBS = -L./libft -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
+LIBMLX_PATH = mlx_linux
+LIBS = -L./libft -lft -L./mlx_linux -lmlx -L/usr/lib -Imlx_linux -lXext -lX11 -lm
 
 NAME = cub3d
 NAME_BONUS = cub3d_bonus
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -O2 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -O2 -fsanitize=address
 
 all : $(NAME)
 

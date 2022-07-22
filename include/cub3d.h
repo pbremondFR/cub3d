@@ -23,6 +23,7 @@
 # include <math.h>
 
 # include <stdbool.h>
+# include <stdint.h>
 
 # include "ansi_color.h"
 # include "mlx.h"
@@ -50,15 +51,21 @@
 # define E_XP		EVENT_EXPOSE
 # define E_DSTR		EVENT_DESTROY
 
-# define KEYC_ESC	53
-# define KEYC_W		13
-# define KEYC_A		0
-# define KEYC_S		1
-# define KEYC_D		2
-# define KEYC_LEFT	123
-# define KEYC_RIGHT	124
-# define KEYC_UP	126
-# define KEYC_SPA	49
+# define KEYC_ESC	65307
+// For QWERTY:
+// # define KEYC_W		119
+// # define KEYC_A		97
+// # define KEYC_S		115
+// # define KEYC_D		100
+// For AZERTY:
+# define KEYC_W		122
+# define KEYC_A		113
+# define KEYC_S		115
+# define KEYC_D		100
+# define KEYC_LEFT	65361
+# define KEYC_RIGHT	65363
+# define KEYC_UP	65362
+# define KEYC_SPA	32
 
 # define KEYC_M1	1
 # define KEYC_M2	2
