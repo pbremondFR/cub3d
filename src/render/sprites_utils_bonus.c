@@ -30,6 +30,7 @@ static void	_init_new_values(t_sprt *new_sprt, const t_sprt_src *src)
 	new_sprt->t_h = src->tile_h;
 	new_sprt->addr = new_sprt->i->addr;
 	new_sprt->del = false;
+	new_sprt->next_time = 0;
 }
 
 // Allocates a t_sprt and initializes it according to choice. Choice can be

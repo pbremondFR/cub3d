@@ -40,7 +40,6 @@ void	c_render_raycast_loop(t_game *g)
 	t_uint	i;
 	t_ray	ray;
 	float	ray_vec_adj;
-	int		line_height;
 
 	i = 0;
 	while (i < WIN_WIDTH)
@@ -58,7 +57,6 @@ void	c_render_raycast_loop(t_game *g)
 			ray.c_plane_len = (ray.len_x - ray.delta_dist_x);
 		else
 			ray.c_plane_len = (ray.len_y - ray.delta_dist_y);
-		line_height = (int)(WIN_HEIGHT / ray.c_plane_len);
 		c_start_draw_wall(g, &ray, i++, 0);
 	}
 }
