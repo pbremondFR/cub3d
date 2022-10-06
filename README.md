@@ -1,6 +1,7 @@
 # cub3D
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c.svg)](https://forthebadge.com)
+![grade_125](readme_assets/success-125_100.svg)
 
 ![cub3D](readme_assets/cub3d_levelstart.png)
 
