@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/10/06 18:36:56 by pbremond         ###   ########.fr        #
+#    Updated: 2022/10/06 18:43:34 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,7 +140,13 @@ $(NAME): $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
 
 bonus: $(NAME_BONUS)
 
-$(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
+### Commented out for public push without libft
+# $(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
+# 	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
+# 	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
+# 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
+
+$(NAME_BONUS): $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
 	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
 	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
