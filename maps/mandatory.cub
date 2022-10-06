@@ -1,14 +1,9 @@
 F	64,		64,		64
 C	36,		34,		52
-# NO assets/DarkCastle_1_16x16.xpm
-# SO assets/DarkCastle_6_16x16.xpm
-# EA assets/DarkCastle_2_16x16.xpm
-# WE assets/DarkCastle_19_16x16.xpm
-
-NO assets/bleroy.xpm
-SO assets/whamoumi.xpm
-EA assets/ztouzri.xpm
-WE assets/mlokhate.xpm
+NO assets/DarkCastle_1_16x16.xpm
+SO assets/DarkCastle_6_16x16.xpm
+EA assets/DarkCastle_2_16x16.xpm
+WE assets/DarkCastle_19_16x16.xpm
 
 111111111111111
 100000000000001

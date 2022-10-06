@@ -6,20 +6,37 @@
 # WE assets/DarkCastle_19_16x16.xpm
 # DOOR	assets/DarkCastle_11_16x16.xpm
 
+# F and C are colors in the R,G,B format
 F	149,	82,		63
 C	44, 	4, 		20
+
+## NO, SO, EA, and WE specify which texture to use for each direction a wall can face.
 NO ./assets/inca_1_bright.xpm
 SO ./assets/inca_1_dark.xpm
 EA ./assets/inca_2_bright.xpm
 WE ./assets/inca_2_dark.xpm
+
+## DOOR specifies the door texture
 DOOR	./assets/inca_blank.xpm
 
-### I can't be bothered to document expected format. Go read the code.
-### The 'b' sprite is reserved for barrels.
+
+## Characters a, b, c, and d can be used to define and place sprites.
+## A definition is expected to follow this format:
+## [a/b/c/d] {PATH_TO_XPM_IMAGE} {SPRITE_SCALE} N {TILES_IN_XPM_IMAGE}
+
+## A sprite can be a tilemap, as long as each tile is placed below its predecessor
+## in the source image. By specifying a number of tiles in the tilemap greater than 1,
+## cub3D will automatically cycle through the tiles, animating the sprite.
+
+## The 'b' sprite is reserved for barrels
 a assets/sprites/capyboy_tilemap.xpm		0.5		N	2
 b assets/sprites/doom_barrel_tilemap.xpm	1.0		N	7
 
-
+## The character '1' represents a wall, '0' represents a normal floor tile.
+## 'N', 'S', 'E', or 'W' represent the layer's starting position, and what direction
+## the camera will be facing.
+## '|' and '-' represent doors. They must have a wall on each of their sides, and cannot
+## lead to out-of-bounds.
 
         111111111111111111111111 
         1000000000110000001000001

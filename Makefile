@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/05/29 11:03:07 by pbremond         ###   ########.fr        #
+#    Updated: 2022/10/06 18:36:56 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,17 +115,25 @@ LIBFT = libft.a
 LIBFT_PATH = libft
 LIBMLX = libmlx.a
 LIBMLX_PATH = mlx_opengl
-LIBS = -L./libft -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
+### Commented out for public push without libft
+# LIBS = -L./libft -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
+LIBS = -L. -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
 
 NAME = cub3d
 NAME_BONUS = cub3d_bonus
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -O2 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -O2 #-g #-fsanitize=address
 
 all : $(NAME)
 
-$(NAME): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
+### Commented out for public push without libft
+# $(NAME): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
+# 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
+# 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS)
+# 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
+
+$(NAME): $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
@@ -137,9 +145,10 @@ $(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
 	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
-$(LIBFT_PATH)/$(LIBFT):
-	@echo "$(_PURPLE)Making $(basename $(LIBFT))$(_COLOR_RESET)"
-	@make -C $(LIBFT_PATH)
+### Commented out for public push without libft
+# $(LIBFT_PATH)/$(LIBFT):
+# 	@echo "$(_PURPLE)Making $(basename $(LIBFT))$(_COLOR_RESET)"
+# 	@make -C $(LIBFT_PATH)
 
 $(LIBMLX_PATH)/$(LIBMLX):
 	@echo "$(_PURPLE)Making $(basename $(LIBMLX))$(_COLOR_RESET)"
@@ -158,7 +167,7 @@ rebonus: fclean bonus
 b: bonus
 
 fclean: clean
-	@echo "$(_RED)Deleting $(NAME)$(_COLOR_RESET)"
+	@echo "$(_RED)Deleting $(NAME) & $(NAME_BONUS)$(_COLOR_RESET)"
 	@rm -rf $(NAME) $(NAME_BONUS)
 
 clean:
