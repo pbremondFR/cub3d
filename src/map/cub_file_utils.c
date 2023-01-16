@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:04:18 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 10:09:55 by pbremond         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:49:05 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_cub	*c_init_t_cub(t_cub *p_cub)
 	cub->w = NULL;
 	cub->f = -1;
 	cub->c = -1;
+	cub->door = NULL;
+	cub->doors = NULL;
 	ft_memset(cub->sprt_src, '\0', sizeof(uintptr_t) * SPRITE_MAX_NUM);
 	ft_memset(cub->sprt_src_id, '\0', sizeof(char) * SPRITE_MAX_NUM);
 	return (cub);

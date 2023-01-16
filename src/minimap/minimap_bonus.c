@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 20:39:41 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 08:23:24 by pbremond         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:41:57 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,31 @@ static void	_draw_minimap_line(t_game *g, t_ipair offset, float pos_y,
 	}
 }
 
+void	c_draw_triangle(t_img *img, t_pnt a, t_pnt b, t_pnt c);
+
 static void	_draw_player_icon(t_game *g, t_img *img)
 {
-	const int	icon_rad = 5;
-	t_pnt		dir_1;
-	t_pnt		dir_2;
-	t_ipair		coords;
+	const t_pnt	center = {img->w / 2.0f, img->h / 2.0f};
+	t_pnt		pnt[4];
 
-	coords.a = img->w / 2 - icon_rad / 2;
-	coords.b = img->h / 2 - icon_rad / 2;
-	c_draw_square_2(img, coords, 0x0, icon_rad);
-	dir_1.x = (float)img->w / 2;
-	dir_1.y = (float)img->h / 2;
-	dir_2.x = dir_1.x + (g->dx * (MM_TIL_SIZ / 2));
-	dir_2.y = dir_1.y + (g->dy * (MM_TIL_SIZ / 2));
-	c_draw_line(img, dir_1, dir_2, 0xffffff);
+	pnt[0].x = center.x + (g->dx * (MM_TIL_SIZ / 2));
+	pnt[0].y = center.y + (g->dy * (MM_TIL_SIZ / 2));
+	pnt[1].x = center.x + (-g->dx * (MM_TIL_SIZ / 2)
+			+ g->dy * (MM_TIL_SIZ / 2));
+	pnt[1].y = center.y + (-g->dy * (MM_TIL_SIZ / 2)
+			+ -g->dx * (MM_TIL_SIZ / 2));
+	pnt[2].x = center.x + (-g->dx * (MM_TIL_SIZ / 2)) / 2;
+	pnt[2].y = center.y + (-g->dy * (MM_TIL_SIZ / 2)) / 2;
+	pnt[3].x = center.x + (-g->dx * (MM_TIL_SIZ / 2)
+			+ -g->dy * (MM_TIL_SIZ / 2));
+	pnt[3].y = center.y + (-g->dy * (MM_TIL_SIZ / 2)
+			+ g->dx * (MM_TIL_SIZ / 2));
+	// c_draw_triangle(img, pnt[0], pnt[1], pnt[2]);
+	// c_draw_triangle(img, pnt[2], pnt[3], pnt[0]);
+	c_draw_line(img, pnt[0], pnt[1], 0xffffff);
+	c_draw_line(img, pnt[1], pnt[2], 0xffffff);
+	c_draw_line(img, pnt[2], pnt[3], 0xffffff);
+	c_draw_line(img, pnt[3], pnt[0], 0xffffff);
 }
 
 void	c_minimap_render(t_game *g, int x, int y)

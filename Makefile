@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2022/10/06 18:43:34 by pbremond         ###   ########.fr        #
+#    Updated: 2023/01/16 19:51:59 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ SRC_BONUS =	$(SRC_COMMON) $(RENDER_SRC_BONUS) $(MAP_SRC_BONUS)\
 			str_display/font_display_bonus.c\
 			str_display/font_display_bonus_2.c\
 			minimap/minimap_bonus.c\
+			minimap/minimap_bonus_2.c\
 			raycast/raycast_bonus.c\
 			utils_bonus.c\
 			collisions/collision_detection_utils_bonus.c
@@ -125,7 +126,7 @@ NAME_BONUS = cub3d_bonus
 CC = clang
 CFLAGS = -Wall -Wextra -Werror -O2 #-g #-fsanitize=address
 
-all : $(NAME)
+all : $(NAME_BONUS)
 
 ### Commented out for public push without libft
 # $(NAME): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:20:46 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 08:22:19 by pbremond         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:59:57 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	c_ray_raycasting_loop_bonus(t_game *g, t_ray *ray, int8_t *offset);
 
 // utils_bonus.c
 bool	c_is_time_over(const struct timespec *t, long next);
+void	c_check_keys(t_game *g);
 
 // ========================================================================== //
 //                                CUSTOM FONT                                 //

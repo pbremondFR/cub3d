@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 11:03:40 by pbremond         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:39:08 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,24 @@ void	c_print_background(t_game *g)
 	}
 }
 
-static void	_title_overlay(t_game *g, const char *str, t_uint color)
+static void	_title_overlay(t_game *g, t_uint color, double old_time)
 {
-	const float		box_len = (float)ft_strlen(str) + 2;
-	const int		char_w = g->c->font->c_w;
-	const t_ipair	coords = {(WIN_WIDTH / 2) - ((box_len / 2) * char_w),
-		0};
+	static char		olay_str[16] = "cub3d \x14 60fps";
+	static int		i = 0;
+	t_ipair			coords;
+	double			time_diff;
 
-	c_putstr_to_frame_dbox(g, coords, color, str);
+	time_diff = ((g->t.tv_sec * 1000.0)
+			+ (g->t.tv_nsec / (double)1e6)) - old_time;
+	if (i++ >= 60)
+	{
+		snprintf(olay_str, 16, "cub3d \x14 %.0ffps", 1 / ((time_diff) / 1000));
+		i = 0;
+	}
+	coords.a = (WIN_WIDTH / 2) - (((ft_strlen(olay_str) + 2) / 2)
+			* g->c->font->c_w);
+	coords.b = 0;
+	c_putstr_to_frame_dbox(g, coords, color, olay_str);
 }
 
 void	c_print_player_coords(t_game *g)
@@ -85,22 +95,19 @@ int	c_render(void *handle)
 {
 	t_game	*g;
 	float	ray_len_buf[WIN_WIDTH];
+	double	old_time;
 
 	g = (t_game *)handle;
+	old_time = ((g->t.tv_sec * 1000.0) + (g->t.tv_nsec / (double)1e6));
 	clock_gettime(CLOCK_MONOTONIC, &g->t);
-	if (g->k == KEYS_ESC)
-		c_exit_program(g, 0);
 	c_print_background(g);
 	c_move_player(g);
-	if (g->m_cap)
-		c_mouse_look(g);
-	if (g->k & KEYS_M1)
-		c_player_try_open_door(g, g->c->doors, g->c->n_doors);
+	c_check_keys(g);
 	c_render_raycast_loop(g, ray_len_buf);
 	c_doors_routine(&g->t, g->c->doors, g->c->n_doors);
 	c_render_sprites(g, g->sprts_lst, ray_len_buf);
 	c_print_player_coords(g);
-	_title_overlay(g, "Cub3D \x15", 0xa0a0a0);
+	_title_overlay(g, 0xa0a0a0, old_time);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
 	c_minimap_render(g, MINIMAP_BORDER_SIZE, MINIMAP_BORDER_SIZE);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,

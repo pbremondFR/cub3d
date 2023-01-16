@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:01:27 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 03:41:39 by pbremond         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:09:23 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	c_render_sprites(t_game *g, t_list *sp_lst, float ray_len_buf[])
 	while (sp_lst)
 	{
 		sprt = (const t_sprt *)sp_lst->content;
-		if (sprt->del || (sp_lst->next
+		while (sprt->del || (sp_lst->next
 				&& ((const t_sprt *)(sp_lst->next->content))->del))
 			sprt = _remove_sprite_from_list(&sp_lst, &g->sprts_lst, sprt->del);
 		if (sprt == NULL)

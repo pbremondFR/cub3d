@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 11:01:55 by pbremond         ###   ########.fr       */
+/*   Updated: 2023/01/14 20:10:38 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_game	*c_init_t_game(t_game *g)
 	game->m_cap = 0;
 	g->sprts_lst = NULL;
 	g->n_sprt = 0;
+	g->t.tv_nsec = 0;
+	g->t.tv_sec = 0;
 	return (game);
 }
 
