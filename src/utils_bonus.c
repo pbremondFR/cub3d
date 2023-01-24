@@ -25,6 +25,6 @@ void	c_check_keys(t_game *g)
 		c_exit_program(g, 0);
 	if (g->m_cap)
 		c_mouse_look(g);
-	if (g->k & KEYS_M1)
+	if (g->k & (KEYS_M1 | KEYS_UP))
 		c_player_try_open_door(g, g->c->doors, g->c->n_doors);
 }
