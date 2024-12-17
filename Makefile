@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2023/01/16 19:51:59 by pbremond         ###   ########.fr        #
+#    Updated: 2024/12/17 15:20:25 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ _IWHITE			= \x1b[47m
 _COLOR_RESET	= \033[0m
 
 # Folders
-INCLUDES = include
+INCLUDES = -Iinclude -I$(LIBFT_PATH)/include
 SRC_DIR = src
 OBJ_DIR = objs
 
@@ -112,13 +112,27 @@ BONUS_OBJ = $(subst $(SRC_DIR)/, $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRC_BONUS_P
 # ============================================================================ #
 # ============================================================================ #
 
+# One should definitely do this with CMake for cross-platforming. Unfortunately, this
+# project is very old and I don't care. I'll probably never compile to Mac again anyway.
+ifeq ($(shell uname -s),Linux)
+	LIBMLX_PATH := minilibx_linux
+### Commented out for public push without libft
+	LIBS = -L./libft -lft -L./$(LIBMLX_PATH) -lmlx -lXext -lX11 -lm
+# LIBS = -L. -lft -L./$(LIBMLX_PATH) -lmlx -lXext -lX11
+endif
+ifeq ($(shell uname -s),Darwin)
+	LIBMLX_PATH := mlx_opengl
+### Commented out for public push without libft
+	LIBS = -L./libft -lft -L./$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
+# LIBS = -L. -lft -L./$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
+endif
+
 LIBFT = libft.a
 LIBFT_PATH = libft
 LIBMLX = libmlx.a
-LIBMLX_PATH = mlx_opengl
 ### Commented out for public push without libft
-# LIBS = -L./libft -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
-LIBS = -L. -lft -L./mlx_opengl -lmlx -framework OpenGL -framework AppKit
+# LIBS = -L./libft -lft -L./$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
+# LIBS = -L. -lft -L./$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
 
 NAME = cub3d
 NAME_BONUS = cub3d_bonus
@@ -129,33 +143,33 @@ CFLAGS = -Wall -Wextra -Werror -O2 #-g #-fsanitize=address
 all : $(NAME_BONUS)
 
 ### Commented out for public push without libft
-# $(NAME): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
-# 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
-# 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS)
-# 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
-
-$(NAME): $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
+$(NAME): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
+# $(NAME): $(LIBMLX_PATH)/$(LIBMLX) $(OBJ)
+# 	@echo "$(_PURPLE)Linking $(NAME)$(_COLOR_RESET)"
+# 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBS)
+# 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
+
 bonus: $(NAME_BONUS)
 
 ### Commented out for public push without libft
-# $(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
-# 	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
-# 	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
-# 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
-
-$(NAME_BONUS): $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
+$(NAME_BONUS): $(LIBFT_PATH)/$(LIBFT) $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
 	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
 	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
 
+# $(NAME_BONUS): $(LIBMLX_PATH)/$(LIBMLX) $(BONUS_OBJ)
+# 	@echo "$(_PURPLE)Linking $(NAME_BONUS)$(_COLOR_RESET)"
+# 	@$(CC) $(CFLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBS)
+# 	@echo "$(_GREEN)DONE$(_COLOR_RESET)"
+
 ### Commented out for public push without libft
-# $(LIBFT_PATH)/$(LIBFT):
-# 	@echo "$(_PURPLE)Making $(basename $(LIBFT))$(_COLOR_RESET)"
-# 	@make -C $(LIBFT_PATH)
+$(LIBFT_PATH)/$(LIBFT):
+	@echo "$(_PURPLE)Making $(basename $(LIBFT))$(_COLOR_RESET)"
+	@make -C $(LIBFT_PATH)
 
 $(LIBMLX_PATH)/$(LIBMLX):
 	@echo "$(_PURPLE)Making $(basename $(LIBMLX))$(_COLOR_RESET)"
@@ -164,7 +178,7 @@ $(LIBMLX_PATH)/$(LIBMLX):
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@echo "$(_BLUE)Compiling $(basename $(notdir $*.o)) $(_COLOR_RESET)"
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -c $< -o $@ -I./$(INCLUDES)
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 
 re: fclean all
@@ -180,5 +194,5 @@ fclean: clean
 clean:
 	@echo "$(_RED)Cleaning object files$(_COLOR_RESET)"
 	@rm -rf $(OBJ_DIR)
-	
+
 .PHONY: clean fclean re all bonus debug
