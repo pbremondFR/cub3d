@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 01:51:14 by pbremond          #+#    #+#             */
-/*   Updated: 2024/12/17 15:18:53 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:23:21 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,8 @@ t_cub		*c_init_t_cub(t_cub *p_cub);
  *   Number of sprites present in the game.
  *  @var s_game_data::t
  *   struct timespec for in-game timer.
+ *  @var s_game_data::dt_sec
+ *   Delta-time, in seconds. Without bonuses, is just a constant.
  */
 typedef struct s_game_data
 {
@@ -228,6 +230,7 @@ typedef struct s_game_data
 	t_list			*sprts_lst;
 	uint8_t			n_sprt;
 	struct timespec	t;
+	double			dt_sec;
 }				t_game;
 t_game		*c_init_t_game(t_game *g);
 

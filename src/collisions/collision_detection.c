@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 21:31:05 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/28 08:58:07 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:09:30 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	c_collision_handling(t_game *g, float vel_x, float vel_y)
 	t_pnt			dist;
 	t_pnt			pos;
 
-	pos.x = g->x + vel_x;
-	pos.y = g->y + vel_y;
+	pos.x = g->x + vel_x * g->dt_sec * 1000;
+	pos.y = g->y + vel_y * g->dt_sec * 1000;
 	i = -1;
 	while ((t_uint)++i < NUM_SOLVE)
 	{

@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:42:48 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/12 01:57:03 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:25:57 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,60 +66,7 @@ const char	*c_get_const_target_addr(const t_img *i, int x, int y)
 	return (i->addr + x + y);
 }
 
-// void	c_draw_square(t_img *img, t_ipair coord, t_ipair colors, int size)
-// {
-// 	const int	int_line_size = img->ls >> 2;
-// 	int			*img_buf;
-// 	int			i;
-// 	int			j;
-
-// 	img_buf = (int *)(c_get_target_addr(img, coord.a, coord.b));
-// 	j = 0;
-// 	while (j < size)
-// 		img_buf[j++] = colors.b;
-// 	i = 1;
-// 	while (i < size - 1)
-// 	{
-// 		img_buf[i * int_line_size] = colors.b;
-// 		j = 1;
-// 		while (j < size - 1)
-// 			img_buf[i * int_line_size + j++] = colors.a;
-// 		img_buf[i * int_line_size + j] = colors.b;
-// 		++i;
-// 	}
-// 	j = 0;
-// 	while (j < size)
-// 		img_buf[i * int_line_size + j++] = colors.b;
-// }
-
-// Draws a square on given MLX image. Given coordinates represent the square's
-// top left. The least significant 32 bits of `col' are the square's color.
-// The most significant 32 bits are the square outline's color.
-void	c_draw_square_2(t_img *img, t_ipair coord, uint64_t col, int size)
+double	timespec_difference(const struct timespec *a, const struct timespec *b)
 {
-	const int	int_line_size = img->ls >> 2;
-	int			*img_buf;
-	int			i;
-	int			j;
-	t_ipair		colors;
-
-	colors.a = col & 0xffffffff;
-	colors.b = col >> 32;
-	img_buf = (int *)(c_get_target_addr(img, coord.a, coord.b));
-	j = 0;
-	while (j < size)
-		img_buf[j++] = colors.b;
-	i = 1;
-	while (i < size - 1)
-	{
-		img_buf[i * int_line_size] = colors.b;
-		j = 1;
-		while (j < size - 1)
-			img_buf[i * int_line_size + j++] = colors.a;
-		img_buf[i * int_line_size + j] = colors.b;
-		++i;
-	}
-	j = 0;
-	while (j < size)
-		img_buf[i * int_line_size + j++] = colors.b;
+	return ((a->tv_sec - b->tv_sec) + (a->tv_nsec - b->tv_nsec) / 1.0e9);
 }

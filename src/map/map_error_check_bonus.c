@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 21:28:36 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 11:57:54 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:13:46 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	c_map_error_check(const char **map)
 				|| (ft_strchr("0"SPRT, map[y][x]) && !_chk_tile_adj(map, x, y))
 				|| (ft_strchr("-|", map[y][x]) && !_chk_door_adj(map, x, y)))
 			{
-				ft_dprintf(2, "Error\nIllegal map tile around (%d, %d)\n", x, y);
+				ft_dprintf(2, "Error\nIllegal map tile around (%d, %d)\n",
+					x, y);
 				c_map_print_error(map, x, y);
 				return (EXIT_FAILURE);
 			}

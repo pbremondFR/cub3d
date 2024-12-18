@@ -6,7 +6,7 @@
 #    By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:25:19 by pbremond          #+#    #+#              #
-#    Updated: 2024/12/17 15:20:25 by pbremond         ###   ########.fr        #
+#    Updated: 2024/12/17 16:05:19 by pbremond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ _IWHITE			= \x1b[47m
 _COLOR_RESET	= \033[0m
 
 # Folders
-INCLUDES = -Iinclude -I$(LIBFT_PATH)/include
+INCLUDES = -Iinclude -I$(LIBFT_PATH)/include -I$(LIBMLX_PATH)
 SRC_DIR = src
 OBJ_DIR = objs
 
@@ -54,6 +54,7 @@ OBJ_DIR = objs
 SRC_COMMON =	$(MAP_SRC) $(RENDER_SRC)\
 				input/keyboard.c\
 				input/mouse.c\
+				input/mouse_event_handlers.c\
 				utils.c\
 				maths/math_funcs.c\
 				collisions/collision_detection.c

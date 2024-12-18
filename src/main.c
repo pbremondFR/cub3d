@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:36:03 by pbremond          #+#    #+#             */
-/*   Updated: 2022/06/12 16:52:40 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:36:19 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,14 @@ t_game	*c_init_t_game(t_game *g)
 		game = (t_game *)malloc(sizeof(t_game));
 	if (game == NULL)
 		return (NULL);
+	ft_bzero(g, sizeof(*g));
 	game->x = 0.5f;
 	game->y = 0.5f;
 	game->dx = 0.0f;
 	game->dy = -1.0f;
 	game->cx = 0.66f;
 	game->cy = 0.0f;
-	game->vx = 0.0f;
-	game->vy = 0.0f;
-	game->va = 0.0f;
-	game->k = 0;
-	game->mlx = NULL;
-	game->mw = NULL;
-	game->f.i = NULL;
-	game->f.addr = NULL;
-	game->c = NULL;
-	game->m_cap = 0;
+	game->dt_sec = 1;
 	return (game);
 }
 

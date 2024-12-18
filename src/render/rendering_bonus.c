@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:56:50 by pbremond          #+#    #+#             */
-/*   Updated: 2023/01/16 19:39:08 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:50:29 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,15 @@ void	c_print_background(t_game *g)
 	}
 }
 
-static void	_title_overlay(t_game *g, t_uint color, double old_time)
+static void	_title_overlay(t_game *g, t_uint color)
 {
 	static char		olay_str[16] = "cub3d \x14 60fps";
 	static int		i = 0;
 	t_ipair			coords;
-	double			time_diff;
 
-	time_diff = ((g->t.tv_sec * 1000.0)
-			+ (g->t.tv_nsec / (double)1e6)) - old_time;
 	if (i++ >= 60)
 	{
-		snprintf(olay_str, 16, "cub3d \x14 %.0ffps", 1 / ((time_diff) / 1000));
+		snprintf(olay_str, 16, "cub3d \x14 %.0ffps", 1 / g->dt_sec);
 		i = 0;
 	}
 	coords.a = (WIN_WIDTH / 2) - (((ft_strlen(olay_str) + 2) / 2)
@@ -87,19 +84,20 @@ void	c_print_player_coords(t_game *g)
 	const t_ipair	coord = {0,
 		(WIN_HEIGHT - g->olay.h - 20 - (g->c->font->c_h * 3))};
 
-	snprintf(buffer, 16, "%.3f %.3f", g->x, g->y);
+	snprintf(buffer, 16, "%.3f %.3f", g->vx, g->vy);
 	c_putstr_to_frame_sbox(g, coord, 0xffffff, buffer);
 }
 
 int	c_render(void *handle)
 {
-	t_game	*g;
-	float	ray_len_buf[WIN_WIDTH];
-	double	old_time;
+	t_game			*g;
+	float			ray_len_buf[WIN_WIDTH];
+	struct timespec	now;
 
 	g = (t_game *)handle;
-	old_time = ((g->t.tv_sec * 1000.0) + (g->t.tv_nsec / (double)1e6));
-	clock_gettime(CLOCK_MONOTONIC, &g->t);
+	clock_gettime(CLOCK_MONOTONIC, &now);
+	g->dt_sec = timespec_difference(&now, &g->t);
+	g->t = now;
 	c_print_background(g);
 	c_move_player(g);
 	c_check_keys(g);
@@ -107,11 +105,11 @@ int	c_render(void *handle)
 	c_doors_routine(&g->t, g->c->doors, g->c->n_doors);
 	c_render_sprites(g, g->sprts_lst, ray_len_buf);
 	c_print_player_coords(g);
-	_title_overlay(g, 0xa0a0a0, old_time);
+	_title_overlay(g, 0xa0a0a0);
 	mlx_put_image_to_window(g->mlx, g->mw, g->f.i, 0, 0);
 	c_minimap_render(g, MINIMAP_BORDER_SIZE, MINIMAP_BORDER_SIZE);
 	mlx_put_image_to_window(g->mlx, g->mw, g->olay.i,
 		20, WIN_HEIGHT - g->olay.h - 20);
-	c_player_decel(&g->vx, &g->vy, &g->va, g->k);
+	c_player_decel(g);
 	return (0);
 }

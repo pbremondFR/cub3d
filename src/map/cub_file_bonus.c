@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 22:27:10 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/29 11:05:15 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:00:31 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	_process_line(const char *line, t_cub *c, t_game *g)
 static int	_missing_elents_check_2(const t_cub *c)
 {
 	const int	colours[] = {c->f, c->c};
-	const char	*c_name[] = {"floor", "ceiling"};
+	const char	*color_name[] = {"floor", "ceiling"};
 	int			i;
 
 	i = -1;
@@ -76,7 +76,8 @@ static int	_missing_elents_check_2(const t_cub *c)
 		if (colours[i] == -1 || colours[i] == -2)
 		{
 			if (colours[i] == -1)
-				ft_dprintf(2, "Error\nMissing %s colour definition\n", c_name[i]);
+				ft_dprintf(2, "Error\nMissing %s colour definition\n",
+					color_name[i]);
 			return (EXIT_FAILURE);
 		}
 	}
@@ -96,7 +97,8 @@ static int	_missing_elements_check(const t_cub *c)
 	{
 		if (textures[i] == NULL)
 		{
-			ft_dprintf(2, "Error\nMissing %s texture definition\n", tex_names[i]);
+			ft_dprintf(2, "Error\nMissing %s texture definition\n",
+				tex_names[i]);
 			return (EXIT_FAILURE);
 		}
 	}

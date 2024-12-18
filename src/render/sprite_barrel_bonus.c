@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 09:16:06 by pbremond          #+#    #+#             */
-/*   Updated: 2023/01/16 17:31:58 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:37:40 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	_explosion_move_player(t_game *g, const t_sprt *sprt)
 	expl_vec.x = g->x - (sprt->x);
 	expl_vec.y = g->y - (sprt->y);
 	inv_mag = 1 / sqrtf((expl_vec.x * expl_vec.x) + (expl_vec.y * expl_vec.y));
-	expl_vec.x *= inv_mag / 10;
-	expl_vec.y *= inv_mag / 10;
+	expl_vec.x *= inv_mag / 100;
+	expl_vec.y *= inv_mag / 100;
 	g->vy = (expl_vec.y * g->dy) + (expl_vec.x * g->dx);
 	g->vx = (g->dy * -expl_vec.x) + (g->dx * expl_vec.y);
 }

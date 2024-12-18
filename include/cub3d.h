@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 20:43:01 by pbremond          #+#    #+#             */
-/*   Updated: 2022/05/30 07:56:28 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:02:30 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # include <stdbool.h>
 
 # include "ansi_color.h"
-# include "mlx.h"
+# include <mlx.h>
+# include "cub3d_mlx_codes.h"
 
 # define MAP_LEGAL_CHARS	"01NESW "
 # define M_CHRS				MAP_LEGAL_CHARS
@@ -33,38 +34,6 @@
 # define SPRITE_IDS			"abcd"
 
 # define LEGAL_FLOOR_NEIGHBOURS	"01NESWabcd-|"
-
-# define EVENT_KEY_DOWN			2
-# define EVENT_KEY_UP			3
-# define EVENT_MOUSE_PRESS		4
-# define EVENT_MOUSE_RELEASE	5
-# define EVENT_MOUSE_MOVE		6
-# define EVENT_EXPOSE			12
-# define EVENT_DESTROY			17
-
-# define E_KDWN		EVENT_KEY_DOWN
-# define E_KUP		EVENT_KEY_UP
-# define E_MPRESS	EVENT_MOUSE_PRESS
-# define E_MREL		EVENT_MOUSE_RELEASE
-# define E_MMOV		EVENT_MOUSE_MOVE
-# define E_XP		EVENT_EXPOSE
-# define E_DSTR		EVENT_DESTROY
-
-# define KEYC_ESC	53
-# define KEYC_W		13
-# define KEYC_A		0
-# define KEYC_S		1
-# define KEYC_D		2
-# define KEYC_LEFT	123
-# define KEYC_RIGHT	124
-# define KEYC_UP	126
-# define KEYC_SPA	49
-
-# define KEYC_M1	1
-# define KEYC_M2	2
-# define KEYC_M3	3
-# define KEYC_MUP	4
-# define KEYC_MDWN	5
 
 # define KEYS_A		0x0001
 # define KEYS_S		0x0002
@@ -90,12 +59,12 @@
 // # define CAM_FWIDTH		(float)CAM_WIDTH
 // # define CAM_FHEIGHT	(float)CAM_HEIGHT
 
-# define ACCEL			0.004f
-# define DECEL			0.003f
-# define MAX_VEL		0.075f
-# define ANG_VEL_ACC	0.005f
-# define ANG_VEL_DEC	0.008f
-# define ANG_VEL_MAX	0.05f
+# define ACCEL			0.013f
+# define DECEL			0.013f
+# define MAX_VEL		0.005f
+# define ANG_VEL_ACC	0.018f
+# define ANG_VEL_DEC	0.018f
+# define ANG_VEL_MAX	0.005f
 # define MOUSE_SENS		0.002f
 
 # define RAY_HIT_X	0
@@ -184,7 +153,7 @@ typedef struct s_texture_line
 
 // movement.c
 void		c_move_player(t_game *g);
-void		c_player_decel(float *vx, float *vy, float *va, int keystate);
+void		c_player_decel(t_game *g);
 
 // rendering.c
 int			c_render(void *handle);
@@ -202,8 +171,8 @@ void		my_mlx_pixel_put(struct s_mlx_img *img, int x, int y, int color);
 void		c_draw_line(struct s_mlx_img *img, t_pnt a, t_pnt b, int color);
 char		*c_get_target_addr(t_img *i, int x, int y);
 const char	*c_get_const_target_addr(const t_img *i, int x, int y);
-void		c_draw_square(t_img *img, t_ipair coord, t_ipair colors, int size);
-void		c_draw_square_2(t_img *img, t_ipair coord, uint64_t col, int size);
+double		timespec_difference(const struct timespec *a,
+				const struct timespec *b);
 
 // ========================================================================== //
 //                                 RAYCASTING                                 //
