@@ -6,7 +6,7 @@
 /*   By: pbremond <pbremond@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 20:39:41 by pbremond          #+#    #+#             */
-/*   Updated: 2023/01/16 19:41:57 by pbremond         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:37:25 by pbremond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@ static void	_draw_minimap_line(t_game *g, t_ipair offset, float pos_y,
 
 void	c_draw_triangle(t_img *img, t_pnt a, t_pnt b, t_pnt c);
 
+/*
+ * Fun anecdote for this one: I wanted to try to render a filled triangle, not
+ * just the outlines. Sadly, my attempt at doing a rasterizer wasn't entirely
+ * successful and I didn't really need not wanted to spend more time on it.
+ * Besides, I think it might look better with just vector lines instead of
+ * infill.
+ */
 static void	_draw_player_icon(t_game *g, t_img *img)
 {
 	const t_pnt	center = {img->w / 2.0f, img->h / 2.0f};
